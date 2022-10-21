@@ -21,8 +21,8 @@ class CreatePersonaTable extends Migration
             $table->foreign('idestadopersona')->references('id')->on('general.estadopersona');
             $table->unsignedBigInteger('idtipopersona');
             $table->foreign('idtipopersona')->references('id')->on('general.tipopersona');
-            $table->unsignedBigInteger('idsemestre_actual');
-            $table->foreign('idsemestre_actual')->references('id')->on('semestre.semestre');
+            //$table->unsignedBigInteger('idsemestre_actual');
+            //$table->foreign('idsemestre_actual')->references('id')->on('semestre.semestre');
             $table->unsignedBigInteger('ubigeo_origen');
             $table->foreign('ubigeo_origen')->references('id')->on('general.ubigeo');
             $table->unsignedBigInteger('ubigeo_actual');

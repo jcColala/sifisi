@@ -1,0 +1,107 @@
+@import 'colores.css';
+
+.md_nocturno_o_o label {
+    margin: 0;
+    width: auto;
+    cursor: pointer;
+    color: #76839a !important;
+}
+
+.mg_no {
+    margin: 0px !important;
+}
+
+.h_3em {
+    height: 3rem !important;
+}
+
+.mgb_none {
+    margin-bottom: 0px !important;
+}
+
+.img_logo_o_o {
+    background-image: url("../images/fondo.jpeg") !important;
+}
+
+.img_logo_color_o_o {
+    height: 100%;
+    background-color: rgba(0, 0, 0, .6) !important;
+}
+
+.justify-content-unset {
+    justify-content: unset !important;
+}
+.pdd_card_body{
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+/*------------------------------------------------------------------ Login*/
+.pd_login {
+    padding: 3rem 2.7rem 3rem 3rem !important;
+}
+
+.logo_universidad {
+    position: absolute;
+    margin: 20px 0px 0px 20px;
+}
+
+.login_title h3 {
+    color: #000000;
+}
+
+.login_title p {
+    font-size: 13px;
+    color: #76839a;
+    margin-bottom: 10px;
+}
+
+.login_progress {
+    height: 1px !important;
+    margin-bottom: 20px;
+}
+
+.login_recaptcha {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.login_error {
+    margin: 0px 0px 5px 0px;
+}
+
+.login_error p {
+    text-align: center;
+    font-size: 13px;
+}
+
+.login_mjs_error {
+    margin-left: 2px;
+}
+
+/*--------------------------------------------------------------- Table*/
+.table.dataTable thead th {
+    background: var(--color_principal);
+    color: #fff;
+}
+
+.table td{
+	padding: 6px 10px;
+}
+.bt_grilla{
+	font-size: 15px;
+    position: relative;
+    top: 1px;
+}
+.dataTable thead th:first-child{
+	border-top-left-radius: 2px;
+}
+
+.dataTable thead th:last-child{
+	border-top-right-radius: 4px;
+}
+table.dataTable tbody tr.selected {
+    background-color: var(--color_principal_bajo);
+    color: var(--color_principal);
+}

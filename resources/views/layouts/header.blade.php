@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         
         <!-- FAVICON -->
-        <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/brand/favicon.ico')}}" />
+        <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo_fisi.jpeg')}}" />
 
         <!-- TITLE -->
         <title>{{$title}}</title>
@@ -39,6 +39,15 @@
         <link id="theme" rel="stylesheet" type="text/css" media="all" href="{{asset('colors/color1.css')}}" />
 
         <!-- SWITCHER SKIN CSS -->
+        <link href="{{asset('plugins/sweet-alert/sweetalert.css')}}" rel="stylesheet">
         <link href="{{asset('switcher/css/switcher.css')}}" rel="stylesheet">
         <link href="{{asset('switcher/demo.css')}}" rel="stylesheet">
+
+        <!-- DATATABLE -->
+        <link href="{{asset('plugins/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+
+        <!-- MY CSS -->
+        <link href="{{asset('css/mycss.css')}}" rel="stylesheet"/>
+
 </head>
+@routes

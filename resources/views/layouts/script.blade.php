@@ -31,7 +31,6 @@
 <script src="{{asset('plugins/p-scroll/perfect-scrollbar.js')}}"></script>
 <script src="{{asset('plugins/p-scroll/pscroll.js')}}"></script>
 
-<script src="{{asset('js/index.js')}}"></script>
 <script src="{{asset('plugins/chart/Chart.bundle.js')}}"></script>
 <script src="{{asset('plugins/chart/utils.js')}}"></script>
 <script src="{{asset('plugins/echarts/echarts.js')}}"></script>
@@ -47,4 +46,21 @@
 <script src="{{asset('js/color-change.js')}}"></script>
 
 <!-- SWITCHER JS -->
+<script src="{{asset('plugins/sweet-alert/sweetalert.min.js')}}"></script>
 <script src="{{asset('switcher/js/switcher.js')}}"></script>
+
+<!-- DATATABLE -->
+<!--<script src="{{asset('plugins/dataTables1.10.19/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('plugins/dataTables1.10.19/dataTables.bootstrap4.min.js')}}"></script>-->
+
+<script src="{{asset('plugins/datatable/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('plugins/datatable/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('plugins/datatable/dataTables.responsive.min.js')}}"></script>
+
+<!-- MY JS --> 
+<script src="{{asset('myjs/script.js')}}"></script>
+
+<!-- MODALES JS --> 
+<script src="{{asset('js/modales.js')}}"></script>
+
+@yield('script')

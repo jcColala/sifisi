@@ -1,9 +1,9 @@
 <!-- START PAGE-HEADER -->
 <div>
-    <h1 class="page-title">Bienvenido</h1>
+    <h1 class="page-title">{{$title}}</h1>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">SIFISI</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Inicio</li>
+        <li class="breadcrumb-item"><a href="#">{{$modulo}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{$paht}}</li>
     </ol>
 </div>
 <!-- END PAGE-HEADER --> 
@@ -28,6 +28,12 @@
     <div class="dropdown d-md-flex">
         <a class="nav-link icon full-screen-link nav-link-bg">
             <i class="fe fe-maximize fullscreen-button"></i>
+        </a>
+    </div>
+    <div class="dropdown d-md-flex md_nocturno_o_o">
+        <a class="nav-link icon nav-link-bg">
+            <input type="radio" name="onoffswitch2" id="myonoffswitch16" class="onoffswitch2-checkbox">
+            <label for="myonoffswitch16" class="fe fe-moon onoffswitch2"></label>
         </a>
     </div>
     <div class="dropdown d-md-flex message">
@@ -69,18 +75,17 @@
             <a href="#" class="dropdown-item text-center">See all Messages</a>
         </div>
     </div>
-    
     <div class="dropdown profile-1">
         <a href="#" data-toggle="dropdown" class="nav-link pr-2 leading-none d-flex">
             <span>
-                <img src="{{asset('images/users/10.jpg')}}" alt="profile-user" class="avatar  profile-user brround cover-image">
+                <img src="{{ (auth()->user()->avatar == null or auth()->user()->avatar == '')? asset('images/users/anonimo.png'): asset('images/users/'.auth()->user()->avatar) }}" alt="profile-user" class="avatar  profile-user brround cover-image">
             </span>
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
             <div class="drop-heading">
                 <div class="text-center">
-                    <h5 class="text-dark mb-0">Elizabeth Dyer</h5>
-                    <small class="text-muted">Administrator</small>
+                    <h5 class="text-dark mb-0">{{auth()->user()->persona->nombres}}</h5>
+                    <small class="text-muted">{{auth()->user()->perfil->perfil}}</small>
                 </div>
             </div>
             <div class="dropdown-divider m-0"></div>
@@ -90,9 +95,13 @@
             <a class="dropdown-item" href="#">
                 <i class="dropdown-icon  mdi mdi-settings"></i> Settings
             </a>
-            <a class="dropdown-item" href="login.html">
-                <i class="dropdown-icon mdi  mdi-logout-variant"></i> Sign out
+
+            <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('logout-form').submit();" role="button" >
+                <i class="dropdown-icon ti-power-off"></i> Cerrar Session
             </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
         </div>
     </div>
 </div>

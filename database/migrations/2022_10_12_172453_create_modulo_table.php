@@ -22,7 +22,7 @@ class CreateModuloTable extends Migration
             $table->string("abreviatura", 60);
             $table->text("url")->nullable();
             $table->integer("orden")->default(1);
-            $table->string("icono", 60);
+            $table->string("icono", 60)->nullable();
             $table->string("acceso_directo", 1)->default('N');
             $table->softDeletes();
             $table->timestamps();

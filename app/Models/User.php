@@ -3,24 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use Notifiable;
+    use SoftDeletes;
+    //use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+
+    protected $table        = "seguridad.usuario";
+    protected $primaryKey   = "id";
+
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'idpersona', 'id_encrypt','usuario', 'avatar', 'es_superusuario', 'password', 'deleted_at'
     ];
 
     /**
@@ -41,4 +41,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function persona(){
+        return $this->belongsTo(Persona::class,'idpersona');
+    }
+    public function perfil(){
+        return $this->belongsTo(Perfil::class,'idperfil');
+    }
 }

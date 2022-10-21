@@ -101,9 +101,9 @@ iframe {
 	display: -ms-flexbox;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: right;
 	align-items: center;
-	padding: 15px;
+	padding: 0px;
 	z-index:999;
 }
 .wrap-login100 {
@@ -114,7 +114,7 @@ iframe {
 	justify-content: space-between;
 	padding: 137px 130px 137px 95px;
 	box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.06);
-	border-radius: 5px;
+	/*border-radius: 5px;*/
 }
 /*------------------------------------------------------------------
 [  ]*/
@@ -129,7 +129,7 @@ iframe {
 [  ]*/
 
 .login100-form {
-	width: 320px;
+	width: 300px;
 }
 .login100-form-title {
 	font-size: 24px;
@@ -137,7 +137,7 @@ iframe {
 	text-align: center;
 	width: 100%;
 	display: block;
-	padding-bottom: 30px;
+	padding-bottom: 5px;
 	 color: #424344;
 }
 /*---------------------------------------------*/
@@ -146,7 +146,7 @@ iframe {
 	position: relative;
 	width: 100%;
 	z-index: 1;
-	margin-bottom: 10px;
+	margin-top: 10px;
 }
 .input100 {
 	font-size: 15px;
@@ -221,7 +221,7 @@ iframe {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	padding-top: 15px;
+	padding-top: 10px;
 }
 .login100-form-btn {
 	line-height: 1.5;

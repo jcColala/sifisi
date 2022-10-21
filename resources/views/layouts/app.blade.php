@@ -28,12 +28,7 @@
 
                 <div class="app-content">
                     <div class="side-app">
-                        <div class="page-header">
-                            <!-- START NAVBAR Header -->
-                            @include('layouts.navbar')
-                            <!-- END NAVBAR Header -->
-                        </div>
-
+                        
                         <!-- START CONTAINER -->
                         @yield('content')
                         <!-- END CONTAINER -->
@@ -42,7 +37,7 @@
                 </div>
             </div>
 
-            <!-- START FOOTER -->
+            <!-- START FOOTER 
             <footer class="footer">
                 <div class="container">
                     <div class="row align-items-center flex-row-reverse">
@@ -52,7 +47,7 @@
                     </div>
                 </div>
             </footer>
-            <!-- END FOOTER -->
+             END FOOTER -->
         </div>
         <!-- START SCRIPT -->
         @include('layouts.script')

@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+<div class="page-header">
+    <!-- START NAVBAR Header -->
+    @include('layouts.navbar',['title'=>'Bienvenido','modulo'=>"SIFISI",'paht'=>'Inicio'])
+    <!-- END NAVBAR Header -->
+</div>
 <!-- ROW-1 OPEN -->
 <div class="col-12">
     <div class="row">
@@ -134,5 +139,7 @@
     </div>
 </div>
 <!-- ROW-2 CLOSED -->
-
+@endsection
+@section('script')
+<script src="{{asset('js/index.js')}}"></script>
 @endsection

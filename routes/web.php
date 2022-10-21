@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ModuloController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +15,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//--------------------------------------------------------------------------------------------------- Web
+Route::get('/', function () {return view('welcome');})->name('web');
+
+//--------------------------------------------------------------------------------------------------- Error
+// 404
+Route::get('/404', function () {return view('error/404');})->name('404');
+// 500
+Route::get('/500', function () {return view('error/500');})->name('500');
+
+
+Route::group(["middleware"=>"auth"], function(){
+    //------------------------------------------------------------------------------------------------ Home
+    Route::get('/home', [HomeController::class,'index'])->name('home');
+
+    //------------------------------------------------------------------------------------------------ Modulos
+    Route::resource('modulo', ModuloController::class)->only("index", "store", "edit", "destroy");
+    Route::get('modulo/grilla',[ModuloController::class, 'grilla'])->name('modulo.grilla');
+});
