@@ -109,7 +109,6 @@ class DatabaseSeeder extends Seeder
         //------------------------------------------------------- Usuario
         $data = new User();
         $data->idpersona    = 1;
-        $data->id_encrypt   = 0;
         $data->idperfil     = 1;
         $data->usuario      = "ADMIN";
         $data->password     = Hash::make("12tres");
@@ -120,7 +119,7 @@ class DatabaseSeeder extends Seeder
         $data->descripcion  = "Seguridad";
         $data->abreviatura  = "Seg";
         $data->url          = "#";
-        $data->icon         = "ti-lock";
+        $data->icono        = "ti-lock";
         $data->orden        = 1;
         $data->save();
 

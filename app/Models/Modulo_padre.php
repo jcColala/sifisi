@@ -17,7 +17,7 @@ class Modulo_padre extends Model
         'descripcion',
         'abreviatura',
         'url',
-        'icon',
+        'icono',
         'orden',
         'deleted_at'
     ];

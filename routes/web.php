@@ -31,6 +31,9 @@ Route::group(["middleware"=>"auth"], function(){
     //------------------------------------------------------------------------------------------------ Home
     Route::get('/home', [HomeController::class,'index'])->name('home');
 
+    //------------------------------------------------------------------------------------------------ Home
+    Route::get('/tema/{actual}', [HomeController::class,'tema'])->name('tema');
+
     //------------------------------------------------------------------------------------------------ Modulos
     Route::resource('modulo', ModuloController::class)->only("index", "store", "edit", "destroy");
     Route::get('modulo/grilla',[ModuloController::class, 'grilla'])->name('modulo.grilla');

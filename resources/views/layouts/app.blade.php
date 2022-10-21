@@ -4,7 +4,7 @@
 
     @include('layouts.header',['title'=>'SIFISI'])
 
-    <body class="app sidebar-mini">
+    <body class="app sidebar-mini @if( auth()->user()->tema == 2) dark-mode @endif" data-tema="{{auth()->user()->tema}}" id="body" >
 
         <!-- START SWITCHER -->
         <!-- END SWITCHER -->

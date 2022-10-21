@@ -30,10 +30,9 @@
             <i class="fe fe-maximize fullscreen-button"></i>
         </a>
     </div>
-    <div class="dropdown d-md-flex md_nocturno_o_o">
+    <div class="dropdown d-md-flex">
         <a class="nav-link icon nav-link-bg">
-            <input type="radio" name="onoffswitch2" id="myonoffswitch16" class="onoffswitch2-checkbox">
-            <label for="myonoffswitch16" class="fe fe-moon onoffswitch2"></label>
+            <i class="fe fe-moon cambiar_tema"></i>
         </a>
     </div>
     <div class="dropdown d-md-flex message">

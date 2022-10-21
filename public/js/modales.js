@@ -1,6 +1,33 @@
 //------------------------------------------------------------- Variables globales
 let selected = ''
 
+//------------------------------------------------------------- Cambiar tema
+$(".cambiar_tema").on("click", function(e) {
+    let actual = ($("#body").attr("data-tema") == 1)? 2:1 
+    $.ajax({
+            url:route('tema',actual),
+            type:'GET',
+            beforeSend: function() {
+                
+            },
+            success: function(response) {
+                $("#body").removeClass("dark-mode")
+                $("#body").attr("data-tema",actual)
+                if(actual == 2)
+                    $("#body").addClass("dark-mode")
+            },
+            complete: function () {
+                
+            },
+            error: function() {
+                if(e.status==419){
+                    console.log("La sesión ya expiró, por favor cierre sesión y vuelva a ingresar");
+                }else if(e.status==500){
+                    console.log((e.responseJSON.message)??'Hubo problemas internos, por favor comunicate de inmediato con SOPORTE');
+                }
+            }
+        });
+})
 //------------------------------------------------------------- Select tr
 $(".databale").on('click', 'tr', function() {
     selected = table.row(this).data();
