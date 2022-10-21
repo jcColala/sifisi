@@ -18,7 +18,7 @@ class CreateModuloPadreTable extends Migration
             $table->string("descripcion", 120);
             $table->string("abreviatura", 60);
             $table->text("url")->nullable();
-            $table->string("icon", 60)->nullable();
+            $table->string("icono", 60)->nullable();
             $table->integer("orden")->default(1);
             $table->softDeletes();
             $table->timestamps();

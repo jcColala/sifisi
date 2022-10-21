@@ -1,5 +1,5 @@
 $(function () {
-	 var austDay = new Date("December 1, 2025");
+	 var austDay = new Date("December 30, 2022");
 		$('#launch_date').countdown(
 	{
 	until: austDay,

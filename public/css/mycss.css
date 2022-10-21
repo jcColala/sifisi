@@ -35,6 +35,13 @@
     padding-bottom: 10px;
     padding-top: 10px;
 }
+.logueo_acceso{
+    position: absolute;
+    right: 0;
+}
+.logueo_acceso a{
+    color: #fff;
+}
 
 /*------------------------------------------------------------------ Login*/
 .pd_login {

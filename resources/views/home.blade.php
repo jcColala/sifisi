@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="card overflow-hidden">
-                    <div class="card-body pb-0">
+                    <div class="card-body pb-1">
                         <div class="float-left">
                             <h6 class="mb-1">Total Quantity</h6>
                             <h2 class="number-font mb-2">9,54,777</h2>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="card">
-                    <div class="card-body pb-0">
+                    <div class="card-body pb-1">
                         <div class="float-left">
                             <h6 class="mb-1">Total Cost</h6>
                             <h2 class="number-font mb-2">$ 67,897</h2>
@@ -74,7 +74,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="card">
-                    <div class="card-body pb-0">
+                    <div class="card-body pb-1">
                         <div class="float-left">
                             <h6 class="mb-1">Total Revenue</h6>
                             <h2 class="number-font mb-2">178,698</h2>
@@ -97,7 +97,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="card">
-                    <div class="card-body pb-0">
+                    <div class="card-body pb-1">
                         <div class="float-left">
                             <h6 class="mb-1">Total Profit</h6>
                             <h2 class="number-font mb-2">34,789</h2>
