@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ModuloController;
+use App\Http\Controllers\Modulo_padreController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,7 +35,12 @@ Route::group(["middleware"=>"auth"], function(){
     //------------------------------------------------------------------------------------------------ Home
     Route::get('/tema/{actual}', [HomeController::class,'tema'])->name('tema');
 
-    //------------------------------------------------------------------------------------------------ Modulos
-    Route::resource('modulo', ModuloController::class)->only("index", "store", "edit", "destroy");
+    //------------------------------------------------------------------------------------------------ Modulo
+    Route::resource('modulo', ModuloController::class)->only("index","create", "store","edit","update", "destroy");
     Route::get('modulo/grilla',[ModuloController::class, 'grilla'])->name('modulo.grilla');
+
+    //------------------------------------------------------------------------------------------------ Modulo padre
+    Route::resource('modulo_padre', Modulo_padreController::class)->only("index","create", "store","edit","update", "destroy");
+    Route::get('modulo_padre/grilla',[Modulo_padreController::class, 'grilla'])->name('modulo_padre.grilla');
+
 });

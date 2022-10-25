@@ -1,9 +1,9 @@
 
-form.register(_path_controller_modulo, {
-	_form: "#form-"+_path_controller_modulo,
+form.register(_path_controller_modulo_padre, {
+	_form: "#form-"+_path_controller_modulo_padre,
 
     nuevo: function() {
-        get_modal(_path_controller_modulo)
+        get_modal(_path_controller_modulo_padre)
     },
     cancelar: function() {
 		dialog.close(this._form);

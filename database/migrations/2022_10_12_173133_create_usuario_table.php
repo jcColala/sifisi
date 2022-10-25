@@ -19,8 +19,8 @@ class CreateUsuarioTable extends Migration
             $table->foreign('idpersona')->references('dni')->on('general.persona');
             $table->unsignedBigInteger("idperfil")->nullable();
             $table->foreign('idperfil')->references('id')->on('seguridad.perfil');
-            $table->string("usuario", 60)->nullable();
-            $table->string('password')->nullable();
+            $table->string("usuario", 60);
+            $table->string('password');
             $table->string("avatar", 60)->nullable();
             $table->string("es_superusuario", 1)->default("N");
             $table->integer("tema")->default(1)->comment("1 : TEMA NORMAL , 2 : TEMA OSUCRO ");

@@ -46,6 +46,9 @@
         <li class="slide">
             <a class="side-menu__item"  data-toggle="slide" href="#"><i class="side-menu__icon ti-lock"></i><span class="side-menu__label">Seguridad</span><i class="angle fa fa-angle-right"></i></a>
             <ul class="slide-menu">
+                <li><a class="slide-item" href="{{ route('modulo_padre.index') }}"><span>Modulo padre</span></a></li>
+            </ul>
+            <ul class="slide-menu">
                 <li><a class="slide-item" href="{{ route('modulo.index') }}"><span>Modulo</span></a></li>
             </ul>
         </li>

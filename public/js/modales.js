@@ -3,30 +3,30 @@ let selected = ''
 
 //------------------------------------------------------------- Cambiar tema
 $(".cambiar_tema").on("click", function(e) {
-    let actual = ($("#body").attr("data-tema") == 1)? 2:1 
+    let actual = ($("#body").attr("data-tema") == 1) ? 2 : 1
     $.ajax({
-            url:route('tema',actual),
-            type:'GET',
-            beforeSend: function() {
-                
-            },
-            success: function(response) {
-                $("#body").removeClass("dark-mode")
-                $("#body").attr("data-tema",actual)
-                if(actual == 2)
-                    $("#body").addClass("dark-mode")
-            },
-            complete: function () {
-                
-            },
-            error: function() {
-                if(e.status==419){
-                    console.log("La sesión ya expiró, por favor cierre sesión y vuelva a ingresar");
-                }else if(e.status==500){
-                    console.log((e.responseJSON.message)??'Hubo problemas internos, por favor comunicate de inmediato con SOPORTE');
-                }
+        url: route('tema', actual),
+        type: 'GET',
+        beforeSend: function() {
+
+        },
+        success: function(response) {
+            $("#body").removeClass("dark-mode")
+            $("#body").attr("data-tema", actual)
+            if (actual == 2)
+                $("#body").addClass("dark-mode")
+        },
+        complete: function() {
+
+        },
+        error: function() {
+            if (e.status == 419) {
+                console.log("La sesión ya expiró, por favor cierre sesión y vuelva a ingresar");
+            } else if (e.status == 500) {
+                console.log((e.responseJSON.message) ? 'Hubo problemas internos, por favor comunicate de inmediato con SOPORTE' : '');
             }
-        });
+        }
+    });
 })
 //------------------------------------------------------------- Select tr
 $(".databale").on('click', 'tr', function() {
@@ -39,10 +39,12 @@ $(".databale").on('click', 'tr', function() {
         $(this).addClass('selected');
     }
 });
+
+
 //------------------------------------------------------------- Alertas
 var alertas = function() {
 
-    function warning(titulo='',texto='Seleccione un registro.',tipo='warning',texto_bnt='Entendido') {
+    function warning(titulo = '', texto = 'Seleccione un registro.', tipo = 'warning', texto_bnt = 'Entendido') {
         swal({
             title: titulo,
             text: texto,
@@ -157,3 +159,34 @@ var form = function() {
 }();
 
 
+//------------------------------------------------------------- Abrir modal
+const get_modal = (paht, funcion = "create") => {
+
+    $.ajax({
+        url: route(paht + "." + funcion),
+        type: 'GET',
+        beforeSend: function() {
+
+        },
+        success: function(response) {
+            $("#div_md-" + paht).html(response)
+        },
+        complete: function() {
+            $("#md-" + paht).modal('toggle')
+        },
+        error: function() {
+            if (e.status == 419) {
+                console.log("La sesión ya expiró, por favor cierre sesión y vuelva a ingresar");
+            } else if (e.status == 500) {
+                console.log((e.responseJSON.message) ? 'Hubo problemas internos, por favor comunicate de inmediato con SOPORTE' : ' ');
+            }
+        }
+    });
+}
+
+//------------------------------------------------------------- Acciones modal
+const md_guardar = (e, obj) => {
+    e.preventDefault()
+    let accion = (obj.getAttribute('data-acciones')).split('-')
+    form.get(accion[1]).guardar()
+}

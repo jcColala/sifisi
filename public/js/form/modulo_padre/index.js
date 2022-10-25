@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 //------------------------------------------------------------- Datatable
 const load_datatable = () => {
-    table = $('#dt-' + _path_controller_modulo).DataTable({
+    table = $('#dt-' + _path_controller_modulo_padre).DataTable({
         pageLength: 10,
         processing: true,
         serverSide: true,
@@ -13,9 +13,9 @@ const load_datatable = () => {
         responsive: true,
         autoWidth: false,
         ordering: true,
-        rowId: "id" + _name_tabla_modulo,
+        rowId: "id" + _name_tabla_modulo_padre,
         bJQueryUI: true,
-        ajax: route(_path_controller_modulo + ".grilla"),
+        ajax: route(_path_controller_modulo_padre + ".grilla"),
         columns: [{
                 data: 'DT_RowIndex',
                 orderable: false,
@@ -23,25 +23,19 @@ const load_datatable = () => {
                 className: "text-center"
             },
             {
-                data: 'padre.descripcion',
+                data: 'descripcion',
                 orderable: false,
                 searchable: false
             },
             {
-                data: 'modulopadre.modulo',
+                data: 'abreviatura',
                 orderable: false,
-                searchable: false,
-                render: function(data, type, row) {
-                    if (data) {
-                        return 'State is ' + data
-                    }
-                    return '';
-                }
+                searchable: false
             },
-            { data: 'modulo', name: 'modulo' },
             { data: 'url', name: 'url' },
             {
                 data: 'icono',
+                className: 'icono',
                 orderable: false,
                 searchable: false,
                 className: "text-center"
@@ -49,6 +43,7 @@ const load_datatable = () => {
             { data: 'orden', name: 'orden', className: "text-center" },
             {
                 data: 'activo',
+                className: 'activo',
                 orderable: false,
                 searchable: false,
                 className: "text-center"
@@ -62,7 +57,7 @@ const load_datatable = () => {
     });
 
     //-------------------------------------------------------- Horrores Datatable
-    $('#dt-' + _path_controller_modulo).on('error.dt', function(e, settings, techNote, message) {
+    $('#dt-' + _path_controller_modulo_padre).on('error.dt', function(e, settings, techNote, message) {
         console.log('error ajax: ', message);
     }).DataTable();
 }
@@ -70,16 +65,16 @@ const load_datatable = () => {
 //------------------------------------------------------------- Nuevo
 $("#btn-new").on("click", function(e) {
     e.preventDefault();
-    form.get(_path_controller_modulo).nuevo();
+    form.get(_path_controller_modulo_padre).nuevo();
 });
 
 //------------------------------------------------------------- Editar
 $("#btn-edit").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_modulo);
+    var id = grilla.get_id(_name_tabla_modulo_padre);
 
     if (id != null) {
-        form.get(_path_controller_modulo).editar(id);
+        form.get(_path_controller_modulo_padre).editar(id);
     } else {
         alertas.warning("Ups..!");
     }
@@ -88,9 +83,9 @@ $("#btn-edit").on("click", function(e) {
 //------------------------------------------------------------- Eliminar
 $("#btn-delete").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_modulo);
+    var id = grilla.get_id(_name_tabla_modulo_padre);
     if (id != null) {
-        form.get(_path_controller_modulo).eliminar(id);
+        form.get(_path_controller_modulo_padre).eliminar(id);
     } else {
         alertas.warning("Ups..!");
     }

@@ -32,7 +32,6 @@ class ModuloController extends Controller
         $datos["table_name"]        = $this->name_table;
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
-        $datos['sistema']           = Modulo_padre::get();
 
         return view("{$this->path_controller}.index", $datos);
     }
@@ -41,14 +40,18 @@ class ModuloController extends Controller
         $objeto = Modulo::with('padre')->with('modulopadre')->withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
-                ->addColumn("icon", function($objeto){
+                ->addColumn("icono", function($objeto){
                     return "<i class='fa fa-1x {$objeto->icono}'></i>";
                 })
                 ->addColumn("activo", function($row){
                     return (is_null($row->deleted_at))?"<span class='dot-label bg-success'></span>":"<span class='dot-label bg-danger'></span>";
                 })
-                ->rawColumns(['icon', "activo"])
+                ->rawColumns(['icono', "activo"])
                 ->make(true);
+    }
+
+    public function create(){
+        return view("{$this->path_controller}.form");
     }
 
     public function edit($id){

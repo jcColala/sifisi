@@ -9,7 +9,7 @@
 	<div class="col-md-12 col-lg-12">
 		<div class="card">
 			<div class="card-header">
-				<h3 class="card-title">Lista de {{"$modulo"}}s</h3>
+				<h3 class="card-title">Lista de {{"$modulo"}}</h3>
 				<div class="card-options">
 					<div class="btn-list">
 						<!-- START Botones-->
@@ -24,9 +24,8 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="20%">Padre</th>
-								<th width="15%">Mod. Padre</th>
-								<th width="20%">Modulo</th>
+								<th width="50%">Mod. Padre</th>
+								<th width="20%">Abreviatura</th>
 								<th width="10%">Url</th>
 								<th width="05%">Icono</th>
 								<th width="05%">Orden</th>
