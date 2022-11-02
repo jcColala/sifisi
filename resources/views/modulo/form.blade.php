@@ -16,7 +16,7 @@
    					<div class="form-group form-row">
    						<div class="col-md-6">
    							<div class="input-group mt-10px">
-								<select class="form-control select2-show-search" id="idmodulo_padre_{{$prefix}}" name="idmodulo_padre" data-placeholder="Selecciona el módulo Padre" style="width:100%;" >
+								<select class="form-control select2-show-search" id="idmodulo_padre_{{$prefix}}" name="idmodulo_padre" data-placeholder="Selecciona el módulo Padre*" style="width:100%;" >
 									<option label="Selecciona el módulo Padre"></option>
 									@foreach($modulo_padre as $value)
 		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
