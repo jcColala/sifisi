@@ -75,7 +75,7 @@ $("#btn-new").on("click", function(e) {
 //------------------------------------------------------------- Editar
 $("#btn-edit").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_modulo_padre);
+    var id = grilla.get_id(_name_tabla_modulo);
 
     if (id != null) {
         form.get(_path_controller_modulo).editar(id);
@@ -87,7 +87,7 @@ $("#btn-edit").on("click", function(e) {
 //------------------------------------------------------------- Eliminar
 $("#btn-delete_restore").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_modulo_padre);
+    var id = grilla.get_id(_name_tabla_modulo);
     if (id != null) {
         form.get(_path_controller_modulo).eliminar_restaurar(id, this);
     } else {

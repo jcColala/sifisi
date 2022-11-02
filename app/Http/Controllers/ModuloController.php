@@ -19,8 +19,6 @@ class ModuloController extends Controller
     public $name_schema             = null;
     public $name_table              = "";
 
-    public $dataTableServer         = null;
-
     public function __construct(){
         $this->model                = new Modulo();
         $this->name_schema          = $this->model->getSchemaName();
@@ -28,12 +26,21 @@ class ModuloController extends Controller
 
     }
 
-    public function index(){
+    public function form($id = null){
         $datos["table_name"]        = $this->name_table;
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
+        $datos["prefix"]            = "modulo";
+        $datos["modulo_padre"]      = Modulo_padre::withTrashed()->get();
+        $datos["data"]              = [];
+        if( $id != null )
+            $datos["data"]          = Modulo::withTrashed()->find($id);
 
-        return view("{$this->path_controller}.index", $datos);
+        return $datos;
+    }
+
+    public function index(){
+        return view("{$this->path_controller}.index", $this->form());
     }
 
     public function grilla(){
@@ -51,16 +58,13 @@ class ModuloController extends Controller
     }
 
     public function create(){
-        $data = [];
-        return view("{$this->path_controller}.form",compact('data'));
-    }
-
-    public function edit($id){
-        $obj    =   Modulo::withBotones()->withTrashed()->find($id);
-        return response()->json($obj);
+        return view("{$this->path_controller}.form",$this->form());
     }
 
     public function store(Request $request){
+
+        dd($request);
+        
         $this->validate($request,[
             "codsistema"=>"required",
             "modulos"=>"required",
@@ -72,60 +76,20 @@ class ModuloController extends Controller
             "orden.required"=>"Ingrese el orden"
         ]);
 
-        if($request->filled("url")){
-            $this->validate($request, [
-                'url'=>[
-                    "required"
-                    , Rule::unique("{$this->driver_current}.{$this->model->getTable()}", "url")
-                            ->ignore($request->input("cod{$this->name_table}"), "cod{$this->name_table}")
-                ],
-            ]);
-        }
-
-        return DB::transaction(function() use ($request){
-            $obj                = Modulo::withTrashed()->find($request->input("cod{$this->name_table}"));
-
-            if(is_null($obj))
-                $obj            = new Modulo();
-
-            $obj->deleted_at    = ($request->input("activo")=="S")?null:date("Y-m-d H:i:s");
-            $obj->fill($request->all());
-
-            if($obj->save()){
-                $botones_activos = [];
-                if ($request->has('botones_modulo')){
-                    foreach($request->input('botones_modulo') as $key=>$value){
-                        if(!empty($value['coddetalle_boton']))
-                            $detalle                = DetalleBoton::find($value['coddetalle_boton']);
-                        else{
-                            $detalle                = DetalleBoton::where("codboton", $value['codboton'])
-                                ->where("codmodulos", $obj->codmodulos)
-                                ->withTrashed()
-                                ->first();
-
-                            if(!is_null($detalle))
-                                $detalle->deleted_at        = null;
-                            else
-                                $detalle                = new DetalleBoton();
-                        }
-
-                        $detalle->codboton          = $value['codboton'];
-                        $detalle->codmodulos        = $obj->codmodulos;
-                        $detalle->orden             = ($key+1);
-                        $detalle->save();
-
-                        $botones_activos[] = $detalle->codboton;
-                    }
-                }
-                DetalleBoton::where("codmodulos", $obj->codmodulos)->whereNotIn("codboton", $botones_activos)->delete();
-            }
-            return response()->json($obj);
-        });
     }
 
-    public function destroy($id){
-        $obj    =   Modulo::findOrFail($id);
-        $obj->delete();
-        return response()->json();
+    public function edit($id){ 
+        $data  = Modulo::withTrashed()->find($id);
+        return view("{$this->path_controller}.form",$this->form($id));
+    }
+
+    public function destroy(Request $request){
+
+        if ($request->accion == "eliminar") {
+            Modulo::find($request->id)->delete();
+            return response()->json();
+        }
+        Modulo::withTrashed()->find($request->id)->restore();
+        return response()->json();        
     }
 }

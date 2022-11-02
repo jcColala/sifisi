@@ -24,8 +24,8 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="20%">Padre</th>
-								<th width="15%">Mod. Padre</th>
+								<th width="20%">Mod. Padre</th>
+								<th width="15%">Padre</th>
 								<th width="20%">Modulo</th>
 								<th width="10%">Url</th>
 								<th width="05%">Icono</th>
@@ -47,6 +47,7 @@
 	let _name_tabla_{{$table_name}}         = "{{$table_name}}"
     let _path_controller_{{$table_name}}    = "{{$pathController}}"
     let _name_module_{{$table_name}}        = "{{$modulo}}"
+    let _prefix_{{$table_name}}        		= "{{$prefix}}"
     let table 								= ""
 </script>
 <script src='{{asset("js/form/$pathController/index.js")}}'></script>

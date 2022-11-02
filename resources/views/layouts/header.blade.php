@@ -60,6 +60,10 @@
 
         <!-- Alertas -->
         <link href="{{asset('plugins/css/toastr/toastr.min.css')}}" rel="stylesheet">
-        
+
+        <!-- Select2 -->
+        <link href="{{asset('plugins/select2/select2.min.css')}}" rel="stylesheet">
+        <link href="{{asset('plugins/multipleselect/multiple-select.css')}}" rel="stylesheet">
+
 </head>
 @routes

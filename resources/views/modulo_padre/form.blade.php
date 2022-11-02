@@ -11,7 +11,7 @@
 				</button>
 			</div>
 			<div class="modal-body modal_body">
-				<form id="form-{{$pathController}}">
+				<form id="form-{{$pathController}}" onsubmit="md_guardar(event,'btn-save')" >
    					<input type="hidden" name="id" id="id_{{$prefix}}" >
    					<div class="form-group form-row">
 						<div class="col-md-6">
@@ -73,7 +73,7 @@
    				</form>
 			</div>
 			<div class="modal-footer border-0">
-				<button type="button" onclick="md_guardar(event,this)" class="btn btn-primary" data-acciones="guardar-{{$pathController}}">Guardar</button>
+				<button type="button" id="btn-save" onclick="md_guardar(event,'btn-save')" class="btn btn-primary" data-acciones="guardar-{{$pathController}}">Guardar</button>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 			</div>
 		</div>
@@ -83,6 +83,6 @@
 	data_form = @json($data);
 </script>
 <script src='{{asset("js/form/$pathController/script.js")}}'></script>
-<script src="{{asset('js/custom.js')}}"></script>
+<script src='{{asset("js/custom.js")}}'></script>
 
 

@@ -21,8 +21,6 @@ class Modulo_padreController extends Controller
     public $name_schema             = null;
     public $name_table              = "";
 
-    public $dataTableServer         = null;
-
     public function __construct(){
         $this->model                = new Modulo_padre();
         $this->name_schema          = $this->model->getSchemaName();

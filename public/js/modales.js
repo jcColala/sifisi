@@ -244,7 +244,7 @@ const close_modal = (_paht) => {
 //------------------------------------------------------------- Acciones modal
 const md_guardar = (e, obj) => {
     e.preventDefault()
-    let accion = (obj.getAttribute('data-acciones')).split('-')
+    let accion = ($("#"+obj).attr('data-acciones')).split('-')
     form.get(accion[1]).guardar()
 }
 
