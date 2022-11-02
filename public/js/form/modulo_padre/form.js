@@ -5,10 +5,10 @@ const text_icono = (e, obj, _key, _paht) => {
 
 form.register(_path_controller_modulo_padre, {
     nuevo: function() {
-        get_modal(_path_controller_modulo_padre)
+        get_modal(_path_controller_modulo_padre,_prefix_modulo_padre)
     },
     editar: function(id) {
-        get_modal(_path_controller_modulo_padre, "edit", id)
+        get_modal(_path_controller_modulo_padre, _prefix_modulo_padre, "edit", id)
     },
     eliminar_restaurar: function(id, obj) {
         var $self = this
@@ -43,9 +43,9 @@ form.register(_path_controller_modulo_padre, {
                         });
                     }
                     if (e.status == 419) {
-                        console.log("La sesión ya expiró, por favor cierre sesión y vuelva a ingresar");
+                        console.log(msj_sesion);
                     } else if (e.status == 500) {
-                        console.log((e.responseJSON.message) ? 'Hubo problemas internos, por favor comunicate de inmediato con SOPORTE' : ' ');
+                        console.log((e.responseJSON.message) ? msj_soporte : ' ');
                     }
                 }
             })
@@ -81,19 +81,19 @@ form.register(_path_controller_modulo_padre, {
                 if (e.status == 422) { //Errores de Validacion
                     limpieza(_path_controller_modulo_padre);
                     $.each(e.responseJSON.errors, function(i, item) {
-                        $('#' + i).addClass('is_invalid');
-                        $('.' + i).removeClass('d-none');
-                        $('.' + i).attr('data-content', item);
-                        $('.' + i).addClass('msj_error_exist');
+                        $('#' + i+"_"+_prefix_modulo_padre).addClass('is_invalid');
+                        $('.' + i+"_"+_prefix_modulo_padre).removeClass('d-none');
+                        $('.' + i+"_"+_prefix_modulo_padre).attr('data-content', item);
+                        $('.' + i+"_"+_prefix_modulo_padre).addClass('msj_error_exist');
 
                     });
                     $("#form-" + _path_controller_modulo_padre + " .msj_error_exist").first().popover('show');
 
 
                 } else if (e.status == 419) {
-                    console.log("La sesión ya expiró, por favor cierre sesión y vuelva a ingresar");
+                    console.log(msj_sesion);
                 } else if (e.status == 500) {
-                    console.log((e.responseJSON.message) ? 'Hubo problemas internos, por favor comunicate de inmediato con SOPORTE' : ' ');
+                    console.log((e.responseJSON.message) ? msj_soporte : ' ');
                 }
             }
         })

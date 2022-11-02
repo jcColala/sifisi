@@ -2,6 +2,8 @@
 let selected = ""
 let data_form = ""
 let btn_el_rest = "#btn-delete_restore"
+let msj_sesion  = "La sesión ya expiró, por favor cierre sesión y vuelva a ingresar"
+let msj_soporte  = "Hubo problemas internos, por favor comunicate de inmediato con SOPORTE"
 csrf_token($('meta[name="csrf-token"]').attr('content'))
 
 
@@ -36,9 +38,9 @@ $(".cambiar_tema").on("click", function(e) {
         },
         error: function(e) {
             if (e.status == 419) {
-                console.log("La sesión ya expiró, por favor cierre sesión y vuelva a ingresar");
+                console.log(msj_sesion);
             } else if (e.status == 500) {
-                console.log((e.responseJSON.message) ? 'Hubo problemas internos, por favor comunicate de inmediato con SOPORTE' : '');
+                console.log((e.responseJSON.message) ? msj_soporte : '');
             }
         }
     });
@@ -204,7 +206,7 @@ var form = function() {
 
 
 //------------------------------------------------------------- Abrir modal
-const get_modal = (_paht, funcion = "create", id = null) => {
+const get_modal = (_paht, _prefix, funcion = "create", id = null) => {
 
     $.ajax({
         url: route(_paht + "." + funcion, id),
@@ -216,7 +218,7 @@ const get_modal = (_paht, funcion = "create", id = null) => {
 
             if (data_form != [])
                 $.each(data_form, function(key, val) {
-                    $("#" + key, "#form-" + _paht).val(val)
+                    $("#" + key+"_"+_prefix, "#form-" + _paht).val(val)
 
                     if (key == "icono" | key == "icon")
                         set_icono(key, val, _paht)
@@ -227,9 +229,9 @@ const get_modal = (_paht, funcion = "create", id = null) => {
         },
         error: function(e) {
             if (e.status == 419) {
-                console.log("La sesión ya expiró, por favor cierre sesión y vuelva a ingresar");
+                console.log(msj_sesion);
             } else if (e.status == 500) {
-                console.log((e.responseJSON.message) ? 'Hubo problemas internos, por favor comunicate de inmediato con SOPORTE' : ' ');
+                console.log((e.responseJSON.message) ? msj_soporte : ' ');
             }
         }
     });

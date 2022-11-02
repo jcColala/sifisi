@@ -30,12 +30,20 @@ class Modulo_padreController extends Controller
 
     }
 
-    public function index(){
+    public function form($id = null){
         $datos["table_name"]        = $this->name_table;
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
+        $datos["prefix"]            = "modulo_padre";
+        $datos["data"]              = [];
+        if( $id != null )
+            $datos["data"]          = Modulo_padre::withTrashed()->find($id);
 
-        return view("{$this->path_controller}.index", $datos);
+        return $datos;
+    }
+
+    public function index(){
+        return view("{$this->path_controller}.index", $this->form());
     }
 
     public function grilla(){
@@ -53,8 +61,7 @@ class Modulo_padreController extends Controller
     }
 
     public function create(){
-        $data = [];
-        return view("{$this->path_controller}.form",compact('data'));
+        return view("{$this->path_controller}.form",$this->form());
     }
 
     public function store(Request $request){
@@ -83,9 +90,9 @@ class Modulo_padreController extends Controller
         
     }
 
-    public function edit($id){
+    public function edit($id){ 
         $data  = Modulo_padre::withTrashed()->find($id);
-        return view("{$this->path_controller}.form",compact('data'));
+        return view("{$this->path_controller}.form",$this->form($id));
     }
 
     public function destroy(Request $request){
