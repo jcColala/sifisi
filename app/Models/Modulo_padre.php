@@ -22,6 +22,10 @@ class Modulo_padre extends Model
         'deleted_at'
     ];
 
+    public function modulo(){
+        return $this->hasMany(Modulo::class,'idmodulo_padre');
+    }
+
     public function getTableName(){
         return (explode(".", $this->table))[1];
     }

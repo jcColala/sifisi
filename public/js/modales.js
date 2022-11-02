@@ -1,5 +1,18 @@
 //------------------------------------------------------------- Variables globales
-let selected = ''
+let selected = ""
+let data_form = ""
+let btn_el_rest = "#btn-delete_restore"
+csrf_token($('meta[name="csrf-token"]').attr('content'))
+
+
+//------------------------------------------------------------- Csrf token
+function csrf_token(csrf_token) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': csrf_token
+        }
+    });
+}
 
 //------------------------------------------------------------- Cambiar tema
 $(".cambiar_tema").on("click", function(e) {
@@ -7,6 +20,8 @@ $(".cambiar_tema").on("click", function(e) {
     $.ajax({
         url: route('tema', actual),
         type: 'GET',
+        cache: false,
+        processData: false,
         beforeSend: function() {
 
         },
@@ -19,7 +34,7 @@ $(".cambiar_tema").on("click", function(e) {
         complete: function() {
 
         },
-        error: function() {
+        error: function(e) {
             if (e.status == 419) {
                 console.log("La sesión ya expiró, por favor cierre sesión y vuelva a ingresar");
             } else if (e.status == 500) {
@@ -29,15 +44,34 @@ $(".cambiar_tema").on("click", function(e) {
     });
 })
 //------------------------------------------------------------- Select tr
-$(".databale").on('click', 'tr', function() {
+$(".databale").on('click', 'tr', function(e) {
     selected = table.row(this).data();
 
     if ($(this).hasClass('selected')) {
         $(this).removeClass('selected');
+
+        if (document.querySelectorAll(btn_el_rest).length && table.row(this).data() != undefined)
+            init_btndelete()
     } else {
         table.$('tr.selected').removeClass('selected');
         $(this).addClass('selected');
+
+        //selecionar el estado
+        if (document.querySelectorAll(btn_el_rest).length && table.row(this).data() != undefined) {
+            $(btn_el_rest).attr("class", "")
+            if (table.row(this).data()["deleted_at"] == null) {
+                $(btn_el_rest).html("<i class='fe fe-trash bt_grilla text-primary-shadow'></i> &nbsp;&nbsp;Eliminar&nbsp;")
+                $(btn_el_rest).attr("data-action", " eliminar")
+                $(btn_el_rest).addClass("btn btn-outline-danger")
+            } else {
+                $(btn_el_rest).html('<i class="fe fe-rotate-ccw bt_grilla text-primary-shadow"></i>&nbsp;Restaurar')
+                $(btn_el_rest).attr("data-action", "restaurar")
+                $(btn_el_rest).addClass("btn btn-outline-success")
+
+            }
+        }
     }
+
 });
 
 
@@ -108,7 +142,17 @@ var grilla = function() {
         return null;
     }
 
-    return { get_id: get_id, get_data: get_data };
+    function reload(idobject, bool) {
+        var table = _get_real_id(idobject);
+        if (typeof bool != 'boolean')
+            bool = true;
+
+        if (table !== false) {
+            $("#" + table).DataTable().draw(bool);
+        }
+    }
+
+    return { get_id: get_id, get_data: get_data, reload: reload };
 
 }();
 
@@ -160,21 +204,28 @@ var form = function() {
 
 
 //------------------------------------------------------------- Abrir modal
-const get_modal = (paht, funcion = "create") => {
+const get_modal = (_paht, funcion = "create", id = null) => {
 
     $.ajax({
-        url: route(paht + "." + funcion),
+        url: route(_paht + "." + funcion, id),
         type: 'GET',
-        beforeSend: function() {
-
-        },
+        cache: false,
+        processData: false,
         success: function(response) {
-            $("#div_md-" + paht).html(response)
+            $("#div_md-" + _paht).html(response)
+
+            if (data_form != [])
+                $.each(data_form, function(key, val) {
+                    $("#" + key, "#form-" + _paht).val(val)
+
+                    if (key == "icono" | key == "icon")
+                        set_icono(key, val, _paht)
+                })
         },
         complete: function() {
-            $("#md-" + paht).modal('toggle')
+            $("#md-" + _paht).modal('toggle')
         },
-        error: function() {
+        error: function(e) {
             if (e.status == 419) {
                 console.log("La sesión ya expiró, por favor cierre sesión y vuelva a ingresar");
             } else if (e.status == 500) {
@@ -184,9 +235,46 @@ const get_modal = (paht, funcion = "create") => {
     });
 }
 
+//------------------------------------------------------------- Cerrar modal
+const close_modal = (_paht) => {
+    $("#md-" + _paht).modal("hide")
+}
 //------------------------------------------------------------- Acciones modal
 const md_guardar = (e, obj) => {
     e.preventDefault()
     let accion = (obj.getAttribute('data-acciones')).split('-')
     form.get(accion[1]).guardar()
+}
+
+//------------------------------------------------------------- Selec icono
+const selecionar_icono = (e, obj, _key, _paht, id_icono) => {
+    let class_icono = obj.getElementsByTagName("i")[0].getAttribute('class')
+    set_icono(_key, class_icono, _paht)
+    $("#" + id_icono).val(class_icono)
+}
+
+//------------------------------------------------------------- Ver icono
+const set_icono = (_key, _icono, _paht) => {
+    $("#form-" + _key + "-" + _paht).attr('class', '')
+    $("#form-" + _key + "-" + _paht).addClass(_icono)
+}
+
+//------------------------------------------------------------- Limpieza
+const limpieza = (_paht) => {
+    id = "#form-" + _paht
+
+    $("#form-" + _paht + " .msj_error_exist").first().popover('hide');
+    $(id + " .msj_error").addClass("d-none");
+    $(id + " .msj_error").removeClass("msj_error_exist");
+    $(id + " input").removeClass("is_invalid");
+
+}
+
+const init_btndelete = () => {
+    if (document.querySelectorAll(btn_el_rest).length) {
+        $(btn_el_rest).attr("class", "")
+        $(btn_el_rest).html("<i class='fe fe-circle bt_grilla text-primary-shadow'></i>&nbsp;Elim/Rest")
+        $(btn_el_rest).attr("data-action", "")
+        $(btn_el_rest).addClass("btn btn-outline-default")
+    }
 }

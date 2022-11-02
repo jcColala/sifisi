@@ -38,7 +38,7 @@
     <div class="dropdown d-md-flex message">
         <a class="nav-link icon text-center" data-toggle="dropdown">
             <i class="fe fe-mail"></i>
-            <span class="nav-unread badge badge-danger badge-pill">3</span>
+            <span class="nav-unread badge badge-success badge-pill">3</span>
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
             <div class="message-menu">

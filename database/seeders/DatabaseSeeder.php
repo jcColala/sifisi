@@ -119,7 +119,7 @@ class DatabaseSeeder extends Seeder
         $data->descripcion  = "Seguridad";
         $data->abreviatura  = "Seg";
         $data->url          = "#";
-        $data->icono        = "ti-lock";
+        $data->icono        = "fa fa ti-lock";
         $data->orden        = 1;
         $data->save();
 

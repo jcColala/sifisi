@@ -1,5 +1,4 @@
 @include('layouts.header',['title'=>'Login'])
-<link href="{{asset('plugins/single-page/css/main.css')}}" rel="stylesheet">
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 <body class="login-img img_logo_o_o">

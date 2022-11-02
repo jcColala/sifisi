@@ -13,7 +13,7 @@ const load_datatable = () => {
         responsive: true,
         autoWidth: false,
         ordering: true,
-        rowId: "id" + _name_tabla_modulo,
+        rowId: "id",
         bJQueryUI: true,
         ajax: route(_path_controller_modulo + ".grilla"),
         columns: [{
@@ -56,7 +56,6 @@ const load_datatable = () => {
 
         ],
         order: [
-            [0, 'ASC'],
             [3, 'ASC']
         ]
     });
@@ -76,7 +75,7 @@ $("#btn-new").on("click", function(e) {
 //------------------------------------------------------------- Editar
 $("#btn-edit").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_modulo);
+    var id = grilla.get_id(_name_tabla_modulo_padre);
 
     if (id != null) {
         form.get(_path_controller_modulo).editar(id);
@@ -86,11 +85,11 @@ $("#btn-edit").on("click", function(e) {
 });
 
 //------------------------------------------------------------- Eliminar
-$("#btn-delete").on("click", function(e) {
+$("#btn-delete_restore").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_modulo);
+    var id = grilla.get_id(_name_tabla_modulo_padre);
     if (id != null) {
-        form.get(_path_controller_modulo).eliminar(id);
+        form.get(_path_controller_modulo).eliminar_restaurar(id, this);
     } else {
         alertas.warning("Ups..!");
     }

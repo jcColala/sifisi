@@ -41,7 +41,7 @@ class ModuloController extends Controller
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
-                    return "<i class='fa fa-1x {$objeto->icono}'></i>";
+                    return "<i class='{$objeto->icono}'></i>";
                 })
                 ->addColumn("activo", function($row){
                     return (is_null($row->deleted_at))?"<span class='dot-label bg-success'></span>":"<span class='dot-label bg-danger'></span>";
@@ -51,7 +51,8 @@ class ModuloController extends Controller
     }
 
     public function create(){
-        return view("{$this->path_controller}.form");
+        $data = [];
+        return view("{$this->path_controller}.form",compact('data'));
     }
 
     public function edit($id){

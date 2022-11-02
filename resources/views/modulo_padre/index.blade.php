@@ -29,7 +29,7 @@
 								<th width="10%">Url</th>
 								<th width="05%">Icono</th>
 								<th width="05%">Orden</th>
-								<th width="05%">Activo</th>
+								<th width="05%">Estado</th>
 							</tr>
 						</thead>
 						<tbody>

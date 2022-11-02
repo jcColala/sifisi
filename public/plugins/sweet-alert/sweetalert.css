@@ -220,7 +220,8 @@
 }
 
 .sweet-alert button {
-	background-color: #5e2dd8   !important;
+	margin-left : 5px;
+	background-color: #5e2dd8 !important;
 	color: white;
     letter-spacing: .03em;
     font-size: 0.8125rem;
@@ -240,7 +241,7 @@
     border-radius: 5px;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 	cursor: pointer;
-	box-shadow:0 0 0 2px rgba(94, 45, 216, 0.9);
+	/*box-shadow:0 0 0 2px rgba(94, 45, 216, 0.9);*/
 }
 
 .sweet-alert button:focus {
@@ -257,7 +258,7 @@
 }
 
 .sweet-alert button.cancel {
-	background-color: #C1C1C1;
+    background-color: #f82649 !important;
 }
 
 .sweet-alert button.cancel:hover {

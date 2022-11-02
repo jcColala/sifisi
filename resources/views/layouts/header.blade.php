@@ -3,7 +3,11 @@
         <meta charset="UTF-8">
         <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta http-equiv='cache-control' content='no-cache'>
+        <meta http-equiv='expires' content='0'>
+        <meta http-equiv='pragma' content='no-cache'>
+
         <!-- FAVICON -->
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo_fisi.jpeg')}}" />
 
@@ -41,7 +45,6 @@
         <!-- SWITCHER SKIN CSS -->
         <link href="{{asset('plugins/sweet-alert/sweetalert.css')}}" rel="stylesheet">
         <link href="{{asset('switcher/css/switcher.css')}}" rel="stylesheet">
-        <link href="{{asset('switcher/demo.css')}}" rel="stylesheet">
 
         <!-- DATATABLE -->
         <link href="{{asset('plugins/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
@@ -49,5 +52,14 @@
         <!-- MY CSS -->
         <link href="{{asset('css/mycss.css')}}" rel="stylesheet"/>
 
+        <!-- Efectos Input -->
+        <link href="{{asset('plugins/single-page/css/main.css')}}" rel="stylesheet">
+
+        <!-- NOTIFICATIONS -->
+        <link href="{{asset('plugins/notify/css/jquery.growl.css')}}" rel="stylesheet">
+
+        <!-- Alertas -->
+        <link href="{{asset('plugins/css/toastr/toastr.min.css')}}" rel="stylesheet">
+        
 </head>
 @routes

@@ -36,11 +36,11 @@ Route::group(["middleware"=>"auth"], function(){
     Route::get('/tema/{actual}', [HomeController::class,'tema'])->name('tema');
 
     //------------------------------------------------------------------------------------------------ Modulo
-    Route::resource('modulo', ModuloController::class)->only("index","create", "store","edit","update", "destroy");
+    Route::resource('modulo', ModuloController::class)->only("index","create", "store","edit", "destroy");
     Route::get('modulo/grilla',[ModuloController::class, 'grilla'])->name('modulo.grilla');
 
     //------------------------------------------------------------------------------------------------ Modulo padre
-    Route::resource('modulo_padre', Modulo_padreController::class)->only("index","create", "store","edit","update", "destroy");
+    Route::resource('modulo_padre', Modulo_padreController::class)->only("index","create", "store","edit", "destroy");
     Route::get('modulo_padre/grilla',[Modulo_padreController::class, 'grilla'])->name('modulo_padre.grilla');
 
 });

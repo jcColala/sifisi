@@ -13,7 +13,7 @@ const load_datatable = () => {
         responsive: true,
         autoWidth: false,
         ordering: true,
-        rowId: "id" + _name_tabla_modulo_padre,
+        rowId: "id",
         bJQueryUI: true,
         ajax: route(_path_controller_modulo_padre + ".grilla"),
         columns: [{
@@ -24,18 +24,15 @@ const load_datatable = () => {
             },
             {
                 data: 'descripcion',
-                orderable: false,
                 searchable: false
             },
             {
                 data: 'abreviatura',
-                orderable: false,
                 searchable: false
             },
             { data: 'url', name: 'url' },
             {
                 data: 'icono',
-                className: 'icono',
                 orderable: false,
                 searchable: false,
                 className: "text-center"
@@ -43,7 +40,6 @@ const load_datatable = () => {
             { data: 'orden', name: 'orden', className: "text-center" },
             {
                 data: 'activo',
-                className: 'activo',
                 orderable: false,
                 searchable: false,
                 className: "text-center"
@@ -51,8 +47,7 @@ const load_datatable = () => {
 
         ],
         order: [
-            [0, 'ASC'],
-            [3, 'ASC']
+            [1, 'ASC']
         ]
     });
 
@@ -81,11 +76,11 @@ $("#btn-edit").on("click", function(e) {
 });
 
 //------------------------------------------------------------- Eliminar
-$("#btn-delete").on("click", function(e) {
+$("#btn-delete_restore").on("click", function(e) {
     e.preventDefault();
     var id = grilla.get_id(_name_tabla_modulo_padre);
     if (id != null) {
-        form.get(_path_controller_modulo_padre).eliminar(id);
+        form.get(_path_controller_modulo_padre).eliminar_restaurar(id, this);
     } else {
         alertas.warning("Ups..!");
     }

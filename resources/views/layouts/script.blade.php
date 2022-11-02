@@ -49,13 +49,17 @@
 <script src="{{asset('plugins/sweet-alert/sweetalert.min.js')}}"></script>
 <script src="{{asset('switcher/js/switcher.js')}}"></script>
 
-<!-- DATATABLE -->
-<!--<script src="{{asset('plugins/dataTables1.10.19/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('plugins/dataTables1.10.19/dataTables.bootstrap4.min.js')}}"></script>-->
-
 <script src="{{asset('plugins/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('plugins/datatable/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('plugins/datatable/dataTables.responsive.min.js')}}"></script>
+
+<!-- NOTIFICATIONS JS -->
+<script src="{{asset('plugins/notify/js/rainbow.js')}}"></script>
+<script src="{{asset('plugins/notify/js/jquery.growl.js')}}"></script>
+
+<!-- Alertas -->
+<script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
+<script src="{{asset('js/alertas_jc.js')}}"></script>
 
 <!-- MY JS --> 
 <script src="{{asset('myjs/script.js')}}"></script>
