@@ -30,15 +30,15 @@ class DatabaseSeeder extends Seeder
 
         //------------------------------------------------------- Facultad
         $data = new Facultad();
-        $data->facultad     = 'FISI';
+        $data->facultad     = 'Facultad de Ingeniería de Sistemas e Informática';
         $data->abreviatura  = 'FISI';
         $data->save();
 
         //------------------------------------------------------- Escuela
         $data = new Escuela();
         $data->idfacultad   = 1;
-        $data->escuela      = 'FISI';
-        $data->abreviatura  = 'FISI';
+        $data->escuela      = 'Escuela Profesional de Ingeniería de Sistemas e Informática';
+        $data->abreviatura  = 'EPISI';
         $data->save();
 
         //------------------------------------------------------- Estadopersona
@@ -57,24 +57,24 @@ class DatabaseSeeder extends Seeder
         $data->cod_prov = '2';
         $data->cod_dist = '3';
         $data->codccpp  = '4';
-        $data->nombre   = 'Lamas';
+        $data->nombre   = 'Tarapoto';
         $data->reniec   = '1234';
         $data->save();
 
         //------------------------------------------------------- Tipo_documento_identidad
         $data = new Tipo_documento_identidad();
-        $data->descripcion  = 'DNI';
+        $data->descripcion  = 'Documento Nacional de Identidad';
         $data->abreviatura  = 'DNI';
         $data->save();
 
         //------------------------------------------------------- Estado_civil
         $data = new Estado_civil();
-        $data->descripcion  = 'SOLTERO POR FEO';
+        $data->descripcion  = 'Soltero';
         $data->save();
 
         //------------------------------------------------------- Sexo
         $data = new Sexo();
-        $data->descripcion  = 'MACHO P';
+        $data->descripcion  = 'Masculino';
         $data->simbolo      = 'M';
         $data->save();
 
@@ -89,14 +89,14 @@ class DatabaseSeeder extends Seeder
         $data->idtipo_documento_identidad   = 1;
         $data->idestado_civil               = 1;
         $data->idsexo                       = 1;
-        $data->nombres                      = "Admin";
-        $data->apellido_paterno             = "Nose";
-        $data->apellido_materno             = "Tampoco";
-        $data->correo_institucional         = "colala@gmial.com";
-        $data->correo_personal              = "colala@gmial.com";
-        $data->direccion                    = "nose";
-        $data->telefono                     = "917779907";
-        $data->fecha_nacimiento             = "25-03-1998";
+        $data->nombres                      = "José Alejandro";
+        $data->apellido_paterno             = "Robles";
+        $data->apellido_materno             = "Delgado";
+        $data->correo_institucional         = "jaroblesd@alumno.unsm.edu.pe";
+        $data->correo_personal              = "dracoxxrobles1232@gmail.com";
+        $data->direccion                    = "Jr. 3 de octubre #294";
+        $data->telefono                     = "950904778";
+        $data->fecha_nacimiento             = "10-05-2000";
         $data->nacionalidad                 = "Peruano";
         $data->save();
 
@@ -110,8 +110,8 @@ class DatabaseSeeder extends Seeder
         $data = new User();
         $data->idpersona    = 1;
         $data->idperfil     = 1;
-        $data->usuario      = "ADMIN";
-        $data->password     = Hash::make("12tres");
+        $data->usuario      = "admin";
+        $data->password     = Hash::make("fias123.123w");
         $data->save();
 
          //------------------------------------------------------- Mod Padre
