@@ -19,6 +19,9 @@ class SGCTipoProceso extends Model
         'deleted_at'
     ];
 
+    public function procesos_cero(){
+        return $this->hasMany(SGCProceso_cero::class);
+    }
 
     public function getTableName(){
         return (explode(".", $this->table))[1];
