@@ -15,6 +15,7 @@ use App\Models\Perfil;
 use App\Models\User;
 use App\Models\Modulo_padre;
 use App\Models\Modulo;
+use App\Models\Accesos;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 Use Faker\Factory as Facker;
@@ -127,7 +128,7 @@ class DatabaseSeeder extends Seeder
         $data->descripcion  = "Gestion de calidad";
         $data->abreviatura  = "SGC";
         $data->url          = "#";
-        $data->icono        = "ti-folder";
+        $data->icono        = "fe fe-file-text";
         $data->orden        = 2;
         $data->save();
 
@@ -168,5 +169,24 @@ class DatabaseSeeder extends Seeder
         $data->save();
 
         //}
+
+        //------------------------------------------------------- Accesos
+        $data = new Accesos();
+        $data->idmodulo   = 1;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 2;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 3;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
     }
 }
