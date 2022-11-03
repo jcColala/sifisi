@@ -2,8 +2,8 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Registrar Proceso de Nivel 0</h5>
-				<span class="col-auto align-self-center"> | <span class="text_requiere">campos obligatorios </span>
+				<h5 class="modal-title" id="exampleModalLabel">Registrar Proceso de Nivel 1</h5>
+				<span class="col-auto align-self-center"> | <span class="text_requiere">campos obrigatorios </span>
 				<span class="form-help" data-toggle="popover" data-placement="top" data-content="Los campos que contengan un ' * ' son obligatorios y es necesario que se ingrese la información correspondiente." data-original-title="" title="">?</span>
 				</span>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">

@@ -54,9 +54,24 @@
         </li>
 
         <li class="slide">
-            <a class="side-menu__item"  data-toggle="slide" href="#"><i class="side-menu__icon ti-lock"></i><span class="side-menu__label">Gestión de Calidad</span><i class="angle fa fa-angle-right"></i></a>
+            <a class="side-menu__item"  data-toggle="slide" href="#"><i class="side-menu__icon fe fe-file-text"></i><span class="side-menu__label">Gestión de Calidad</span><i class="angle fa fa-angle-right"></i></a>
             <ul class="slide-menu">
-                <li><a class="slide-item" href="{{ route('proceso_cero.index') }}"><span>Procesos Nivel Cero</span></a></li>
+                <li><a class="slide-item" href="{{ route('tipo_proceso.index') }}"><span>Tipo Proceso</span></a></li>
+            </ul>
+            <ul class="slide-menu">
+                <li><a class="slide-item" href="{{ route('proceso_cero.index') }}"><span>Procesos Nivel 0</span></a></li>
+            </ul>
+            <ul class="slide-menu">
+                <li><a class="slide-item" href="#"><span>Procesos Nivel 1</span></a></li>
+            </ul>
+            <ul class="slide-menu">
+                <li><a class="slide-item" href="#"><span>Procesos Nivel 2</span></a></li>
+            </ul>
+            <ul class="slide-menu">
+                <li><a class="slide-item" href="#"><span>Movimientos</span></a></li>
+            </ul>
+            <ul class="slide-menu">
+                <li><a class="slide-item" href="#"><span>Reportes</span></a></li>
             </ul>
         </li>
 
