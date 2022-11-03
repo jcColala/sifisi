@@ -34,14 +34,6 @@ form.register(_path_controller_modulo, {
                     //loading("complete");
                 },
                 error: function(e) {
-                    if (e.status == 422) { //Errores de Validacion
-                        $.each(e.responseJSON.errors, function(i, item) {
-                            if (i == 'referencias') {
-                                toastr.warning(item, 'Notificación modulo padre')
-                            }
-
-                        });
-                    }
                     if (e.status == 419) {
                         console.log(msj_sesion);
                     } else if (e.status == 500) {
@@ -56,7 +48,8 @@ form.register(_path_controller_modulo, {
         var $self = this;
         let _form = "#form-" + _path_controller_modulo
         let post_data = $(_form).serialize()
-
+        post_data += "&acceso_directo="+acceso_directo_
+        
         $.ajax({
             url: route(_path_controller_modulo + '.store'),
             type: 'POST',
@@ -67,7 +60,6 @@ form.register(_path_controller_modulo, {
                 //loading();
             },
             success: function(response) {
-                //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_modulo, {"timeOut":500000,"tapToDismiss": false})
                 toastr.success('Datos grabados correctamente', 'Notificación modulo padre')
                 $self.callback(response)
                 close_modal(_path_controller_modulo)
@@ -77,11 +69,11 @@ form.register(_path_controller_modulo, {
             },
             error: function(e) {
 
-                //Msj($("#descripcion"), "Ingrese Descripcion ","","above",false)
                 if (e.status == 422) { //Errores de Validacion
                     limpieza(_path_controller_modulo);
                     $.each(e.responseJSON.errors, function(i, item) {
                         $('#' + i+"_"+_prefix_modulo).addClass('is_invalid');
+                        $('.select2-' + i+"_"+_prefix_modulo).addClass('select2-is_invalid');
                         $('.' + i+"_"+_prefix_modulo).removeClass('d-none');
                         $('.' + i+"_"+_prefix_modulo).attr('data-content', item);
                         $('.' + i+"_"+_prefix_modulo).addClass('msj_error_exist');

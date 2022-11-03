@@ -5,7 +5,7 @@ const text_icono = (e, obj, _key, _paht) => {
 
 form.register(_path_controller_modulo_padre, {
     nuevo: function() {
-        get_modal(_path_controller_modulo_padre,_prefix_modulo_padre)
+        get_modal(_path_controller_modulo_padre, _prefix_modulo_padre)
     },
     editar: function(id) {
         get_modal(_path_controller_modulo_padre, _prefix_modulo_padre, "edit", id)
@@ -41,8 +41,7 @@ form.register(_path_controller_modulo_padre, {
                             }
 
                         });
-                    }
-                    if (e.status == 419) {
+                    } else if (e.status == 419) {
                         console.log(msj_sesion);
                     } else if (e.status == 500) {
                         console.log((e.responseJSON.message) ? msj_soporte : ' ');
@@ -81,10 +80,10 @@ form.register(_path_controller_modulo_padre, {
                 if (e.status == 422) { //Errores de Validacion
                     limpieza(_path_controller_modulo_padre);
                     $.each(e.responseJSON.errors, function(i, item) {
-                        $('#' + i+"_"+_prefix_modulo_padre).addClass('is_invalid');
-                        $('.' + i+"_"+_prefix_modulo_padre).removeClass('d-none');
-                        $('.' + i+"_"+_prefix_modulo_padre).attr('data-content', item);
-                        $('.' + i+"_"+_prefix_modulo_padre).addClass('msj_error_exist');
+                        $('#' + i + "_" + _prefix_modulo_padre).addClass('is_invalid');
+                        $('.' + i + "_" + _prefix_modulo_padre).removeClass('d-none');
+                        $('.' + i + "_" + _prefix_modulo_padre).attr('data-content', item);
+                        $('.' + i + "_" + _prefix_modulo_padre).addClass('msj_error_exist');
 
                     });
                     $("#form-" + _path_controller_modulo_padre + " .msj_error_exist").first().popover('show');

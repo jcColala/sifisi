@@ -69,11 +69,11 @@ class Modulo_padreController extends Controller
             'icono'=>'required',
             'orden'=>'required|integer'
             ],[
-            "descripcion.required"=>"Ingresar el nombre del modulo padre",
-            "abreviatura.required"=>"Ingresar la abreviatura del sistema",
-            "icono.required"=>"Ingresar el icono del sistema",
-            "orden.required"=>"Ingresar el orden",
-            "orden.integer"=>"El orden debe tener un valor numerico entero"
+            "descripcion.required"=>"Ingresar el nombre del modulo padre.",
+            "abreviatura.required"=>"Ingresar la abreviatura del sistema.",
+            "icono.required"=>"Ingresar el icono del sistema.",
+            "orden.required"=>"Ingresar el orden.",
+            "orden.integer"=>"El orden debe tener un valor numerico entero."
         ]);
 
         return DB::transaction(function() use ($request){

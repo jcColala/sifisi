@@ -53,7 +53,7 @@
 								<div class="input-group-append">
 									<button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle borderrad_tb"> Buscar</button>
 									<div class="dropdown-menu dropdown-menu-right search_icono">
-										@include('extras.iconos',['idicono' => 'icono'])
+										@include('extras.iconos',['idicono' => 'icono', 'modulo' => $pathController, 'prefix' => $prefix])
 									</div>
 								</div>
 								<span class="icono_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extra" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
