@@ -167,6 +167,10 @@ table.dataTable tbody tr.selected {
     background-color: var(--color_principal_bajo);
     color: var(--color_principal);
 }
+.card_options .btn-list{
+    /*display: contents;
+    align-content: center;*/
+}
 
 /*--------------------------------------------------------------- form*/
 .modal_body {

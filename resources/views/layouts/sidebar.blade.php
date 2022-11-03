@@ -20,29 +20,9 @@
             </div>
         </div>
     </div>
-    <!--<div class="sidebar-navs">
-        <ul class="nav  nav-pills-circle justify-content-center">
-            <li class="nav-item" data-toggle="tooltip" data-placement="top" title="Settings">
-                <a class="nav-link text-center m-2">
-                    <i class="fe fe-settings"></i>
-                </a>
-            </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="top" title="Followers">
-                <a class="nav-link text-center m-2">
-                    <i class="fe fe-user"></i>
-                </a>
-            </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="top" title="Logout">
-                <a class="nav-link text-center m-2">
-                    <i class="fe fe-power"></i>
-                </a>
-            </li>
-        </ul>
-    </div>-->
     <ul class="side-menu">
 
         <li><h3>Modulos</h3></li>
-
         @foreach ($menu as $key => $row)
             <li class="slide">
             @if(count($row['submenu']) > 0)
@@ -55,8 +35,8 @@
             @endif
             </li>
         @endforeach
-        <li><h3>Extras</h3></li>
 
+        <li><h3>Extras</h3></li>
         <li>
             <a class="side-menu__item" href="{{ route('404') }}"><i class="side-menu__icon ti-info-alt"></i><span class="side-menu__label">Error 404</span></a>
         </li>

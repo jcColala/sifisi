@@ -35,7 +35,8 @@ function get_modulos(idmodulo_padre) {
             let list = []
             var seleccion__ = -1
             let selected__ = ""
-            list = "<option label='Selecciona el padre'></option>";
+            list  = "<option label='Selecciona el padre'></option>";
+            list += "<option value=' '>Soy padre</option>";
 
             if (data_form != [])
                 seleccion__ = data_form["idpadre"]
