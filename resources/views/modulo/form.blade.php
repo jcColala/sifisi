@@ -15,19 +15,20 @@
    					<input type="hidden" name="id" id="id_{{$prefix}}" >
    					<div class="form-group form-row">
    						<div class="col-md-6">
-   							<div class="input-group mt-10px">
-								<select class="form-control select2-show-search" id="idmodulo_padre_{{$prefix}}" name="idmodulo_padre" data-placeholder="Selecciona el módulo Padre*" style="width:100%;" >
-									<option label="Selecciona el módulo Padre"></option>
+   							<div class="select2-idmodulo_padre_{{$prefix}} div-select2 input-group mt-10px">
+								<select class="form-control select2-show-search" id="idmodulo_padre_{{$prefix}}" name="idmodulo_padre" data-placeholder="Selecciona el módulo padre*" style="width:100%;" >
+									<option label="Selecciona el módulo padre"></option>
 									@foreach($modulo_padre as $value)
 		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
 		                        	@endforeach
 								</select>
+								<span class="idmodulo_padre_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 							</div>
                         </div>
                         <div class="col-md-6">
-   							<div class="input-group mt-10px">
-								<select class="form-control select2-show-search" id="idpadre_{{$prefix}}" name="idpadre" data-placeholder="Selecciona el Padre" style="width:100%;" >
-									<option label="Selecciona el Padre"></option>
+   							<div class="div-select2 input-group mt-10px">
+								<select class="form-control select2-show-search" id="idpadre_{{$prefix}}" name="idpadre" data-placeholder="Selecciona el padre" style="width:100%;" >
+									<option label="Selecciona el padre"></option>
 								</select>
 							</div>
                         </div>
@@ -38,7 +39,7 @@
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
                                     </span>
-                                    <span class="descripcion_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+                                    <span class="modulo_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
                         </div>
 						<div class="col-md-6">
@@ -70,7 +71,7 @@
 								<div class="input-group-append">
 									<button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle borderrad_tb"> Buscar</button>
 									<div class="dropdown-menu dropdown-menu-right search_icono">
-										@include('extras.iconos',['idicono' => 'icono'])
+										@include('extras.iconos',['idicono' => 'icono', 'modulo' => $pathController, 'prefix' => $prefix])
 									</div>
 								</div>
 								<span class="icono_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extra" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
@@ -86,6 +87,15 @@
                                     <span class="orden_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
                         </div>
+                        <div class="col-md-5">
+                        	<div class="input-group mt-10px">
+                        		<label class="custom-switch mt-10px pl-2px">
+									<input type="checkbox" class="custom-switch-input" id="acceso_directo_{{$prefix}}">
+									<span id="foracceso_directo_{{$prefix}}" class="custom-switch-indicator">si</span>
+									<span class="custom-switch-description"> ¿Acceso Directo?</span>
+								</label>
+                        	</div>
+                    	</div>
 					</div>
 				</div>
 				<div class="modal-footer border-0">

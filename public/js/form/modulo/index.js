@@ -33,7 +33,7 @@ const load_datatable = () => {
                 searchable: false,
                 render: function(data, type, row) {
                     if (data) {
-                        return 'State is ' + data
+                        return data
                     }
                     return '';
                 }

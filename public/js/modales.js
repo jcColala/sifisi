@@ -2,8 +2,8 @@
 let selected = ""
 let data_form = ""
 let btn_el_rest = "#btn-delete_restore"
-let msj_sesion  = "La sesión ya expiró, por favor cierre sesión y vuelva a ingresar"
-let msj_soporte  = "Hubo problemas internos, por favor comunicate de inmediato con SOPORTE"
+let msj_sesion = "La sesión ya expiró, por favor cierre sesión y vuelva a ingresar"
+let msj_soporte = "Hubo problemas internos, por favor comunicate de inmediato con SOPORTE"
 csrf_token($('meta[name="csrf-token"]').attr('content'))
 
 
@@ -216,13 +216,16 @@ const get_modal = (_paht, _prefix, funcion = "create", id = null) => {
         success: function(response) {
             $("#div_md-" + _paht).html(response)
 
-            if (data_form != [])
+            if (data_form != []) {
                 $.each(data_form, function(key, val) {
-                    $("#" + key+"_"+_prefix, "#form-" + _paht).val(val)
+                    $("#" + key + "_" + _prefix, "#form-" + _paht).val(val)
 
                     if (key == "icono" | key == "icon")
                         set_icono(key, val, _paht)
                 })
+                if (typeof init === 'function')
+                    init()
+            }
         },
         complete: function() {
             $("#md-" + _paht).modal('toggle')
@@ -244,15 +247,15 @@ const close_modal = (_paht) => {
 //------------------------------------------------------------- Acciones modal
 const md_guardar = (e, obj) => {
     e.preventDefault()
-    let accion = ($("#"+obj).attr('data-acciones')).split('-')
+    let accion = ($("#" + obj).attr('data-acciones')).split('-')
     form.get(accion[1]).guardar()
 }
 
 //------------------------------------------------------------- Selec icono
-const selecionar_icono = (e, obj, _key, _paht, id_icono) => {
+const selecionar_icono = (e, obj, __key, __paht, id_icono, __prefix) => {
     let class_icono = obj.getElementsByTagName("i")[0].getAttribute('class')
-    set_icono(_key, class_icono, _paht)
-    $("#" + id_icono).val(class_icono)
+    set_icono(__key, class_icono, __paht)
+    $("#" + id_icono +"_"+__prefix).val(class_icono)
 }
 
 //------------------------------------------------------------- Ver icono
@@ -269,6 +272,7 @@ const limpieza = (_paht) => {
     $(id + " .msj_error").addClass("d-none");
     $(id + " .msj_error").removeClass("msj_error_exist");
     $(id + " input").removeClass("is_invalid");
+    $(id + ' .select2-is_invalid').removeClass('select2-is_invalid');
 
 }
 

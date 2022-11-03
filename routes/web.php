@@ -40,6 +40,7 @@ Route::group(["middleware"=>"auth"], function(){
     //------------------------------------------------------------------------------------------------ Modulo
     Route::resource('modulo', ModuloController::class)->only("index","create", "store","edit", "destroy");
     Route::get('modulo/grilla',[ModuloController::class, 'grilla'])->name('modulo.grilla');
+    Route::get('modulo/get_modulos',[ModuloController::class, 'get_modulos'])->name('modulo.get_modulos');
 
     //------------------------------------------------------------------------------------------------ Modulo padre
     Route::resource('modulo_padre', Modulo_padreController::class)->only("index","create", "store","edit", "destroy");

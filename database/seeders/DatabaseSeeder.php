@@ -111,7 +111,7 @@ class DatabaseSeeder extends Seeder
         $data->idpersona    = 1;
         $data->idperfil     = 1;
         $data->usuario      = "admin";
-        $data->password     = Hash::make("fias123.123w");
+        $data->password     = Hash::make("12tres");
         $data->save();
 
          //------------------------------------------------------- Mod Padre
@@ -119,25 +119,54 @@ class DatabaseSeeder extends Seeder
         $data->descripcion  = "Seguridad";
         $data->abreviatura  = "Seg";
         $data->url          = "#";
-        $data->icono        = "fa fa ti-lock";
+        $data->icono        = "ti-lock";
         $data->orden        = 1;
         $data->save();
 
+        $data = new Modulo_padre();
+        $data->descripcion  = "Gestion de calidad";
+        $data->abreviatura  = "SGC";
+        $data->url          = "#";
+        $data->icono        = "ti-folder";
+        $data->orden        = 2;
+        $data->save();
+
         //facker
-        $faker = Facker::create();
-        $int   = 1;
-        foreach(range(1,500) as $value) {
+        //$faker = Facker::create();
+        //$int   = 1;
+        //foreach(range(1,500) as $value) {
         
-            //------------------------------------------------------- Modulo
-            $data = new Modulo();
-            $data->idmodulo_padre   = 1;
-            $data->idpadre          = null;
-            $data->modulo           = $faker->name;
-            $data->abreviatura      = "";
-            $data->url              = null;
-            $data->icono            = null;
-            $data->orden            = $int++;
-            $data->save();
-        }
+        //------------------------------------------------------- Modulo
+        $data = new Modulo();
+        $data->idmodulo_padre   = 1;
+        $data->idpadre          = null;
+        $data->modulo           = "Modulo padre";
+        $data->abreviatura      = "";
+        $data->url              = "modulo_padre";
+        $data->icono            = null;
+        $data->orden            = 1;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 1;
+        $data->idpadre          = null;
+        $data->modulo           = "Modulo";
+        $data->abreviatura      = "";
+        $data->url              = "modulo";
+        $data->icono            = null;
+        $data->orden            = 2;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Preceso nivel cero";
+        $data->abreviatura      = "";
+        $data->url              = "proceso_cero";
+        $data->icono            = null;
+        $data->orden            = 1;
+        $data->save();
+
+        //}
     }
 }

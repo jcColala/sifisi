@@ -31,11 +31,10 @@ class ModuloController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "modulo";
-        $datos["modulo_padre"]      = Modulo_padre::withTrashed()->get();
+        $datos["modulo_padre"]      = Modulo_padre::get();
         $datos["data"]              = [];
         if( $id != null )
             $datos["data"]          = Modulo::withTrashed()->find($id);
-
         return $datos;
     }
 
@@ -51,7 +50,7 @@ class ModuloController extends Controller
                     return "<i class='{$objeto->icono}'></i>";
                 })
                 ->addColumn("activo", function($row){
-                    return (is_null($row->deleted_at))?"<span class='dot-label bg-success'></span>":"<span class='dot-label bg-danger'></span>";
+                    return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
                 })
                 ->rawColumns(['icono', "activo"])
                 ->make(true);
@@ -62,24 +61,32 @@ class ModuloController extends Controller
     }
 
     public function store(Request $request){
-
-        dd($request);
-        
         $this->validate($request,[
-            "codsistema"=>"required",
-            "modulos"=>"required",
+            "idmodulo_padre"=>"required",
+            "modulo"=>"required",
             "abreviatura"=>"required",
             "orden"=>"required|integer",
-            "icono"=>"required",
+            "url"=>"required",
         ],[
-            "codsistema.required"=>"El campo Sistema es obligatorio",
-            "orden.required"=>"Ingrese el orden"
+            "idmodulo_padre.required"=>"Ingrese el Módulo padre.",
+            "orden.required"=>"Ingrese el orden.",
+            "orden.integer"=>"El orden debe tener un valor numerico entero."
         ]);
+
+        return DB::transaction(function() use ($request){
+            $obj        = Modulo::withTrashed()->find($request->id);
+
+            if(is_null($obj))
+                $obj    = new Modulo();
+            $obj->fill($request->all());
+            $obj->save();
+            return response()->json($obj);
+        });
 
     }
 
     public function edit($id){ 
-        $data  = Modulo::withTrashed()->find($id);
+        $data   = Modulo::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
@@ -91,5 +98,12 @@ class ModuloController extends Controller
         }
         Modulo::withTrashed()->find($request->id)->restore();
         return response()->json();        
+    }
+
+    public function get_modulos(Request $request){
+        $obj  = Modulo::where("idmodulo_padre", $request->idmodulo_padre)->get();
+        if( $request->id != null)
+            $obj = Modulo::where("idmodulo_padre", $request->idmodulo_padre)->where("id", "!=", $request->id)->get();        
+        return response()->json($obj);
     }
 }
