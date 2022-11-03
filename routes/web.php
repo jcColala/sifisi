@@ -58,6 +58,9 @@ Route::group(["middleware"=>"auth"], function(){
     Route::resource('proceso_cero', Proceso_ceroController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('proceso_cero/grilla',[Proceso_ceroController::class, 'grilla'])->name('proceso_cero.grilla');
 
+    Route::get('entidades', function(){echo "a";})->name('entidades.index');
+    Route::get('movimientos', function(){echo "a";})->name('movimientos.index');
+
     Route::resource('proceso_uno', Proceso_unoController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('proceso_uno/{id}', [Proceso_unoController::class, 'index']);
     Route::get('proceso_uno/grilla',[Proceso_unoController::class, 'grilla'])->name('proceso_uno.grilla');

@@ -13,7 +13,7 @@ class CreateMovProcesoUnoIndicador extends Migration
      */
     public function up()
     {
-        Schema::create('movsgc.mov_proceso_uno_indicador', function (Blueprint $table) {
+        Schema::create('movsgc.mov_indicador', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });

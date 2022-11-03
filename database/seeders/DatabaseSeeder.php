@@ -161,11 +161,42 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
-        $data->modulo           = "Preceso nivel cero";
-        $data->abreviatura      = "";
-        $data->url              = "proceso_cero";
+        $data->modulo           = "Tipo Proceso";
+        $data->abreviatura      = "SGC_TP";
+        $data->url              = "tipo_proceso";
         $data->icono            = null;
         $data->orden            = 1;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Entidades";
+        $data->abreviatura      = "SGC_E";
+        $data->url              = "entidades";
+        $data->icono            = null;
+        $data->orden            = 2;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Preceso nivel cero";
+        $data->abreviatura      = "SGC_P0";
+        $data->url              = "proceso_cero";
+        $data->icono            = null;
+        $data->orden            = 3;
+        $data->save();
+
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Movimientos";
+        $data->abreviatura      = "SGC_MOV";
+        $data->url              = "movimientos";
+        $data->icono            = null;
+        $data->orden            = 4;
         $data->save();
 
         //}
@@ -185,6 +216,18 @@ class DatabaseSeeder extends Seeder
 
         $data = new Accesos();
         $data->idmodulo   = 3;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 4;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 5;
         $data->idperfil   = 1;
         $data->acceder    = 1;
         $data->save();
