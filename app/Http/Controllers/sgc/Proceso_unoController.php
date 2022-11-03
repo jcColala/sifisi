@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class Proceso_ceroController extends Controller
+class Proceso_unoController extends Controller
 {
-    public $modulo                  = "Procesos de Nivel Cero";
-    public $path_controller         = "proceso_cero";
+    public $modulo                  = "Procesos de Nivel 1";
+    public $path_controller         = "proceso_uno";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -41,13 +41,14 @@ class Proceso_ceroController extends Controller
         return $datos;
     }
 
-    public function index(){
-        return view("{$this->path_controller}.index", $this->form());
+    public function index($id = null){
+        if(empty($id))
+            return redirect('proceso_cero');
+        return view("{$this->path_controller}.index", $this->form($id));
     }
 
     public function grilla(){
-        //withTrashed
-        $objeto = Proceso_cero::orderBy('id', 'asc')->withTrashed();
+        $objeto = Proceso_cero::withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){

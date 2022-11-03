@@ -13,7 +13,7 @@
 				<div class="card-options">
 					<div class="btn-list">
 						<!-- START Botones-->
-						@include('proceso_cero.botonIr')
+						@include('proceso_uno.botonIr')
 						@include('extras.botones')
 						<!-- END Botones-->
 					</div>

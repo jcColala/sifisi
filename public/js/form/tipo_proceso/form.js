@@ -3,12 +3,12 @@ const text_icono = (e, obj, _key, _paht) => {
     set_icono(_key, valor, _paht)
 }
 
-form.register(_path_controller_proceso_cero, {
+form.register(_path_controller_tipo_proceso, {
     nuevo: function() {
-        get_modal(_path_controller_proceso_cero,_prefix_proceso_cero)
+        get_modal(_path_controller_tipo_proceso,_prefix_tipo_proceso)
     },
     editar: function(id) {
-        get_modal(_path_controller_proceso_cero, _prefix_proceso_cero, "edit", id)
+        get_modal(_path_controller_tipo_proceso, _prefix_tipo_proceso, "edit", id)
     },
     eliminar_restaurar: function(id, obj) {
         var $self = this
@@ -18,7 +18,7 @@ form.register(_path_controller_proceso_cero, {
         swal({ title: "Confirmar", text: "¿Desea " + accion__ + " el registro seleccionado?", type: "warning", showCancelButton: !0, confirmButtonText: "Confirmar", cancelButtonText: "Cancelar" }, function() {
 
             $.ajax({
-                url: route(_path_controller_proceso_cero + '.destroy', 'delete'),
+                url: route(_path_controller_tipo_proceso + '.destroy', 'delete'),
                 data: { id: id, accion: accion__ },
                 type: 'DELETE',
                 beforeSend: function() {
@@ -54,11 +54,11 @@ form.register(_path_controller_proceso_cero, {
     },
     guardar: function() {
         var $self = this;
-        let _form = "#form-" + _path_controller_proceso_cero
+        let _form = "#form-" + _path_controller_tipo_proceso
         let post_data = $(_form).serialize()
 
         $.ajax({
-            url: route(_path_controller_proceso_cero + '.store'),
+            url: route(_path_controller_tipo_proceso + '.store'),
             type: 'POST',
             data: post_data,
             cache: false,
@@ -67,10 +67,10 @@ form.register(_path_controller_proceso_cero, {
                 //loading();
             },
             success: function(response) {
-                //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_proceso_cero, {"timeOut":500000,"tapToDismiss": false})
+                //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_tipo_proceso, {"timeOut":500000,"tapToDismiss": false})
                 toastr.success('Datos grabados correctamente', 'Notificación Procesos Nivel Cero')
                 $self.callback(response)
-                close_modal(_path_controller_proceso_cero)
+                close_modal(_path_controller_tipo_proceso)
             },
             complete: function() {
                 //loading("complete");
@@ -79,15 +79,15 @@ form.register(_path_controller_proceso_cero, {
 
                 //Msj($("#descripcion"), "Ingrese Descripcion ","","above",false)
                 if (e.status == 422) { //Errores de Validacion
-                    limpieza(_path_controller_proceso_cero);
+                    limpieza(_path_controller_tipo_proceso);
                     $.each(e.responseJSON.errors, function(i, item) {
-                        $('#' + i+"_"+_prefix_proceso_cero).addClass('is_invalid');
-                        $('.' + i+"_"+_prefix_proceso_cero).removeClass('d-none');
-                        $('.' + i+"_"+_prefix_proceso_cero).attr('data-content', item);
-                        $('.' + i+"_"+_prefix_proceso_cero).addClass('msj_error_exist');
+                        $('#' + i+"_"+_prefix_tipo_proceso).addClass('is_invalid');
+                        $('.' + i+"_"+_prefix_tipo_proceso).removeClass('d-none');
+                        $('.' + i+"_"+_prefix_tipo_proceso).attr('data-content', item);
+                        $('.' + i+"_"+_prefix_tipo_proceso).addClass('msj_error_exist');
 
                     });
-                    $("#form-" + _path_controller_proceso_cero + " .msj_error_exist").first().popover('show');
+                    $("#form-" + _path_controller_tipo_proceso + " .msj_error_exist").first().popover('show');
 
 
                 } else if (e.status == 419) {
@@ -100,6 +100,6 @@ form.register(_path_controller_proceso_cero, {
 
     },
     callback: function(data) {
-        grilla.reload(_path_controller_proceso_cero);
+        grilla.reload(_path_controller_tipo_proceso);
     }
 });

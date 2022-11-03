@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
-use App\Models\Proceso_cero;
+use App\Models\SGCTipoProceso;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class Proceso_ceroController extends Controller
+class TipoProcesoController extends Controller
 {
-    public $modulo                  = "Procesos de Nivel Cero";
-    public $path_controller         = "proceso_cero";
+    public $modulo                  = "Tipos de Procesos";
+    public $path_controller         = "tipo_proceso";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -23,7 +23,7 @@ class Proceso_ceroController extends Controller
     public $dataTableServer         = null;
 
     public function __construct(){
-        $this->model                = new Proceso_cero();
+        $this->model                = new SGCTipoProceso();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
 
@@ -36,7 +36,7 @@ class Proceso_ceroController extends Controller
         $datos["prefix"]            = "";
         $datos["data"]              = [];
         if( $id != null )
-            $datos["data"]          = Proceso_cero::withTrashed()->find($id);
+            $datos["data"]          = SGCTipoProceso::withTrashed()->find($id);
 
         return $datos;
     }
@@ -47,7 +47,7 @@ class Proceso_ceroController extends Controller
 
     public function grilla(){
         //withTrashed
-        $objeto = Proceso_cero::orderBy('id', 'asc')->withTrashed();
+        $objeto = SGCTipoProceso::orderBy('id', 'asc')->withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -67,15 +67,17 @@ class Proceso_ceroController extends Controller
     public function store(Request $request){
         $this->validate($request,[
             'descripcion'=>'required',
+            'codigo' => 'required'
             ],[
-            "descripcion.required"=>"Ingresar el nombre del Proceso de Nivel Cero",
+            "descripcion.required"=>"Ingresar el nombre del Tipo de Proceso",
+            "codigo.required"=>"Ingresar el Código del Tipo de Proceso",
         ]);
 
         return DB::transaction(function() use ($request){
-            $obj        = Proceso_cero::withTrashed()->find($request->id);
+            $obj = SGCTipoProceso::withTrashed()->find($request->id);
 
             if(is_null($obj))
-                $obj    = new Proceso_cero();
+                $obj = new SGCTipoProceso();
             $obj->fill($request->all());
             $obj->save();
             return response()->json($obj);
@@ -84,21 +86,21 @@ class Proceso_ceroController extends Controller
     }
 
     public function edit($id){ 
-        $data  = Proceso_cero::withTrashed()->find($id);
+        $data  = SGCTipoProceso::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
     public function destroy(Request $request){
 
-        /*$obj = Proceso_cero::withTrashed()->where("id",$request->id)->with("proceso_uno")->first();
+        /*$obj = SGCTipoProceso::withTrashed()->where("id",$request->id)->with("proceso_uno")->first();
         if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
         if ($request->accion == "eliminar") {
-            Proceso_cero::find($request->id)->delete();
+            SGCTipoProceso::find($request->id)->delete();
             return response()->json();
         }
-        Proceso_cero::withTrashed()->find($request->id)->restore();
+        SGCTipoProceso::withTrashed()->find($request->id)->restore();
         return response()->json();        
     }
 }
