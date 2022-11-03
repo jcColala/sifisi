@@ -15,7 +15,9 @@ use App\Models\Perfil;
 use App\Models\User;
 use App\Models\Modulo_padre;
 use App\Models\Modulo;
+use App\Models\MOVSGCMov_estado;
 use App\Models\Accesos;
+use App\Models\SGCEstado;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 Use Faker\Factory as Facker;
@@ -230,6 +232,32 @@ class DatabaseSeeder extends Seeder
         $data->idmodulo   = 5;
         $data->idperfil   = 1;
         $data->acceder    = 1;
+        $data->save();
+
+        //--------------------------------------------------MOVSGC
+        $data = new MOVSGCMov_estado();
+        $data->descripcion= 'Pendiente';
+        $data->save();
+
+        $data = new MOVSGCMov_estado();
+        $data->descripcion= 'Aceptado';
+        $data->save();
+
+        $data = new MOVSGCMov_estado();
+        $data->descripcion= 'Rechazado';
+        $data->save();
+
+        
+        $data = new SGCEstado();
+        $data->descripcion= 'Pendiente';
+        $data->save();
+
+        $data = new SGCEstado();
+        $data->descripcion= 'Aceptado';
+        $data->save();
+
+        $data = new SGCEstado();
+        $data->descripcion= 'Rechazado';
         $data->save();
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class MOVSGCTipoProceso extends Model
+class MOVSGCMov_tipo_proceso extends Model
 {
     use SoftDeletes;
 
@@ -22,9 +22,6 @@ class MOVSGCTipoProceso extends Model
         'deleted_at'
     ];
 
-    public function procesos_cero(){
-        return $this->hasMany(SGCProceso_cero::class);
-    }
 
     public function getTableName(){
         return (explode(".", $this->table))[1];

@@ -11,6 +11,7 @@
 				</button>
 			</div>
 			<form id="form-{{$pathController}}" onsubmit="md_guardar(event,'btn-save')" >
+				<input type="hidden" name="idpersona_solicita" value=" {{auth()->user()->persona->dni}}" id="idpersona_solicita_{{$prefix}}" >
 				<div class="modal-body modal_body">
    					<input type="hidden" name="id" id="id_{{$prefix}}" >
    					<div class="form-group form-row">

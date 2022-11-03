@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMovComisionIntegrantesTable extends Migration
+class CreateMovEntidadIntegrantesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -38,6 +38,6 @@ class CreateMovComisionIntegrantesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mov_comision_integrantes');
+        Schema::dropIfExists('mov_entidad_integrantes');
     }
 }

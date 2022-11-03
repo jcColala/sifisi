@@ -16,10 +16,10 @@ class CreateMovTipoProcesoTable extends Migration
         Schema::create('movsgc.mov_tipo_proceso', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion', 120);
-            $table->string('abrev', 20);
+            $table->string('codigo', 20);
             $table->unsignedBigInteger('idpersona_solicita');
-            $table->unsignedBigInteger('idpersona_aprueba');
-            $table->unsignedBigInteger('idestado');
+            $table->unsignedBigInteger('idpersona_aprueba')->nullable();
+            $table->unsignedBigInteger('idestado')->default(1);
             $table->softDeletes();
             $table->timestamps();
 

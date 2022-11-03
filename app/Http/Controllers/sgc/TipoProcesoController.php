@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
 use App\Models\SGCTipoProceso;
+use App\Models\MOVSGCMov_tipo_proceso;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -74,6 +75,13 @@ class TipoProcesoController extends Controller
         ]);
 
         return DB::transaction(function() use ($request){
+            $obj_mov = MOVSGCMov_tipo_proceso::withTrashed()->find($request->id);
+
+            if(is_null($obj_mov))
+                $obj_mov = new MOVSGCMov_tipo_proceso();
+            $obj_mov->fill($request->all());
+            $obj_mov->save();
+
             $obj = SGCTipoProceso::withTrashed()->find($request->id);
 
             if(is_null($obj))
