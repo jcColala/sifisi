@@ -23,11 +23,13 @@ class CreateMovProcesoCeroTable extends Migration
             $table->unsignedBigInteger('idcargo_elaborado');
             $table->unsignedBigInteger('idcargo_revisado');
             $table->unsignedBigInteger('idcargo_aprobado');
+            $table->string('codigo', 20);
+            $table->text('descripcion');
             $table->float('version');
             $table->date('fecha_aprobado');
             $table->text('objetivo');
             $table->text('alcance');
-            $table->text('diagrama');
+            $table->text('diagrama')->default('hola buenas tardes');
             $table->softDeletes();
             $table->timestamps();
 

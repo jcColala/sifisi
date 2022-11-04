@@ -15,7 +15,7 @@
    					<input type="hidden" name="id" id="id_{{$prefix}}" >
 					<input type="hidden" name="idpersona_solicita" value=" {{auth()->user()->persona->dni}}" id="idpersona_solicita_{{$prefix}}" >
    					<div class="form-group form-row">
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="version_{{$prefix}}" name="version" placeholder="Version*">
                                     <span class="focus-input100"></span>
@@ -26,7 +26,7 @@
                             </div>
                         </div>
 
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="date" class="input100" id="fecha_aprobado_{{$prefix}}" name="fecha_aprobado" placeholder="Fecha de Aprobación*">
                                     <span class="focus-input100"></span>
@@ -37,7 +37,19 @@
                             </div>
                         </div>
 
-						<div class="col-md-3">
+						<div class="col-md-4">
+   							<div class="select2-idcargo_responsable_{{$prefix}} div-select2 input-group mt-10px">
+								<select class="form-control select2-show-search" id="idcargo_responsable_{{$prefix}}" name="idcargo_responsable" data-placeholder="Selecciona el Responsable del Proceso*" style="width:100%;" >
+									<option label="Selecciona el Responsable del Proceso"></option>
+									@foreach($entidades as $value)
+		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
+		                        	@endforeach
+								</select>
+								<span class="idcargo_responsable_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+							</div>
+                        </div>
+
+						<div class="col-md-4">
    							<div class="select2-idtipo_proceso_{{$prefix}} div-select2 input-group mt-10px">
 								<select class="form-control select2-show-search" id="idtipo_proceso_{{$prefix}}" name="idtipo_proceso" data-placeholder="Selecciona el Tipo de Proceso*" style="width:100%;" >
 									<option label="Selecciona el Tipo de Proceso"></option>
@@ -49,16 +61,26 @@
 							</div>
                         </div>
 
-						<div class="col-md-3">
-   							<div class="select2-idcargo_responsable_{{$prefix}} div-select2 input-group mt-10px">
-								<select class="form-control select2-show-search" id="idcargo_responsable_{{$prefix}}" name="idcargo_responsable" data-placeholder="Selecciona el Responsable del Proceso*" style="width:100%;" >
-									<option label="Selecciona el Responsable del Proceso"></option>
-									@foreach($entidades as $value)
-		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
-		                        	@endforeach
-								</select>
-								<span class="idcargo_responsable_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
+						<div class="col-md-2">
+							<div class="wrap-input100 mrginput100 validate-input">
+                                    <input type="text" class="input100" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="codigo_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+                            </div>
+                        </div>
+
+						<div class="col-md-6">
+							<div class="wrap-input100 mrginput100 validate-input">
+                                    <input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Nombre del Proceso*">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="descripcion_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+                            </div>
                         </div>
 
 						<div class="col-md-12">
@@ -86,7 +108,7 @@
 						<div class="col-md-12">AQUI IRÁ EL DETALLE (CADA PROCESO NIVEL 1 QUE COMPONE EL NIVEL 0 Y SUS INDICADORES)</div>
 						
 						
-						<div class="col-md-12">
+						<!--<div class="col-md-12">
 							<div class="wrap-input100 mrginput100 validate-input">
 								<span>Diagrama del Proceso</span>
                                     <input type="file" class="input100" id="diagrama_{{$prefix}}" name="diagrama" placeholder="Diagrama del Proceso*">
@@ -96,7 +118,7 @@
                                     </span>
                                     <span class="diagrama_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
-                        </div>
+                        </div>-->
 
 						<div class="col-md-4">
    							<div class="select2-idcargo_elaborado_{{$prefix}} div-select2 input-group mt-10px">
@@ -147,6 +169,19 @@
 <script type="text/javascript">
 	data_form = @json($data);
 </script>
+<script type="text/javascript">
+$(document).ready(function () {
+	$('#idtipo_proceso_').change(function(e){
+		let tipo_proceso = @json($tipo_proceso);
+		tipo_proceso.map((e) => {
+			if(e.id == $(this).val()){
+				$('#codigo_').val(e.codigo);
+			}
+		});
+	});
+});
+</script>
+
 <script src='{{asset("js/form/$pathController/script.js")}}'></script>
 <script src='{{asset("js/custom.js")}}'></script>
 <script src="{{asset('js/form-elements.js')}}"></script>

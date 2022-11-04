@@ -51,7 +51,11 @@ class Proceso_ceroController extends Controller
 
     public function grilla(){
         //withTrashed
-        $objeto = SGCProceso_cero::orderBy('id', 'asc')->withTrashed();
+        $objeto = SGCProceso_cero::
+            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.proceso_cero.idestado')
+            ->select('sgc.proceso_cero.id as id', 'sgc.proceso_cero.descripcion as descripcion', 'sgc.proceso_cero.codigo as codigo', 'sgc.estado.descripcion as estado')
+            ->orderBy('id', 'asc')
+            ->get();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -70,9 +74,29 @@ class Proceso_ceroController extends Controller
 
     public function store(Request $request){
         $this->validate($request,[
-            'descripcion'=>'required',
+            'version'=>'required',
+            'fecha_aprobado'=>'required',
+            'idcargo_responsable'=>'required',
+            'idtipo_proceso'=>'required',
+            'codigo'=> 'required',
+            'descripcion' => 'required',
+            'objetivo'=>'required',
+            'alcance'=>'required',
+            'idcargo_elaborado'=>'required',
+            'idcargo_revisado'=>'required',
+            'idcargo_aprobado'=>'required',
             ],[
-            "descripcion.required"=>"Ingresar el nombre del Proceso de Nivel Cero",
+            "version.required"=>"Ingresar la versión de la ficha de procesos",
+            'fecha_aprobado' => 'Ingresar la fecha de aprobación',
+            'idtipo_proceso' => 'Seleccione el tipo de proceso',
+            'codigo'=> 'Escriba el código del proceso',
+            'descripcion' => 'Escriba el Nombre del Proceso',
+            'idcargo_responsable' => 'Seleccione el responsable del proceso',
+            'objetivo' => 'Escribe el objetivo del proceso',
+            'alcance' => 'Escribe el alcance del proceso',
+            'idcargo_elaborado' => 'Seleccione el que elaboró el proceso',
+            'idcargo_revisado' => 'Seleccione el que revisó el proceso',
+            'idcargo_aprobado' => 'Seleccione el que aprobó el proceso',
         ]);
 
         return DB::transaction(function() use ($request){

@@ -14,25 +14,21 @@ class SGCProceso_cero extends Model
     protected $primaryKey   = "id";
 
     protected $fillable = [
+        'idestado',
+        'idpersona_solicita',
+        'idpersona_aprueba',
         'idtipo_proceso',
+        'idcargo_responsable',
+        'idcargo_elaborado',
+        'idcargo_revisado',
+        'idcargo_aprobado',
+        'codigo',
         'descripcion',
-        'abrev',
         'version',
-        'responsable',
+        'fecha_aprobado',
         'objetivo',
         'alcance',
-        'objetivo',
-        'alcance',
-        'proveedores',
-        'entradas',
-        'salidas',
-        'clientes',
-        'nombre_elaborado',
-        'nombre_revisado',
-        'nombre_aprobado',
-        'cargo_elaborado',
-        'cargo_revisado',
-        'cargo_aprobado',
+        'diagrama',
         'deleted_at'
     ];
 

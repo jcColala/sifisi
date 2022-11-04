@@ -28,7 +28,12 @@ const load_datatable = () => {
                 searchable: true
             },
             {
-                data: 'activo',
+                data: 'codigo',
+                orderable: false,
+                searchable: true
+            },
+            {
+                data: 'estado',
                 orderable: false,
                 searchable: true,
                 className: "text-center"
