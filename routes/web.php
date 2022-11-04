@@ -3,10 +3,10 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\Modulo_padreController;
+use App\Http\Controllers\sgc\EntidadController;
 use App\Http\Controllers\sgc\Proceso_ceroController;
 use App\Http\Controllers\sgc\Proceso_unoController;
 use App\Http\Controllers\sgc\TipoProcesoController;
-use App\Models\Proceso_cero;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,11 +54,14 @@ Route::group(["middleware"=>"auth"], function(){
     Route::resource('tipo_proceso', TipoProcesoController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('tipo_proceso/grilla',[TipoProcesoController::class, 'grilla'])->name('tipo_proceso.grilla');
 
+    Route::resource('entidades', EntidadController::class)->only('index', 'create', 'store', 'edit', 'destroy');
+    Route::get('entidades/grilla',[EntidadController::class, 'grilla'])->name('entidades.grilla');
+
 
     Route::resource('proceso_cero', Proceso_ceroController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('proceso_cero/grilla',[Proceso_ceroController::class, 'grilla'])->name('proceso_cero.grilla');
 
-    Route::get('entidades', function(){echo "a";})->name('entidades.index');
+    
     Route::get('movimientos', function(){echo "a";})->name('movimientos.index');
 
     Route::resource('proceso_uno', Proceso_unoController::class)->only("index", "create", "store", "edit", "destroy");

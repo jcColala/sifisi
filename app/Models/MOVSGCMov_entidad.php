@@ -6,18 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class MOVSGCMov_comision extends Model
+class MOVSGCMov_entidad extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "movsgc.mov_comision";
+    protected $table        = "movsgc.mov_entidad";
     protected $primaryKey   = "id";
 
     protected $fillable = [
-        'identidad',
         'idestado',
-        'idusuario_solicita',
-        'idusuario_aprueba',
+        'idpersona_solicita',
+        'idpersona_aprueba',
         'descripcion',
         'deleted_at'
     ];

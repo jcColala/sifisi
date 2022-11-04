@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class MOVSGCMov_comision_integrantes extends Model
+class MOVSGCMov_entidad_integrantes extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "movsgc.mov_comision_integrantes";
+    protected $table        = "movsgc.mov_entidad_integrantes";
     protected $primaryKey   = "id";
 
     protected $fillable = [

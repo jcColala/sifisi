@@ -13,7 +13,6 @@
 				<div class="card-options card_options">
 					<div class="btn-list">
 						<!-- START Botones-->
-						@include('proceso_uno.botonIr')
 						@include('extras.botones')
 						<!-- END Botones-->
 					</div>
@@ -25,8 +24,9 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="50%">Proceso Nivel Cero</th>
-								<th width="05%">Estado</th>
+								<th width="30%">Entidad</th>	
+								<th width="10%">Estado</th>
+								<th width="05%"></th>
 							</tr>
 						</thead>
 						<tbody>

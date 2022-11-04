@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
+use App\Models\SGCEntidad;
 use App\Models\SGCProceso_cero;
+use App\Models\SGCTipoProceso;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -34,6 +36,8 @@ class Proceso_ceroController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
+        $datos["tipo_proceso"]      = SGCTipoProceso::get();
+        $datos["entidades"]         = SGCEntidad::get();
         $datos["data"]              = [];
         if( $id != null )
             $datos["data"]          = SGCProceso_cero::withTrashed()->find($id);

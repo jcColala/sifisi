@@ -134,10 +134,6 @@ class DatabaseSeeder extends Seeder
         $data->orden        = 2;
         $data->save();
 
-        //facker
-        //$faker = Facker::create();
-        //$int   = 1;
-        //foreach(range(1,500) as $value) {
         
         //------------------------------------------------------- Modulo
         $data = new Modulo();
@@ -230,6 +226,12 @@ class DatabaseSeeder extends Seeder
 
         $data = new Accesos();
         $data->idmodulo   = 5;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 6;
         $data->idperfil   = 1;
         $data->acceder    = 1;
         $data->save();
