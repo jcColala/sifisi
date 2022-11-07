@@ -19,17 +19,13 @@ class CreateProcesoceroTable extends Migration
             $table->unsignedInteger('idpersona_solicita');
             $table->unsignedInteger('idpersona_aprueba')->nullable();
             $table->unsignedBigInteger('idtipo_proceso');
-            $table->unsignedBigInteger('idcargo_responsable');
-            $table->unsignedBigInteger('idcargo_elaborado');
-            $table->unsignedBigInteger('idcargo_revisado');
-            $table->unsignedBigInteger('idcargo_aprobado');
+            $table->unsignedBigInteger('idresponsable');
             $table->string('codigo', 20);
             $table->text('descripcion');
             $table->float('version');
             $table->date('fecha_aprobado');
             $table->text('objetivo');
             $table->text('alcance');
-            $table->text('diagrama')->default('hola buenas tardes');
             $table->softDeletes();
             $table->timestamps();
 
@@ -37,10 +33,7 @@ class CreateProcesoceroTable extends Migration
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
             $table->foreign('idtipo_proceso')->references('id')->on('sgc.tipo_proceso');
-            $table->foreign('idcargo_responsable')->references('id')->on('sgc.entidades');
-            $table->foreign('idcargo_elaborado')->references('id')->on('sgc.entidades');
-            $table->foreign('idcargo_revisado')->references('id')->on('sgc.entidades');
-            $table->foreign('idcargo_aprobado')->references('id')->on('sgc.entidades');
+            $table->foreign('idresponsable')->references('id')->on('sgc.entidades');
         });
     }
 

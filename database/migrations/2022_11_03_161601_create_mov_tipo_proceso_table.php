@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMovTipoProcesoTable extends Migration
+class CreateMovtipoprocesoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMovTipoProcesoTable extends Migration
      */
     public function up()
     {
-        Schema::create('movsgc.mov_tipo_proceso', function (Blueprint $table) {
+        Schema::create('movsgc.tipo_proceso', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion', 120);
             $table->string('codigo', 20);
@@ -23,9 +23,10 @@ class CreateMovTipoProcesoTable extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('idestado')->references('id')->on('movsgc.mov_estado');
+            $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
+    
         });
     }
 
@@ -36,6 +37,6 @@ class CreateMovTipoProcesoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mov_tipo_proceso');
+        Schema::dropIfExists('tipo_proceso');
     }
 }

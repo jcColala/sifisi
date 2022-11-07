@@ -159,9 +159,9 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
-        $data->modulo           = "Tipo Proceso";
-        $data->abreviatura      = "SGC_TP";
-        $data->url              = "tipo_proceso";
+        $data->modulo           = "Entidades";
+        $data->abreviatura      = "SGC_E";
+        $data->url              = "entidades";
         $data->icono            = null;
         $data->orden            = 1;
         $data->save();
@@ -169,9 +169,9 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
-        $data->modulo           = "Entidades";
-        $data->abreviatura      = "SGC_E";
-        $data->url              = "entidades";
+        $data->modulo           = "Tipos de Proceso";
+        $data->abreviatura      = "SGC_TP";
+        $data->url              = "tipo_proceso";
         $data->icono            = null;
         $data->orden            = 2;
         $data->save();
@@ -179,13 +179,22 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
-        $data->modulo           = "Preceso nivel cero";
+        $data->modulo           = "Procesos Nivel 0";
         $data->abreviatura      = "SGC_P0";
         $data->url              = "proceso_cero";
         $data->icono            = null;
         $data->orden            = 3;
         $data->save();
 
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Procesos Nivel 1";
+        $data->abreviatura      = "SGC_P1";
+        $data->url              = "proceso_uno";
+        $data->icono            = null;
+        $data->orden            = 4;
+        $data->save();
 
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
@@ -194,7 +203,7 @@ class DatabaseSeeder extends Seeder
         $data->abreviatura      = "SGC_MOV";
         $data->url              = "movimientos";
         $data->icono            = null;
-        $data->orden            = 4;
+        $data->orden            = 5;
         $data->save();
 
         //}
@@ -232,6 +241,12 @@ class DatabaseSeeder extends Seeder
 
         $data = new Accesos();
         $data->idmodulo   = 6;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 7;
         $data->idperfil   = 1;
         $data->acceder    = 1;
         $data->save();

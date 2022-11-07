@@ -10,7 +10,7 @@ class MOVSGCMov_tipo_proceso extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "movsgc.mov_tipo_proceso";
+    protected $table        = "movsgc.tipo_proceso";
     protected $primaryKey   = "id";
 
     protected $fillable = [
@@ -22,6 +22,9 @@ class MOVSGCMov_tipo_proceso extends Model
         'deleted_at'
     ];
 
+    public function procesos_cero(){
+        return $this->hasMany(MOVSGCMov_proceso_cero::class);
+    }
 
     public function getTableName(){
         return (explode(".", $this->table))[1];

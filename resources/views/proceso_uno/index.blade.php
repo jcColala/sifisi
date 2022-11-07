@@ -9,11 +9,11 @@
 	<div class="col-md-12 col-lg-12">
 		<div class="card">
 			<div class="card-header">
-				<h3 class="card-title">Lista de {{"$modulo"}}</h3>
+				
+				<h3 class="card-title">Lista de {{"$modulo"}} </h3>
 				<div class="card-options card_options">
 					<div class="btn-list">
 						<!-- START Botones-->
-						@include('proceso_uno.botonIr')
 						@include('extras.botones')
 						<!-- END Botones-->
 					</div>
@@ -25,7 +25,8 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="50%">Proceso Nivel Cero</th>
+								<th width="30%">Procesos Nivel 1</th>
+								<th width="20%">Código</th>
 								<th width="05%">Estado</th>
 							</tr>
 						</thead>
