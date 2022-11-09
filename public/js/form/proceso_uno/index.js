@@ -56,7 +56,7 @@ $("#btn-ir").on("click", function(e){
     e.preventDefault();
     var id = grilla.get_id(_name_tabla_proceso_uno);
     if (id != null) {
-        window.location.href ='proceso_uno/'+id;
+        window.location.href ='proceso_uno_detalle/'+id;
     } else {
         alertas.warning("Ups..!");
     }

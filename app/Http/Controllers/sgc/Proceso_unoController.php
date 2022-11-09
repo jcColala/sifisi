@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
+
 use App\Models\MOVSGCMov_proceso_uno;
 use App\Models\SGCEntidad;
 use App\Models\SGCProceso_cero;
@@ -9,10 +10,10 @@ use App\Models\SGCProceso_uno;
 use App\Models\SGCTipo_proceso;
 use App\Models\SGCIndicador;
 use App\Models\MOVSGCMov_indicador;
+
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\DB;  
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 

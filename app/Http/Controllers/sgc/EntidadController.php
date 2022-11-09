@@ -109,7 +109,7 @@ class EntidadController extends Controller
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
         if ($request->accion == "eliminar") {
-            SGCEntidad::find($request->id)->delete();
+            SGCEntidad::find($request->id)->destroy();
             return response()->json();
         }
         SGCEntidad::withTrashed()->find($request->id)->restore();

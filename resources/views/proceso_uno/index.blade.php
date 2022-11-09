@@ -14,7 +14,6 @@
 				<div class="card-options card_options">
 					<div class="btn-list">
 						<!-- START Botones-->
-						@include('proceso_uno.botonIr')
 						@include('extras.botones')
 						<!-- END Botones-->
 					</div>

@@ -10,6 +10,7 @@ use App\Http\Controllers\sgc\Proceso_unodetalleController;
 use App\Http\Controllers\sgc\Tipo_procesoController;
 use App\Models\Proceso_cero;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Contracts\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,10 +68,6 @@ Route::group(["middleware"=>"auth"], function(){
 
     Route::resource('proceso_uno', Proceso_unoController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('proceso_uno/grilla',[Proceso_unoController::class, 'grilla'])->name('proceso_uno.grilla');
-
-    Route::resource('proceso_uno_detalle', Proceso_unodetalleController::class)->only("index", "create", "store", "edit", "destroy");
-    Route::get('proceso_uno_detalle/grilla',[Proceso_unodetalleController::class, 'grilla'])->name('proceso_uno_detalle.grilla');
-    
 
     
     Route::get('movimientos', function(){echo "a";})->name('movimientos.index');
