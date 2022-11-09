@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 class EntidadController extends Controller
 {
     public $modulo                  = "Entidades";
-    public $path_controller         = "entidades";
+    public $path_controller         = "entidad";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -49,8 +49,8 @@ class EntidadController extends Controller
     public function grilla(){
         //withTrashed
         $objeto = SGCEntidad::
-            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.entidades.idestado')
-            ->select('sgc.entidades.id as id', 'sgc.entidades.descripcion as descripcion', 'sgc.estado.descripcion as estado')
+            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.entidad.idestado')
+            ->select('sgc.entidad.id as id', 'sgc.entidad.descripcion as descripcion', 'sgc.estado.descripcion as estado')
             ->get();
         return DataTables::of($objeto)
                 ->addIndexColumn()

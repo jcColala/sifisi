@@ -33,11 +33,6 @@ const load_datatable = () => {
                 searchable: true
             },
             {
-                data: 'version',
-                orderable: false,
-                searchable: true
-            },
-            {
                 data: 'estado',
                 orderable: false,
                 searchable: true,

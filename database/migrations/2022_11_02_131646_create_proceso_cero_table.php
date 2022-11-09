@@ -22,8 +22,6 @@ class CreateProcesoceroTable extends Migration
             $table->unsignedBigInteger('idresponsable');
             $table->string('codigo', 20);
             $table->text('descripcion');
-            $table->float('version');
-            $table->date('fecha_aprobado');
             $table->text('objetivo');
             $table->text('alcance');
             $table->softDeletes();
@@ -33,7 +31,7 @@ class CreateProcesoceroTable extends Migration
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
             $table->foreign('idtipo_proceso')->references('id')->on('sgc.tipo_proceso');
-            $table->foreign('idresponsable')->references('id')->on('sgc.entidades');
+            $table->foreign('idresponsable')->references('id')->on('sgc.entidad');
         });
     }
 

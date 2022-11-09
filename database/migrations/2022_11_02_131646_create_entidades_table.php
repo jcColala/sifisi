@@ -13,12 +13,14 @@ class CreateEntidadesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sgc.entidades', function (Blueprint $table) {
+        Schema::create('sgc.entidad', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idestado')->default(1);
             $table->unsignedBigInteger('idpersona_solicita');
             $table->unsignedBigInteger('idpersona_aprueba')->nullable();
             $table->string('descripcion', 120);
+            $table->integer('cant_integrantes')->default(1);
+            $table->boolean('editable')->default(true);
             $table->softDeletes();
             $table->timestamps();
             

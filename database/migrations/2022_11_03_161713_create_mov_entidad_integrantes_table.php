@@ -23,8 +23,8 @@ class CreateMovEntidadIntegrantesTable extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('identidad')->references('id')->on('movsgc.mov_entidad');
-            $table->foreign('idestado')->references('id')->on('movsgc.mov_estado');
+            $table->foreign('identidad')->references('id')->on('sgc.entidad');
+            $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
             $table->foreign('idintegrante')->references('dni')->on('general.persona');

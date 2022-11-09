@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
+use App\Models\MOVSGCMov_proceso_uno;
 use App\Models\SGCEntidad;
 use App\Models\SGCProceso_cero;
 use App\Models\SGCProceso_uno;
@@ -74,33 +75,51 @@ class Proceso_unoController extends Controller
     }
 
     public function store(Request $request){
+        
         $this->validate($request,[
-            'version'=>'required',
-            'fecha_aprobado'=>'required',
-            'idcargo_responsable'=>'required',
-            'idtipo_proceso'=>'required',
+            'idproceso_cero'=>'required',
+            'idelaborado'=>'required',
+            'idrevisado'=>'required',
+            'idaprobado'=>'required',
             'codigo'=> 'required',
             'descripcion' => 'required',
-            'objetivo'=>'required',
-            'alcance'=>'required',
-            'idcargo_elaborado'=>'required',
-            'idcargo_revisado'=>'required',
-            'idcargo_aprobado'=>'required',
+            'version'=>'required',
+            'fecha_aprobado'=>'required',
+            'proveedores'=>'required',
+            'entradas'=>'required',
+            'salidas'=>'required',
+            'clientes'=>'required',
+            'codigo_indicador'=>'required',
+            'descripcion_indicador'=>'required',
+
             ],[
-            "version.required"=>"Ingresar la versión de la ficha de procesos",
-            'fecha_aprobado' => 'Ingresar la fecha de aprobación',
-            'idtipo_proceso' => 'Seleccione el tipo de proceso',
-            'codigo'=> 'Escriba el código del proceso',
-            'descripcion' => 'Escriba el Nombre del Proceso',
-            'idcargo_responsable' => 'Seleccione el responsable del proceso',
-            'objetivo' => 'Escribe el objetivo del proceso',
-            'alcance' => 'Escribe el alcance del proceso',
-            'idcargo_elaborado' => 'Seleccione el que elaboró el proceso',
-            'idcargo_revisado' => 'Seleccione el que revisó el proceso',
-            'idcargo_aprobado' => 'Seleccione el que aprobó el proceso',
+            'idproceso_cero.required' => 'Seleccione el Proceso Nivel Cero al que pertenece este Proceso Nivel 1',
+            'idelaborado.required' => 'Seleccione quien elaboró el proceso',
+            'idrevisado.required' => 'Seleccione quien revisó el proceso',
+            'idaprobado.required' => 'Seleccione quien aprobó el proceso',
+            'codigo.required'=> 'Escriba el código del proceso',
+            'descripcion.required' => 'Escriba el Nombre del Proceso',
+            'version.required' => 'Escriba la versión del documento',
+            'fecha_aprobado.required' => 'Seleccione la fecha en la que se aprobó el documento',
+            'proveedores.required' => 'Escriba los proveedores del Proceso',
+            'entradas.required' => 'Escriba las entradas del Proceso',
+            'salidas.required' => 'Escriba las salidas del Proceso',
+            'clientes.required' => 'Escriba los clientes del Proceso',
+            'codigo_indicador.required' => 'Escriba los clientes del Proceso',
+            'descripcion_indicador.required' => 'Escriba los clientes del Proceso',
         ]);
 
         return DB::transaction(function() use ($request){
+            //LLENADO - EDICIÓN EN LA TABLA MOVIMIENTOS
+            $obj_mov        = MOVSGCMov_proceso_uno::withTrashed()->find($request->id);
+
+            if(is_null($obj_mov))
+                $obj_mov    = new MOVSGCMov_proceso_uno();
+            $obj_mov->fill($request->all());
+            $obj_mov->save();
+
+
+            //LLENADO - EDICIÓN EN LA TABLA MOVIMIENTOS
             $obj        = SGCProceso_uno::withTrashed()->find($request->id);
 
             if(is_null($obj))
@@ -108,6 +127,8 @@ class Proceso_unoController extends Controller
             $obj->fill($request->all());
             $obj->save();
             return response()->json($obj);
+
+
         });
         
     }

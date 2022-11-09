@@ -10,7 +10,7 @@ class MOVSGCMov_proceso_uno extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "movsgc.proceso_uno";
+    protected $table        = "movsgc.mov_proceso_uno";
     protected $primaryKey   = "id";
 
     protected $fillable = [
@@ -18,23 +18,24 @@ class MOVSGCMov_proceso_uno extends Model
         'idpersona_solicita',
         'idpersona_aprueba',
         'idproceso_cero',
-        'idcargo_responsable',
-        'idcargo_elaborado',
-        'idcargo_revisado',
-        'idcargo_aprobado',
+        'idelaborado',
+        'idrevisado',
+        'idaprobado',
         'codigo',
         'descripcion',
         'version',
         'fecha_aprobado',
-        'objetivo',
-        'alcance',
+        'proveedores',
+        'entradas',
+        'salidas',
+        'clientes',
         'diagrama',
         'deleted_at'
     ];
 
 
     public function proceso_cero(){
-        return $this->belongsTo(MOVSGCMov_proceso_cero::class, 'idproceso_cero');
+        return $this->belongsTo(SGCProceso_cero::class, 'idproceso_cero');
     }
     public function getTableName(){
         return (explode(".", $this->table))[1];

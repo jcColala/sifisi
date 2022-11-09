@@ -3,12 +3,12 @@ const text_icono = (e, obj, _key, _paht) => {
     set_icono(_key, valor, _paht)
 }
 
-form.register(_path_controller_entidades, {
+form.register(_path_controller_entidad, {
     nuevo: function() {
-        get_modal(_path_controller_entidades,_prefix_entidades)
+        get_modal(_path_controller_entidad,_prefix_entidad)
     },
     editar: function(id) {
-        get_modal(_path_controller_entidades, _prefix_entidades, "edit", id)
+        get_modal(_path_controller_entidad, _prefix_entidad, "edit", id)
     },
     eliminar_restaurar: function(id, obj) {
         var $self = this
@@ -18,7 +18,7 @@ form.register(_path_controller_entidades, {
         swal({ title: "Confirmar", text: "¿Desea " + accion__ + " el registro seleccionado?", type: "warning", showCancelButton: !0, confirmButtonText: "Confirmar", cancelButtonText: "Cancelar" }, function() {
 
             $.ajax({
-                url: route(_path_controller_entidades + '.destroy', 'delete'),
+                url: route(_path_controller_entidad + '.destroy', 'delete'),
                 data: { id: id, accion: accion__ },
                 type: 'DELETE',
                 beforeSend: function() {
@@ -54,11 +54,11 @@ form.register(_path_controller_entidades, {
     },
     guardar: function() {
         var $self = this;
-        let _form = "#form-" + _path_controller_entidades
+        let _form = "#form-" + _path_controller_entidad
         let post_data = $(_form).serialize()
 
         $.ajax({
-            url: route(_path_controller_entidades + '.store'),
+            url: route(_path_controller_entidad + '.store'),
             type: 'POST',
             data: post_data,
             cache: false,
@@ -67,10 +67,10 @@ form.register(_path_controller_entidades, {
                 //loading();
             },
             success: function(response) {
-                //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_entidades, {"timeOut":500000,"tapToDismiss": false})
+                //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_entidad, {"timeOut":500000,"tapToDismiss": false})
                 toastr.success('Datos grabados correctamente', 'Notificación Procesos Nivel Cero')
                 $self.callback(response)
-                close_modal(_path_controller_entidades)
+                close_modal(_path_controller_entidad)
             },
             complete: function() {
                 //loading("complete");
@@ -79,15 +79,15 @@ form.register(_path_controller_entidades, {
 
                 //Msj($("#descripcion"), "Ingrese Descripcion ","","above",false)
                 if (e.status == 422) { //Errores de Validacion
-                    limpieza(_path_controller_entidades);
+                    limpieza(_path_controller_entidad);
                     $.each(e.responseJSON.errors, function(i, item) {
-                        $('#' + i+"_"+_prefix_entidades).addClass('is_invalid');
-                        $('.' + i+"_"+_prefix_entidades).removeClass('d-none');
-                        $('.' + i+"_"+_prefix_entidades).attr('data-content', item);
-                        $('.' + i+"_"+_prefix_entidades).addClass('msj_error_exist');
+                        $('#' + i+"_"+_prefix_entidad).addClass('is_invalid');
+                        $('.' + i+"_"+_prefix_entidad).removeClass('d-none');
+                        $('.' + i+"_"+_prefix_entidad).attr('data-content', item);
+                        $('.' + i+"_"+_prefix_entidad).addClass('msj_error_exist');
 
                     });
-                    $("#form-" + _path_controller_entidades + " .msj_error_exist").first().popover('show');
+                    $("#form-" + _path_controller_entidad + " .msj_error_exist").first().popover('show');
 
 
                 } else if (e.status == 419) {
@@ -100,6 +100,6 @@ form.register(_path_controller_entidades, {
 
     },
     callback: function(data) {
-        grilla.reload(_path_controller_entidades);
+        grilla.reload(_path_controller_entidad);
     }
 });

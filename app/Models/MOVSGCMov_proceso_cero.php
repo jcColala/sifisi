@@ -21,8 +21,6 @@ class MOVSGCMov_proceso_cero extends Model
         'idresponsable',
         'codigo',
         'descripcion',
-        'version',
-        'fecha_aprobado',
         'objetivo',
         'alcance',
         'deleted_at'

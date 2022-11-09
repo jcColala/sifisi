@@ -161,7 +161,7 @@ class DatabaseSeeder extends Seeder
         $data->idpadre          = null;
         $data->modulo           = "Entidades";
         $data->abreviatura      = "SGC_E";
-        $data->url              = "entidades";
+        $data->url              = "entidad";
         $data->icono            = null;
         $data->orden            = 1;
         $data->save();
@@ -252,19 +252,6 @@ class DatabaseSeeder extends Seeder
         $data->save();
 
         //--------------------------------------------------MOVSGC
-        $data = new MOVSGCMov_estado();
-        $data->descripcion= 'Pendiente';
-        $data->save();
-
-        $data = new MOVSGCMov_estado();
-        $data->descripcion= 'Aceptado';
-        $data->save();
-
-        $data = new MOVSGCMov_estado();
-        $data->descripcion= 'Rechazado';
-        $data->save();
-
-        
         $data = new SGCEstado();
         $data->descripcion= 'Pendiente';
         $data->save();

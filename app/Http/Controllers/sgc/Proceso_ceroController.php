@@ -55,7 +55,7 @@ class Proceso_ceroController extends Controller
         //withTrashed
         $objeto = SGCProceso_cero::
             join('sgc.estado', 'sgc.estado.id', '=', 'sgc.proceso_cero.idestado')
-            ->select('sgc.proceso_cero.id as id', 'sgc.proceso_cero.descripcion as descripcion', 'sgc.proceso_cero.codigo as codigo', 'sgc.estado.descripcion as estado', 'sgc.proceso_cero.version as version')
+            ->select('sgc.proceso_cero.id as id', 'sgc.proceso_cero.descripcion as descripcion', 'sgc.proceso_cero.codigo as codigo', 'sgc.estado.descripcion as estado')
             ->orderBy('sgc.proceso_cero.idtipo_proceso', 'asc')
             ->withTrashed();
         return DataTables::of($objeto)
@@ -77,8 +77,6 @@ class Proceso_ceroController extends Controller
     public function store(Request $request){
         
         $this->validate($request,[
-            'version'=>'required',
-            'fecha_aprobado'=>'required',
             'idtipo_proceso'=>'required',
             'codigo'=> 'required',
             'descripcion' => 'required',
@@ -86,8 +84,6 @@ class Proceso_ceroController extends Controller
             'objetivo'=>'required',
             'alcance'=>'required',
             ],[
-            "version.required"=>'Ingresar la versión de la ficha de procesos',
-            'fecha_aprobado.required' => 'Ingresar la fecha de aprobación',
             'idtipo_proceso.required' => 'Seleccione el tipo de proceso',
             'codigo.required'=> 'Escriba el código del proceso',
             'descripcion.required' => 'Escriba el Nombre del Proceso',

@@ -10,7 +10,7 @@ class SGCEntidad extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "sgc.entidades";
+    protected $table        = "sgc.entidad";
     protected $primaryKey   = "id";
 
     protected $fillable = [

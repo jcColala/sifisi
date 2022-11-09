@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 //------------------------------------------------------------- Datatable
 const load_datatable = () => {
-    table = $('#dt-' + _path_controller_entidades).DataTable({
+    table = $('#dt-' + _path_controller_entidad).DataTable({
         pageLength: 10,
         processing: true,
         serverSide: true,
@@ -15,7 +15,7 @@ const load_datatable = () => {
         ordering: true,
         rowId: "id",
         bJQueryUI: true,
-        ajax: route(_path_controller_entidades + ".grilla"),
+        ajax: route(_path_controller_entidad + ".grilla"),
         columns: [{
                 data: 'DT_RowIndex',
                 orderable: false,
@@ -46,7 +46,7 @@ const load_datatable = () => {
     });
 
     //-------------------------------------------------------- Horrores Datatable
-    $('#dt-' + _path_controller_entidades).on('error.dt', function(e, settings, techNote, message) {
+    $('#dt-' + _path_controller_entidad).on('error.dt', function(e, settings, techNote, message) {
         console.log('error ajax: ', message);
     }).DataTable();
 }
@@ -54,7 +54,7 @@ const load_datatable = () => {
 //------------------------------------------------------------- IR
 $("#btn-ir").on("click", function(e){
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_entidades);
+    var id = grilla.get_id(_name_tabla_entidad);
     if (id != null) {
         window.location.href ='proceso_uno/'+id;
     } else {
@@ -65,22 +65,22 @@ $("#btn-ir").on("click", function(e){
 //------------------------------------------------------------- Nuevo
 $("#btn-new").on("click", function(e) {
     e.preventDefault();
-    form.get(_path_controller_entidades).nuevo();
+    form.get(_path_controller_entidad).nuevo();
 });
 
 //------------------------------------------------------------- Editar
 $("#btn-edit").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_entidades);
+    var id = grilla.get_id(_name_tabla_entidad);
 
     if (id != null) {
-        form.get(_path_controller_entidades).editar(id);
+        form.get(_path_controller_entidad).editar(id);
     } else {
         alertas.warning("Ups..!");
     }
 });
 
-$("#form-entidades").on("submit", function(e){
+$("#form-entidad").on("submit", function(e){
     e.preventDefault();
     alert('A la mrda');
 });
@@ -88,9 +88,9 @@ $("#form-entidades").on("submit", function(e){
 //------------------------------------------------------------- Eliminar
 $("#btn-delete_restore").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_entidades);
+    var id = grilla.get_id(_name_tabla_entidad);
     if (id != null) {
-        form.get(_path_controller_entidades).eliminar_restaurar(id, this);
+        form.get(_path_controller_entidad).eliminar_restaurar(id, this);
     } else {
         alertas.warning("Ups..!");
     }

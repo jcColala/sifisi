@@ -19,16 +19,17 @@ class CreateProcesounoTable extends Migration
             $table->unsignedInteger('idpersona_solicita');
             $table->unsignedInteger('idpersona_aprueba')->nullable();
             $table->unsignedBigInteger('idproceso_cero');
-            $table->unsignedBigInteger('idcargo_responsable');
-            $table->unsignedBigInteger('idcargo_elaborado');
-            $table->unsignedBigInteger('idcargo_revisado');
-            $table->unsignedBigInteger('idcargo_aprobado');
+            $table->unsignedBigInteger('idelaborado');
+            $table->unsignedBigInteger('idrevisado');
+            $table->unsignedBigInteger('idaprobado');
             $table->string('codigo', 20);
             $table->text('descripcion');
             $table->float('version');
             $table->date('fecha_aprobado');
-            $table->text('objetivo');
-            $table->text('alcance');
+            $table->text('proveedores');
+            $table->text('entradas');
+            $table->text('salidas');
+            $table->text('clientes');
             $table->text('diagrama')->default('hola buenas tardes');
             $table->softDeletes();
             $table->timestamps();
@@ -37,10 +38,9 @@ class CreateProcesounoTable extends Migration
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
             $table->foreign('idproceso_cero')->references('id')->on('sgc.proceso_cero');
-            $table->foreign('idcargo_responsable')->references('id')->on('sgc.entidades');
-            $table->foreign('idcargo_elaborado')->references('id')->on('sgc.entidades');
-            $table->foreign('idcargo_revisado')->references('id')->on('sgc.entidades');
-            $table->foreign('idcargo_aprobado')->references('id')->on('sgc.entidades');
+            $table->foreign('idelaborado')->references('id')->on('sgc.entidad');
+            $table->foreign('idrevisado')->references('id')->on('sgc.entidad');
+            $table->foreign('idaprobado')->references('id')->on('sgc.entidad');
         });
     }
 
