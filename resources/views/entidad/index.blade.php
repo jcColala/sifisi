@@ -24,7 +24,8 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="30%">Entidad</th>	
+								<th width="15%">Entidad</th>
+								<th width="15%">Integrantes</th>	
 								<th width="10%">Estado</th>
 								<th width="05%"></th>
 							</tr>

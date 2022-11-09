@@ -138,7 +138,7 @@
 								<div class="fila-indicador row">
 									<div class="col-md-3">
 										<div class="wrap-input100 mrginput100 validate-input">
-												<input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador" placeholder="Código*">
+												<input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador[]" placeholder="Código*">
 												<span class="focus-input100"></span>
 												<span class="symbol-input100">
 													<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
@@ -149,7 +149,7 @@
 
 									<div class="col-md-7">
 										<div class="wrap-input100 mrginput100 validate-input">
-												<input type="text" class="input100" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador" placeholder="Nombre del Indicador*">
+												<input type="text" class="input100" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador[]" placeholder="Nombre del Indicador*">
 												<span class="focus-input100"></span>
 												<span class="symbol-input100">
 													<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>

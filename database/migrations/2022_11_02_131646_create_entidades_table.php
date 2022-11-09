@@ -19,7 +19,7 @@ class CreateEntidadesTable extends Migration
             $table->unsignedBigInteger('idpersona_solicita');
             $table->unsignedBigInteger('idpersona_aprueba')->nullable();
             $table->string('descripcion', 120);
-            $table->integer('cant_integrantes')->default(1);
+            $table->integer('cant_integrantes');
             $table->boolean('editable')->default(true);
             $table->softDeletes();
             $table->timestamps();

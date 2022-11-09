@@ -17,6 +17,7 @@ class MOVSGCMov_entidad extends Model
         'idestado',
         'idpersona_solicita',
         'idpersona_aprueba',
+        'cant_integrantes',
         'descripcion',
         'deleted_at'
     ];

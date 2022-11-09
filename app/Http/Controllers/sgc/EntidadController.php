@@ -50,8 +50,8 @@ class EntidadController extends Controller
         //withTrashed
         $objeto = SGCEntidad::
             join('sgc.estado', 'sgc.estado.id', '=', 'sgc.entidad.idestado')
-            ->select('sgc.entidad.id as id', 'sgc.entidad.descripcion as descripcion', 'sgc.estado.descripcion as estado')
-            ->get();
+            ->select('sgc.entidad.id as id', 'sgc.entidad.descripcion as descripcion', 'sgc.entidad.cant_integrantes as integrantes', 'sgc.estado.descripcion as estado')
+            ->withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -71,8 +71,11 @@ class EntidadController extends Controller
     public function store(Request $request){
         $this->validate($request,[
             'descripcion'=>'required',
+            'cant_integrantes' => 'required',
             ],[
-            "descripcion.required"=>"Ingresar el nombre del Tipo de Proceso",
+            'descripcion.required'=>'Ingresar el nombre del Tipo de Proceso',
+            'cant_integrantes' => 'Ingresar la cantidad de integrantes de la entidad'
+
         ]);
 
         return DB::transaction(function() use ($request){

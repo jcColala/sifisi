@@ -67,7 +67,6 @@ form.register(_path_controller_proceso_uno, {
             },
             success: function(response) {
                 //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_proceso_uno, {"timeOut":500000,"tapToDismiss": false})
-
                 toastr.success('Datos grabados correctamente', 'Notificación Procesos Nivel Cero')
                 $self.callback(response)
                 close_modal(_path_controller_proceso_uno)

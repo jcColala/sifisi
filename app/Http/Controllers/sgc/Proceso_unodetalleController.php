@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class Proceso_unoController extends Controller
+class Proceso_unodetalleController extends Controller
 {
     public $modulo                  = "Procesos de Nivel 1";
     public $path_controller         = "proceso_uno";
