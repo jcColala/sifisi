@@ -80,6 +80,7 @@ class AccesosController extends Controller
             }
 
             if($request->filled("accesos_true") OR $request->filled("accesos_false")){
+                
                 $idmodulo_ant = 0;
                 if ($request->filled("accesos_false")) {
                     foreach($request->accesos_false as $key => $value){
@@ -90,9 +91,8 @@ class AccesosController extends Controller
 
                         if (array_key_exists($idmodulo, $array_mdpermisos)){
                             if ($idmodulo != $idmodulo_ant) {
-                                $array_mdpermisos[$idmodulo]["index"] = ["funcion" => "index-".$modulo["url"]];
-                                $array_mdpermisos[$idmodulo]["store"] = ["funcion" => "store-".$modulo["url"]];
-                                
+                                unset($array_mdpermisos[$idmodulo]["index"]);
+                                unset($array_mdpermisos[$idmodulo]["store"]);
                             }
                             unset($array_mdpermisos[$idmodulo][$funcion]);
                         }
