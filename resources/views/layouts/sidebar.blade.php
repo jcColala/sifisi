@@ -31,7 +31,7 @@
                     <span class="side-menu__label">{{$row["text"]}}</span>
                     <i class="angle fa fa-angle-right"></i>
                 </a>
-                @include('extras.submenu',['submenu'=>$row['submenu']])
+                @include("extras.submenu",["submenu"=>$row["submenu"],"id"=>null])
             @endif
             </li>
         @endforeach

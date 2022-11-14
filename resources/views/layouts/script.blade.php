@@ -75,4 +75,7 @@
 <script src="{{asset('plugins/time-picker/jquery.timepicker.js')}}"></script>
 <script src="{{asset('plugins/time-picker/toggles.min.js')}}"></script>
 
+<!-- JSTREE -->
+<script src="{{asset('plugins/jstree/jstree.min.js')}}"></script>
+
 @yield('script')

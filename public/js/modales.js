@@ -2,8 +2,10 @@
 let selected = ""
 let data_form = ""
 let btn_el_rest = "#btn-delete_restore"
-let msj_sesion = "La sesión ya expiró, por favor cierre sesión y vuelva a ingresar"
-let msj_soporte = "Hubo problemas internos, por favor comunicate de inmediato con SOPORTE"
+let msj_sesion = "La sesión ya expiró, por favor cierre sesión y vuelva a ingresar."
+let msj_soporte = "Hubo problemas internos, por favor comunicate de inmediato con SOPORTE."
+let msj_accesos = "Lo sentimos, usted no tiene los permisos para realizar dicha acción."
+let msj_denegada = "El registro actual no tiene las opcines de editar y eliminar."
 csrf_token($('meta[name="csrf-token"]').attr('content'))
 
 
@@ -14,6 +16,11 @@ function csrf_token(csrf_token) {
             'X-CSRF-TOKEN': csrf_token
         }
     });
+}
+
+//------------------------------------------------------------- Borrar localStore
+const deletemsj_localstore = (id) => {
+    localStorage.removeItem(id);
 }
 
 //------------------------------------------------------------- Cambiar tema
@@ -45,6 +52,7 @@ $(".cambiar_tema").on("click", function(e) {
         }
     });
 })
+
 //------------------------------------------------------------- Select tr
 $(".databale").on('click', 'tr', function(e) {
     selected = table.row(this).data();
@@ -61,6 +69,11 @@ $(".databale").on('click', 'tr', function(e) {
         //selecionar el estado
         if (document.querySelectorAll(btn_el_rest).length && table.row(this).data() != undefined) {
             $(btn_el_rest).attr("class", "")
+            if (!table.row(this).data()["editable"]) {
+                setTimeout(function() { table.$('tr.selected').removeClass('selected') }, 600)
+                init_btndelete()
+                return alertas.warning("Acción denegada!", msj_denegada);
+            }
             if (table.row(this).data()["deleted_at"] == null) {
                 $(btn_el_rest).html("<i class='fe fe-trash bt_grilla text-primary-shadow'></i> &nbsp;&nbsp;Eliminar&nbsp;")
                 $(btn_el_rest).attr("data-action", " eliminar")
@@ -74,8 +87,7 @@ $(".databale").on('click', 'tr', function(e) {
         }
     }
 
-});
-
+})
 
 //------------------------------------------------------------- Alertas
 var alertas = function() {
@@ -212,6 +224,7 @@ const get_modal = (_paht, _prefix, funcion = "create", id = null) => {
         url: route(_paht + "." + funcion, id),
         type: 'GET',
         cache: false,
+        contentType: false,
         processData: false,
         success: function(response) {
             $("#div_md-" + _paht).html(response)
@@ -231,10 +244,14 @@ const get_modal = (_paht, _prefix, funcion = "create", id = null) => {
             $("#md-" + _paht).modal('toggle')
         },
         error: function(e) {
+            $("#div_md-" + _paht).html('')
+            
             if (e.status == 419) {
                 console.log(msj_sesion);
             } else if (e.status == 500) {
                 console.log((e.responseJSON.message) ? msj_soporte : ' ');
+            } else if (e.status == 403) {
+                toastr.warning(msj_accesos, 'Notificación accesos')
             }
         }
     });
@@ -255,7 +272,7 @@ const md_guardar = (e, obj) => {
 const selecionar_icono = (e, obj, __key, __paht, id_icono, __prefix) => {
     let class_icono = obj.getElementsByTagName("i")[0].getAttribute('class')
     set_icono(__key, class_icono, __paht)
-    $("#" + id_icono +"_"+__prefix).val(class_icono)
+    $("#" + id_icono + "_" + __prefix).val(class_icono)
 }
 
 //------------------------------------------------------------- Ver icono

@@ -3,6 +3,9 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\Modulo_padreController;
+use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\AccesosController;
+use App\Http\Controllers\FuncionController;
 use App\Http\Controllers\sgc\Proceso_ceroController;
 use App\Http\Controllers\sgc\Proceso_unoController;
 use App\Http\Controllers\sgc\TipoProcesoController;
@@ -32,11 +35,11 @@ Route::get('/404', function () {return view('error/404');})->name('404');
 Route::get('/500', function () {return view('error/500');})->name('500');
 
 
-Route::group(["middleware"=>"auth"], function(){
+Route::group(["middleware"=>['auth']], function(){
     //------------------------------------------------------------------------------------------------ Home
     Route::get('/home', [HomeController::class,'index'])->name('home');
 
-    //------------------------------------------------------------------------------------------------ Home
+    //------------------------------------------------------------------------------------------------ Tema
     Route::get('/tema/{actual}', [HomeController::class,'tema'])->name('tema');
 
     //------------------------------------------------------------------------------------------------ Modulo
@@ -48,6 +51,17 @@ Route::group(["middleware"=>"auth"], function(){
     Route::resource('modulo_padre', Modulo_padreController::class)->only("index","create", "store","edit", "destroy");
     Route::get('modulo_padre/grilla',[Modulo_padreController::class, 'grilla'])->name('modulo_padre.grilla');
 
+    //------------------------------------------------------------------------------------------------ Perfil
+    Route::resource('perfil', PerfilController::class)->only("index","create", "store","edit", "destroy");
+    Route::get('perfil/grilla',[PerfilController::class, 'grilla'])->name('perfil.grilla');
+
+    //------------------------------------------------------------------------------------------------ Accesos
+    Route::resource('accesos', AccesosController::class)->only("index","create", "store","edit", "destroy");
+    Route::get('accesos/acceso',[AccesosController::class, 'acceso'])->name('accesos.acceso');
+
+    //------------------------------------------------------------------------------------------------ Funcion
+    Route::resource('funcion', FuncionController::class)->only("index","create", "store","edit", "destroy");
+    Route::get('funcion/grilla',[FuncionController::class, 'grilla'])->name('funcion.grilla');
 
     //!----------------------------------------------SGC---------------------//
     

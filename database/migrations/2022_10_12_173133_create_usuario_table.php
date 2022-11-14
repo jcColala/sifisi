@@ -24,6 +24,7 @@ class CreateUsuarioTable extends Migration
             $table->string("avatar", 60)->nullable();
             $table->string("es_superusuario", 1)->default("N");
             $table->integer("tema")->default(1)->comment("1 : TEMA NORMAL , 2 : TEMA OSUCRO ");
+            $table->boolean("editable")->default(true);
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

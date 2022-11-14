@@ -34,14 +34,14 @@ function get_modulos(idmodulo_padre) {
         success: function(response) {
             let list = []
             var seleccion__ = -1
-            let selected__ = ""
             list  = "<option label='Selecciona el padre'></option>";
-            list += "<option value=' '>Soy padre</option>";
+            list += "<option value=' '>Selecciona el padre</option>";
 
             if (data_form != [])
                 seleccion__ = data_form["idpadre"]
 
             $(response).each(function(key, val) {
+                let selected__ = ""
                 if(val["id"] == seleccion__)
                     selected__ = "selected"
                 list += "<option value='" + val["id"] + "' "+selected__+" >" + val["modulo"] + "</option>";

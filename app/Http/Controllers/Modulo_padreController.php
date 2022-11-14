@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Modulo_padre;
 use App\Models\Modulo;
+use App\Models\Funcion;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class Modulo_padreController extends Controller
 {
@@ -22,6 +25,11 @@ class Modulo_padreController extends Controller
     public $name_table              = "";
 
     public function __construct(){
+
+        foreach (Funcion::get() as $key => $value) {
+            $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
+        }
+
         $this->model                = new Modulo_padre();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
@@ -51,10 +59,10 @@ class Modulo_padreController extends Controller
                 ->addColumn("icono", function($objeto){
                     return "<i class='{$objeto->icono}'></i>";
                 })
-                ->addColumn("activo", function($row){
+                ->addColumn("estado", function($row){
                     return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
                 })
-                ->rawColumns(['icono', "activo"])
+                ->rawColumns(['icono', "estado"])
                 ->make(true);
     }
 
@@ -69,11 +77,7 @@ class Modulo_padreController extends Controller
             'icono'=>'required',
             'orden'=>'required|integer'
             ],[
-            "descripcion.required"=>"Ingresar el nombre del modulo padre.",
-            "abreviatura.required"=>"Ingresar la abreviatura del sistema.",
-            "icono.required"=>"Ingresar el icono del sistema.",
-            "orden.required"=>"Ingresar el orden.",
-            "orden.integer"=>"El orden debe tener un valor numerico entero."
+            "descripcion.required"=>"El campo modulo padre es obligatorio.",
         ]);
 
         return DB::transaction(function() use ($request){

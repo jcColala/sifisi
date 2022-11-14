@@ -17,6 +17,7 @@ class CreatePerfilTable extends Migration
             $table->id();
             $table->string("perfil", 120);
             $table->string("abreviatura", 60)->nullable();
+            $table->boolean("editable")->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

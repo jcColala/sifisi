@@ -48,7 +48,7 @@ const load_datatable = () => {
             },
             { data: 'orden', name: 'orden', className: "text-center" },
             {
-                data: 'activo',
+                data: 'estado',
                 orderable: false,
                 searchable: false,
                 className: "text-center"

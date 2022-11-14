@@ -16,6 +16,10 @@ use App\Models\User;
 use App\Models\Modulo_padre;
 use App\Models\Modulo;
 use App\Models\Accesos;
+use App\Models\Funcion;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 Use Faker\Factory as Facker;
@@ -90,7 +94,7 @@ class DatabaseSeeder extends Seeder
         $data->idtipo_documento_identidad   = 1;
         $data->idestado_civil               = 1;
         $data->idsexo                       = 1;
-        $data->nombres                      = "José Alejandro";
+        $data->nombres                      = "Anonimos";
         $data->apellido_paterno             = "Robles";
         $data->apellido_materno             = "Delgado";
         $data->correo_institucional         = "jaroblesd@alumno.unsm.edu.pe";
@@ -105,23 +109,25 @@ class DatabaseSeeder extends Seeder
         $data = new Perfil();
         $data->perfil       = 'ADMINISTRADOR';
         $data->abreviatura  = "ADMIN";
+        $data->editable     = false;
         $data->save();
 
         //------------------------------------------------------- Usuario
-        $data = new User();
-        $data->idpersona    = 1;
-        $data->idperfil     = 1;
-        $data->usuario      = "admin";
-        $data->password     = Hash::make("12tres");
-        $data->save();
-
-         //------------------------------------------------------- Mod Padre
+        $user = new User();
+        $user->idpersona    = 1;
+        $user->idperfil     = 1;
+        $user->usuario      = "ADMIN";
+        $user->password     = Hash::make("12tres");
+        $user->save();
+        
+        //------------------------------------------------------- Mod Padre
         $data = new Modulo_padre();
         $data->descripcion  = "Seguridad";
         $data->abreviatura  = "Seg";
         $data->url          = "#";
         $data->icono        = "ti-lock";
         $data->orden        = 1;
+        $data->editable     = false;
         $data->save();
 
         $data = new Modulo_padre();
@@ -138,24 +144,38 @@ class DatabaseSeeder extends Seeder
         //foreach(range(1,500) as $value) {
         
         //------------------------------------------------------- Modulo
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 1;
+        $data->idpadre          = null;
+        $data->modulo           = "Accesos";
+        $data->abreviatura      = "Acc";
+        $data->url              = "accesos";
+        $data->icono            = null;
+        $data->orden            = 1;
+        $data->editable         = false;
+        $data->save();
+
         $data = new Modulo();
         $data->idmodulo_padre   = 1;
         $data->idpadre          = null;
         $data->modulo           = "Modulo padre";
-        $data->abreviatura      = "";
+        $data->abreviatura      = "Mdp";
         $data->url              = "modulo_padre";
         $data->icono            = null;
-        $data->orden            = 1;
+        $data->orden            = 2;
+        $data->editable         = false;
         $data->save();
 
         $data = new Modulo();
         $data->idmodulo_padre   = 1;
         $data->idpadre          = null;
         $data->modulo           = "Modulo";
-        $data->abreviatura      = "";
+        $data->abreviatura      = "Md";
         $data->url              = "modulo";
         $data->icono            = null;
-        $data->orden            = 2;
+        $data->orden            = 3;
+        $data->editable         = false; 
         $data->save();
 
         $data = new Modulo();
@@ -174,19 +194,80 @@ class DatabaseSeeder extends Seeder
         $data = new Accesos();
         $data->idmodulo   = 1;
         $data->idperfil   = 1;
-        $data->acceder    = 1;
+        $data->editable   = false;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 2;
         $data->idperfil   = 1;
-        $data->acceder    = 1;
+        $data->editable   = false;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 3;
         $data->idperfil   = 1;
-        $data->acceder    = 1;
+        $data->editable   = false;
         $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 4;
+        $data->idperfil   = 1;
+        $data->save();
+
+        //------------------------------------------------------- Funcion
+        $data = new Funcion();
+        $data->nombre   = 'Ver';
+        $data->funcion  = 'index';
+        $data->orden    = 1;
+        $data->editable = false;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Crear';
+        $data->funcion  = 'create';
+        $data->orden    = 2;
+        $data->editable = false;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Editar';
+        $data->funcion  = 'edit';
+        $data->orden    = 3;
+        $data->editable = false;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Guardar';
+        $data->funcion  = 'store';
+        $data->orden    = 4;
+        $data->editable = false;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Eliminar';
+        $data->funcion  = 'destroy';
+        $data->orden    = 5;
+        $data->editable = false;
+        $data->save();
+
+        //------------------------------------------------------- Permisos
+        $permisos = [
+            //Operaciones sobre tabla roles
+            'index-modulo',
+            'create-modulo',
+            'edit-modulo',
+            'store-modulo',
+            'destroy-modulo',
+        ];
+
+        foreach($permisos as $permiso) {
+            Permission::create(['name'=>$permiso]);
+        }
+
+        //------------------------------------------------------- Roles
+        $rol = Role::create(['name' => 'Admin']);
+        $permisos = Permission::pluck('id', 'id')->all();
+        $rol->syncPermissions($permisos);        
+        $user->assignRole($rol->id);
     }
 }

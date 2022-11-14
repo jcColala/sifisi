@@ -19,11 +19,12 @@ class CreateModuloTable extends Migration
             $table->foreign('idmodulo_padre')->references('id')->on('seguridad.modulo_padre');
             $table->integer("idpadre")->nullable();
             $table->string("modulo", 120);
-            $table->string("abreviatura", 60);
+            $table->string("abreviatura", 60)->nullable();
             $table->text("url")->nullable();
             $table->integer("orden")->default(1);
             $table->string("icono", 60)->nullable();
             $table->string("acceso_directo", 1)->default('N');
+            $table->boolean("editable")->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

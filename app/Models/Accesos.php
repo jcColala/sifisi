@@ -19,4 +19,12 @@ class Accesos extends Model
         'acceder',
         'deleted_at'  
     ];
+
+    public function getTableName(){
+        return (explode(".", $this->table))[1];
+    }
+
+    public function getSchemaName(){
+        return (explode(".", $this->table))[0]??"public";
+    }
 }
