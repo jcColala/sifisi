@@ -41,10 +41,8 @@ form.register(_path_controller_modulo_padre, {
                             }
 
                         });
-                    } else if (e.status == 419) {
-                        console.log(msj_sesion);
-                    } else if (e.status == 500) {
-                        console.log((e.responseJSON.message) ? msj_soporte : ' ');
+                    } else {
+                        mostrar_errores_externos(e)
                     }
                 }
             })
@@ -89,10 +87,8 @@ form.register(_path_controller_modulo_padre, {
                     $("#form-" + _path_controller_modulo_padre + " .msj_error_exist").first().popover('show');
 
 
-                } else if (e.status == 419) {
-                    console.log(msj_sesion);
-                } else if (e.status == 500) {
-                    console.log((e.responseJSON.message) ? msj_soporte : ' ');
+                } else {
+                    mostrar_errores_externos(e)
                 }
             }
         })
