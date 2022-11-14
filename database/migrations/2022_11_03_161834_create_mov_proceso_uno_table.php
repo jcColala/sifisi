@@ -22,6 +22,7 @@ class CreateMovProcesounoTable extends Migration
             $table->unsignedBigInteger('idelaborado');
             $table->unsignedBigInteger('idrevisado');
             $table->unsignedBigInteger('idaprobado');
+            $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->string('codigo', 20);
             $table->text('descripcion');
             $table->float('version');
@@ -41,6 +42,8 @@ class CreateMovProcesounoTable extends Migration
             $table->foreign('idelaborado')->references('id')->on('sgc.entidad');
             $table->foreign('idrevisado')->references('id')->on('sgc.entidad');
             $table->foreign('idaprobado')->references('id')->on('sgc.entidad');
+            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
+
         });
     }
 

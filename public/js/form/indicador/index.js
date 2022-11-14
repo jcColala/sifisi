@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 //------------------------------------------------------------- Datatable
 const load_datatable = () => {
-    table = $('#dt-' + _path_controller_entidad).DataTable({
+    table = $('#dt-' + _path_controller_indicador).DataTable({
         pageLength: 10,
         processing: true,
         serverSide: true,
@@ -15,7 +15,7 @@ const load_datatable = () => {
         ordering: true,
         rowId: "id",
         bJQueryUI: true,
-        ajax: route(_path_controller_entidad + ".grilla"),
+        ajax: route(_path_controller_indicador + ".grilla"),
         columns: [{
                 data: 'DT_RowIndex',
                 orderable: false,
@@ -23,24 +23,20 @@ const load_datatable = () => {
                 className: "text-center"
             },
             {
+                data: 'codigo',
+                name: 'codigo',
+                searchable: true
+            },
+            {
                 data: 'descripcion',
-                orderable: false,
-                searchable: true
-            },
-            {
-                data: 'integrantes',
-                orderable: false,
-                searchable: true
-            },
-            {
-                data: 'accion',
                 orderable: false,
                 searchable: true
             },
             {
                 data: 'estado',
                 orderable: false,
-                searchable: true
+                searchable: true,
+                className: "text-center"
             },
 
         ],
@@ -50,7 +46,7 @@ const load_datatable = () => {
     });
 
     //-------------------------------------------------------- Horrores Datatable
-    $('#dt-' + _path_controller_entidad).on('error.dt', function(e, settings, techNote, message) {
+    $('#dt-' + _path_controller_indicador).on('error.dt', function(e, settings, techNote, message) {
         console.log('error ajax: ', message);
     }).DataTable();
 }
@@ -58,9 +54,9 @@ const load_datatable = () => {
 //------------------------------------------------------------- IR
 $("#btn-ir").on("click", function(e){
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_entidad);
+    var id = grilla.get_id(_name_tabla_indicador);
     if (id != null) {
-        window.location.href ='proceso_uno/'+id;
+        window.location.href ='ver_indicador/'+id;
     } else {
         alertas.warning("Ups..!");
     }
@@ -69,22 +65,22 @@ $("#btn-ir").on("click", function(e){
 //------------------------------------------------------------- Nuevo
 $("#btn-new").on("click", function(e) {
     e.preventDefault();
-    form.get(_path_controller_entidad).nuevo();
+    form.get(_path_controller_indicador).nuevo();
 });
 
 //------------------------------------------------------------- Editar
 $("#btn-edit").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_entidad);
+    var id = grilla.get_id(_name_tabla_indicador);
 
     if (id != null) {
-        form.get(_path_controller_entidad).editar(id);
+        form.get(_path_controller_indicador).editar(id);
     } else {
         alertas.warning("Ups..!");
     }
 });
 
-$("#form-entidad").on("submit", function(e){
+$("#form-indicador").on("submit", function(e){
     e.preventDefault();
     alert('A la mrda');
 });
@@ -92,9 +88,9 @@ $("#form-entidad").on("submit", function(e){
 //------------------------------------------------------------- Eliminar
 $("#btn-delete_restore").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_entidad);
+    var id = grilla.get_id(_name_tabla_indicador);
     if (id != null) {
-        form.get(_path_controller_entidad).eliminar_restaurar(id, this);
+        form.get(_path_controller_indicador).eliminar_restaurar(id, this);
     } else {
         alertas.warning("Ups..!");
     }

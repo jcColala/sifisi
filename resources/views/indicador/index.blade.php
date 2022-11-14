@@ -13,7 +13,7 @@
 				<div class="card-options card_options">
 					<div class="btn-list">
 						<!-- START Botones-->
-						@include('extras.botones')
+						@include('indicador.botonIr')
 						<!-- END Botones-->
 					</div>
 				</div>
@@ -24,10 +24,9 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="15%">Entidad</th>
-								<th width="05%">Integrantes</th>	
-								<th width="10%">Accion</th>	
-								<th width="10%">Estado</th>
+								<th width="05%">Código</th>
+								<th width="30%">Indicador</th>
+								<th width="05%">Estado</th>
 							</tr>
 						</thead>
 						<tbody>

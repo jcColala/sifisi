@@ -20,6 +20,8 @@ class CreateMovEntidadIntegrantesTable extends Migration
             $table->unsignedBigInteger('idpersona_solicita');
             $table->unsignedBigInteger('idpersona_aprueba');
             $table->unsignedBigInteger('idintegrante');
+            $table->unsignedBigInteger('idtipo_accion')->default(1);
+
             $table->softDeletes();
             $table->timestamps();
 
@@ -28,6 +30,8 @@ class CreateMovEntidadIntegrantesTable extends Migration
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
             $table->foreign('idintegrante')->references('dni')->on('general.persona');
+            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
+
         });
     }
 

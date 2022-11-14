@@ -19,6 +19,7 @@ use App\Models\MOVSGCMov_estado;
 use App\Models\Accesos;
 use App\Models\SGCEntidad;
 use App\Models\SGCEstado;
+use App\Models\SGCTipo_accion;
 use App\Models\SGCTipo_proceso;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
@@ -201,11 +202,21 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
+        $data->modulo           = "Indicadores";
+        $data->abreviatura      = "SGC_I";
+        $data->url              = "indicador";
+        $data->icono            = null;
+        $data->orden            = 5;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
         $data->modulo           = "Movimientos";
         $data->abreviatura      = "SGC_MOV";
         $data->url              = "movimientos";
         $data->icono            = null;
-        $data->orden            = 5;
+        $data->orden            = 6;
         $data->save();
 
         //}
@@ -253,6 +264,12 @@ class DatabaseSeeder extends Seeder
         $data->acceder    = 1;
         $data->save();
 
+        $data = new Accesos();
+        $data->idmodulo   = 8;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
+
         //--------------------------------------------------MOVSGC
         $data = new SGCEstado();
         $data->descripcion= 'Pendiente';
@@ -264,6 +281,22 @@ class DatabaseSeeder extends Seeder
 
         $data = new SGCEstado();
         $data->descripcion= 'Rechazado';
+        $data->save();
+        
+        $data = new SGCTipo_accion();
+        $data->descripcion = 'Registro';
+        $data->save();
+
+        $data = new SGCTipo_accion();
+        $data->descripcion = 'Edición';
+        $data->save();
+
+        $data = new SGCTipo_accion();
+        $data->descripcion = 'Eliminación';
+        $data->save();
+
+        $data = new SGCTipo_accion();
+        $data->descripcion = 'Restauración';
         $data->save();
 
         //ENTIDADES

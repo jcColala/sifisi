@@ -50,8 +50,9 @@ class EntidadController extends Controller
         //withTrashed
         $objeto = SGCEntidad::
             join('sgc.estado', 'sgc.estado.id', '=', 'sgc.entidad.idestado')
-            ->select('sgc.entidad.id as id', 'sgc.entidad.descripcion as descripcion', 'sgc.entidad.cant_integrantes as integrantes', 'sgc.estado.descripcion as estado')
-            ->withTrashed();
+            ->join('sgc.tipo_accion', 'sgc.tipo_accion.id', '=', 'sgc.entidad.idtipo_accion')
+            ->select('sgc.entidad.id as id', 'sgc.entidad.descripcion as descripcion', 'sgc.entidad.cant_integrantes as integrantes', 'sgc.tipo_accion.descripcion as accion','sgc.estado.descripcion as estado')
+            ->get();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -79,18 +80,33 @@ class EntidadController extends Controller
         ]);
 
         return DB::transaction(function() use ($request){
-            $obj_mov = MOVSGCMov_entidad::withTrashed()->find($request->id);
+            /*$obj_mov = MOVSGCMov_entidad::withTrashed()->find($request->id);
 
-            if(is_null($obj_mov))
+            if(is_null($obj_mov)){
                 $obj_mov = new MOVSGCMov_entidad();
-            $obj_mov->fill($request->all());
-            $obj_mov->save();
+                $obj_mov->idtipo_accion = 1;
+                $obj_mov->descripcion = $request->descripcion;
+                $obj_mov->cant_integrantes = $request->cant_integrantes;
+                $obj_mov->save();
+            }else{
+                $obj_mov->idtipo_accion = 2;
+                $obj_mov->descripcion = $request->descripcion;
+                $obj_mov->cant_integrantes = $request->cant_integrantes;
+                $obj_mov->save();
+            }*/
+
+            
 
             $obj = SGCEntidad::withTrashed()->find($request->id);
 
-            if(is_null($obj))
+            if(is_null($obj)){
                 $obj = new SGCEntidad();
-            $obj->fill($request->all());
+                $obj->idtipo_accion = 1;
+            }
+                
+            $obj->idtipo_accion = 2;
+            $obj->descripcion = $request->descripcion;
+            $obj->cant_integrantes = $request->cant_integrantes;
             $obj->save();
             return response()->json($obj);
         });
@@ -98,7 +114,6 @@ class EntidadController extends Controller
     }
 
     public function edit($id){ 
-        $data  = SGCEntidad::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
@@ -108,11 +123,12 @@ class EntidadController extends Controller
         if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
+        
         if ($request->accion == "eliminar") {
-            SGCEntidad::find($request->id)->destroy();
-            return response()->json();
+            $entidad = SGCEntidad::destroy($request->id);
+            return response()->json($entidad);
         }
-        SGCEntidad::withTrashed()->find($request->id)->restore();
-        return response()->json();        
+        /*SGCEntidad::withTrashed()->find($request->id)->restore();
+        return response()->json();*/        
     }
 }

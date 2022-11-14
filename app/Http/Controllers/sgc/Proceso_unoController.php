@@ -46,8 +46,8 @@ class Proceso_unoController extends Controller
         $datos["data"]              = [];
         if( $id != null )
             $datos["data"]          = SGCProceso_uno::withTrashed()->find($id);
-            $datos["indicadores"]   = SGCIndicador::where('idproceso_uno', $id)->select('codigo', 'descripcion')->get();
-
+            $datos["indicadores"]   = SGCIndicador::where('idproceso_uno', $id)->get();
+        
         return $datos;
     }
 

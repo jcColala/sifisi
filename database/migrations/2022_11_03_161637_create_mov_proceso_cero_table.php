@@ -20,6 +20,7 @@ class CreateMovProcesoceroTable extends Migration
             $table->unsignedInteger('idpersona_aprueba')->nullable();
             $table->unsignedBigInteger('idtipo_proceso');
             $table->unsignedBigInteger('idresponsable');
+            $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->string('codigo', 20);
             $table->text('descripcion');
             $table->text('objetivo');
@@ -32,6 +33,8 @@ class CreateMovProcesoceroTable extends Migration
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
             $table->foreign('idtipo_proceso')->references('id')->on('sgc.tipo_proceso');
             $table->foreign('idresponsable')->references('id')->on('sgc.entidad');
+            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
+
         });
     }
 

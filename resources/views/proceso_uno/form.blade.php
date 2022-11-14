@@ -139,12 +139,12 @@
 								<div class="fila-indicador row">
 									<div class="col-md-3">
 										<div class="wrap-input100 mrginput100 validate-input">
-											<input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador[]" placeholder="Código*">
-											<span class="focus-input100"></span>
-											<span class="symbol-input100">
-												<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
-											</span>
-											<span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+												<input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador[]" placeholder="Código*">
+												<span class="focus-input100"></span>
+												<span class="symbol-input100">
+													<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
+												</span>
+												<span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 										</div>
 									</div>
 
@@ -224,16 +224,14 @@
 </script>
 <script type="text/javascript">
 $(document).ready(function () {
-	let html = '<div class="fila-indicador row"><div class="col-md-3"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador[]" placeholder="Código*"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-7"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador[]" placeholder="Nombre del Indicador*"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-indicador" >Eliminar</button></div></div></div>'; 
-
-	//--------------------DETALLE DE INDICADORES EN EL EDITAR
-	let html_indicadores = '';
+	let html_indicador = '';
 	let indicadores = @json($indicadores);
 	indicadores.forEach(e => {
-		html_indicadores+='<div class="fila-indicador row"><div class="col-md-3"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador[]" placeholder="Código*" value="'+e.codigo+'"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-7"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador[]" placeholder="Nombre del Indicador*" value="'+e.descripcion+'"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-indicador" >Eliminar</button></div></div></div>'; 
+		html_indicador+= '<div class="fila-indicador row"><div class="col-md-3"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador[]" placeholder="Código*" value="'+e.codigo+'" ><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-7"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador[]" placeholder="Nombre del Indicador*" value="'+e.descripcion+'"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-indicador" >Eliminar</button></div></div></div>';
 	});
-	$('.indicadores').append(html_indicadores);
-	//------------------FIN DETALLE INDICADORES EDITAR
+	$('.indicadores').append(html_indicador);
+
+
 	$('#idproceso_cero_').change(function(e){
 		let proceso_cero = @json($proceso_cero);
 		proceso_cero.map((e) => {
@@ -243,7 +241,9 @@ $(document).ready(function () {
 		});
 	});
 
+
 	$("#add-indicador").click(function () {
+		let html = '<div class="fila-indicador row"><div class="col-md-3"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador[]" placeholder="Código*"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-7"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador[]" placeholder="Nombre del Indicador*"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-indicador" >Eliminar</button></div></div></div>'; 
 		$('.indicadores').append(html);
 	 });
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\Modulo_padreController;
 use App\Http\Controllers\sgc\EntidadController;
+use App\Http\Controllers\sgc\IndicadorController;
 use App\Http\Controllers\sgc\Proceso_ceroController;
 use App\Http\Controllers\sgc\Proceso_unoController;
 use App\Http\Controllers\sgc\Proceso_unodetalleController;
@@ -68,6 +69,9 @@ Route::group(["middleware"=>"auth"], function(){
 
     Route::resource('proceso_uno', Proceso_unoController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('proceso_uno/grilla',[Proceso_unoController::class, 'grilla'])->name('proceso_uno.grilla');
+
+    Route::resource('indicador', IndicadorController::class)->only("index", "create", "store", "edit", "destroy");
+    Route::get('indicador/grilla/',[IndicadorController::class, 'grilla'])->name('indicador.grilla');
 
     
     Route::get('movimientos', function(){echo "a";})->name('movimientos.index');
