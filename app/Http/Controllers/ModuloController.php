@@ -3,12 +3,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Modulo;
 use App\Models\Modulo_padre;
+use App\Models\User;
+use App\Models\Funcion;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 use Yajra\DataTables\DataTables;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class ModuloController extends Controller
 {
@@ -19,11 +23,15 @@ class ModuloController extends Controller
     public $name_schema             = null;
     public $name_table              = "";
 
-    public function __construct(){
+    function __construct(){
+
+        foreach (Funcion::get() as $key => $value) {
+            $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
+        }
+
         $this->model                = new Modulo();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
-
     }
 
     public function form($id = null){
@@ -49,10 +57,10 @@ class ModuloController extends Controller
                 ->addColumn("icono", function($objeto){
                     return "<i class='{$objeto->icono}'></i>";
                 })
-                ->addColumn("activo", function($row){
+                ->addColumn("estado", function($row){
                     return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
                 })
-                ->rawColumns(['icono', "activo"])
+                ->rawColumns(['icono', "estado"])
                 ->make(true);
     }
 
@@ -64,13 +72,10 @@ class ModuloController extends Controller
         $this->validate($request,[
             "idmodulo_padre"=>"required",
             "modulo"=>"required",
-            "abreviatura"=>"required",
             "orden"=>"required|integer",
             "url"=>"required",
         ],[
-            "idmodulo_padre.required"=>"Ingrese el Módulo padre.",
-            "orden.required"=>"Ingrese el orden.",
-            "orden.integer"=>"El orden debe tener un valor numerico entero."
+            "idmodulo_padre.required"=>"El campo modulo padre es obligatorio.",
         ]);
 
         return DB::transaction(function() use ($request){
@@ -88,6 +93,10 @@ class ModuloController extends Controller
     public function edit($id){ 
         $data   = Modulo::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
+    }
+
+    public function update(Request $request){
+
     }
 
     public function destroy(Request $request){

@@ -65,5 +65,10 @@
         <link href="{{asset('plugins/select2/select2.min.css')}}" rel="stylesheet">
         <link href="{{asset('plugins/multipleselect/multiple-select.css')}}" rel="stylesheet">
 
+        <!-- Esqueletor -->
+        <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
+
+        <!-- Jstree -->
+        <link rel="stylesheet" href="{{asset('plugins/jstree/themes/default/style.css')}}">
 </head>
 @routes

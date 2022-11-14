@@ -26,7 +26,7 @@ form.register(_path_controller_modulo, {
                 },
                 success: function(response) {
                     //return console.log(response)
-                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación modulo padre')
+                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación '+_path_controller_modulo)
                     $self.callback(response)
                     init_btndelete()
                 },
@@ -60,7 +60,7 @@ form.register(_path_controller_modulo, {
                 //loading();
             },
             success: function(response) {
-                toastr.success('Datos grabados correctamente', 'Notificación modulo padre')
+                toastr.success('Datos grabados correctamente', 'Notificación '+_path_controller_modulo)
                 $self.callback(response)
                 close_modal(_path_controller_modulo)
             },

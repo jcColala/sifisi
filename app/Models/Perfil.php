@@ -16,6 +16,15 @@ class Perfil extends Model
     protected $fillable = [
         'perfil',
         'abreviatura',
+        'editable',
         'deleted_at'
     ];
+
+    public function getTableName(){
+        return (explode(".", $this->table))[1];
+    }
+
+    public function getSchemaName(){
+        return (explode(".", $this->table))[0]??"public";
+    }
 }

@@ -20,6 +20,7 @@ class CreateModuloPadreTable extends Migration
             $table->text("url")->nullable();
             $table->string("icono", 60)->nullable();
             $table->integer("orden")->default(1);
+            $table->boolean("editable")->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

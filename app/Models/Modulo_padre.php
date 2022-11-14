@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Models\Permission;
 
 
 class Modulo_padre extends Model
@@ -19,6 +20,7 @@ class Modulo_padre extends Model
         'url',
         'icono',
         'orden',
+        'editable',
         'deleted_at'
     ];
 
@@ -47,7 +49,7 @@ class Modulo_padre extends Model
                 $value['acceso_directo']    = ($item->acceso_directo=="S");
                 $value['icon']              = $item->icono;
                 $value['url']               = $item->url;
-                $value['submenu']           =$this->getModulo($modulo,$item->id);
+                $value['submenu']           = $this->getModulo($modulo,$item->id);
                 return $value;
             })->values()->all();
 
@@ -58,19 +60,17 @@ class Modulo_padre extends Model
 
         return $query->with(['modulo'=>function($q) use ($idperfil){
             $q->join('seguridad.accesos','accesos.idmodulo','=','modulo.id');
-            $q->where('accesos.idperfil',$idperfil)
-            ->where('accesos.acceder',1);
+            $q->where('accesos.idperfil',$idperfil);
+            $q->whereNull('accesos.deleted_at');
             $q->orderBy("modulo.idpadre");
             $q->orderBy("modulo.orden");
         }]);
     }
 
     public static function menu(){
-        $modulo_padre   = static::accesoModulos()
-                            ->selectRaw('id, descripcion, icono')
-                            ->orderBy('orden')
-                            ->get();
-        $menus  = [];
+        $modulo_padre  = static::accesoModulos()->selectRaw('id, descripcion, icono')->orderBy('orden')->get();
+        $menus         = [];
+
         foreach($modulo_padre as $item){
             if($item->modulo->count()){
                 $value                  = [];
@@ -80,7 +80,79 @@ class Modulo_padre extends Model
                 $menus[]                = $value;
             }
         }
-        //dd($menus);
         return $menus;
+    }
+
+    public function getComprobarAcesoModulo($idmodulo = null, $idperfil = null){
+        $query  = Accesos::where('idmodulo',$idmodulo)->where('idperfil',$idperfil)->first();
+        if ($query)
+            return true;
+        return false;
+    }
+
+    public function getComprobarPermiso($url = null, $funcion = null, $idrol = null){
+        $query  = Permission::select('r_p.*')
+                    ->join('seguridad.roles_permisos as r_p','seguridad.permisos.id','=','r_p.permission_id')
+                    ->where('seguridad.permisos.name',$funcion."-".$url)
+                    ->where('r_p.role_id',$idrol)->first();
+        if ($query)
+            return true;
+        return false;
+    }
+
+    public function getTraerFunciones($idmodulo = null,$url = null, $idrol = null, $idperfil = null){
+
+        $children = [];
+        foreach (Funcion::whereNotIn('id',[1,4])->get() as $key => $item) {
+                $value                          = [];
+                $value['id']                    = "f-".$idmodulo."-".$item->funcion;
+                $value['text']                  = $item->nombre;
+                $value['icon']                  = "mdi mdi-xml";
+                if ($idrol != null){
+                    $value['state']['selected'] = $this->getComprobarPermiso($url,$item->funcion,$idrol);
+                    $value['state']['opened']   = $this->getComprobarPermiso($url,$item->funcion,$idrol);
+                }
+                $children[]                     = $value;
+        }
+        return $children;
+    }
+
+    public function getTraerModulos($modulo, $idpadre = null, $idperfil = null, $idrol = null){
+        return collect($modulo)
+            ->where('idpadre',$idpadre)
+            ->map(function($item) use ($modulo,$idpadre,$idperfil,$idrol){
+                $value                          = [];
+                $value['id']                    = "m-".$item->id;
+                $value['text']                  = $item->modulo;
+                if ($idrol != null){
+                    //$value['state']['selected'] = $this->getComprobarAcesoModulo($item->id,$idperfil);
+                    $value['state']['opened']   = $this->getComprobarAcesoModulo($item->id,$idperfil);
+                }
+                //$value['children']              = $this->getTraerModulos($modulo,$item->id,$idperfil);
+                $value['children']              = $this->getTraerFunciones($item->id,$item->url,$idrol,$idperfil);
+
+                return $value;
+            })->values()->all();
+
+    }
+
+    public static function acceso_modulos($idmodulo_padre, $idperfil, $idrol){
+        $query  = static::with('modulo')->where('id',$idmodulo_padre)->orderBy('orden')->get();
+        $data   = [];
+
+        foreach($query as $item){
+                $value                      = [];
+                $value['id']                = "p-".$item->id;
+                $value['text']              = $item->descripcion;
+                $value['icon']              = $item->icono;
+                $value['state']['opened']   = true;
+                $value['children']          = $item->getTraerModulos($item->modulo,null,$idperfil,$idrol);
+                $data[]                     = $value;
+        }
+
+        if(count($data) == 1)
+            if (count($data[0]["children"]) == 0)
+                return [];
+        return $data;
     }
 }

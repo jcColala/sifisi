@@ -16,7 +16,7 @@
    					<div class="form-group form-row">
 						<div class="col-md-6">
 							<div class="wrap-input100 mrginput100 validate-input">
-                                    <input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Descripción*">
+                                    <input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Modulo padre*">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>

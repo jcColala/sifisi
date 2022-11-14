@@ -13,9 +13,12 @@ class CreateFuncionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('seguridad.funciones', function (Blueprint $table) {
+        Schema::create('seguridad.funcion', function (Blueprint $table) {
             $table->id();
-            $table->string("funciones", 120);
+            $table->string("nombre", 120);
+            $table->string("funcion", 120);
+            $table->integer("orden")->default(1);
+            $table->boolean("editable")->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +31,6 @@ class CreateFuncionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('seguridad.funciones');
+        Schema::dropIfExists('seguridad.funcion');
     }
 }
