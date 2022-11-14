@@ -319,31 +319,26 @@ class DatabaseSeeder extends Seeder
         $permisos = Permission::pluck('id', 'id')->all();
         $rol->syncPermissions($permisos);        
         $user->assignRole($rol->id);
-        $data->acceder    = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 5;
         $data->idperfil   = 1;
-        $data->acceder    = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 6;
         $data->idperfil   = 1;
-        $data->acceder    = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 7;
         $data->idperfil   = 1;
-        $data->acceder    = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 8;
         $data->idperfil   = 1;
-        $data->acceder    = 1;
         $data->save();
 
         //--------------------------------------------------MOVSGC
