@@ -152,7 +152,7 @@ class DatabaseSeeder extends Seeder
         $data->url              = "accesos";
         $data->icono            = null;
         $data->orden            = 1;
-        $data->editable         = false;
+        $data->editable         = true;
         $data->save();
 
         $data = new Modulo();
