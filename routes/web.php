@@ -6,11 +6,14 @@ use App\Http\Controllers\Modulo_padreController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\AccesosController;
 use App\Http\Controllers\FuncionController;
+use App\Http\Controllers\sgc\EntidadController;
 use App\Http\Controllers\sgc\Proceso_ceroController;
 use App\Http\Controllers\sgc\Proceso_unoController;
-use App\Http\Controllers\sgc\TipoProcesoController;
+use App\Http\Controllers\sgc\Proceso_unodetalleController;
+use App\Http\Controllers\sgc\Tipo_procesoController;
 use App\Models\Proceso_cero;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Contracts\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,16 +68,23 @@ Route::group(["middleware"=>['auth']], function(){
 
     //!----------------------------------------------SGC---------------------//
     
-    Route::resource('tipo_proceso', TipoProcesoController::class)->only("index", "create", "store", "edit", "destroy");
-    Route::get('tipo_proceso/grilla',[TipoProcesoController::class, 'grilla'])->name('tipo_proceso.grilla');
 
+
+    Route::resource('entidad', EntidadController::class)->only('index', 'create', 'store', 'edit', 'destroy');
+    Route::get('entidad/grilla',[EntidadController::class, 'grilla'])->name('entidad.grilla');
+
+    Route::resource('tipo_proceso', Tipo_procesoController::class)->only('index', 'create', 'store', 'edit', 'destroy');
+    Route::get('tipo_proceso/grilla',[Tipo_procesoController::class, 'grilla'])->name('tipo_proceso.grilla');
 
     Route::resource('proceso_cero', Proceso_ceroController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('proceso_cero/grilla',[Proceso_ceroController::class, 'grilla'])->name('proceso_cero.grilla');
 
+
     Route::resource('proceso_uno', Proceso_unoController::class)->only("index", "create", "store", "edit", "destroy");
-    Route::get('proceso_uno/{id}', [Proceso_unoController::class, 'index']);
     Route::get('proceso_uno/grilla',[Proceso_unoController::class, 'grilla'])->name('proceso_uno.grilla');
+
+    
+    Route::get('movimientos', function(){echo "a";})->name('movimientos.index');
 
 
 });

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMovConsejoFacultadTable extends Migration
+class CreateEntidadesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,18 @@ class CreateMovConsejoFacultadTable extends Migration
      */
     public function up()
     {
-        Schema::create('movsgc.mov_consejo_facultad', function (Blueprint $table) {
+        Schema::create('sgc.entidad', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('identidad');
-            $table->unsignedBigInteger('idestado');
+            $table->unsignedBigInteger('idestado')->default(1);
             $table->unsignedBigInteger('idpersona_solicita');
-            $table->unsignedBigInteger('idpersona_aprueba');
+            $table->unsignedBigInteger('idpersona_aprueba')->nullable();
             $table->string('descripcion', 120);
+            $table->integer('cant_integrantes');
+            $table->boolean('editable')->default(true);
             $table->softDeletes();
             $table->timestamps();
             
-            $table->foreign('identidad')->references('id')->on('sgc.entidad');
-            $table->foreign('idestado')->references('id')->on('movsgc.mov_estado');
+            $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
         });
@@ -37,6 +37,6 @@ class CreateMovConsejoFacultadTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mov_consejo_facultad');
+        Schema::dropIfExists('entidades');
     }
 }

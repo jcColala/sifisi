@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
-
-use App\Models\SGCProceso_cero;
-use App\Models\MOVSGCMov_proceso_cero;
-use App\Models\SGCEntidad;
 use App\Models\SGCTipo_proceso;
+use App\Models\MOVSGCMov_tipo_proceso;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -15,10 +12,10 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class Proceso_ceroController extends Controller
+class Tipo_procesoController extends Controller
 {
-    public $modulo                  = "Procesos de Nivel Cero";
-    public $path_controller         = "proceso_cero";
+    public $modulo                  = "Tipos de Procesos";
+    public $path_controller         = "tipo_proceso";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -27,7 +24,7 @@ class Proceso_ceroController extends Controller
     public $dataTableServer         = null;
 
     public function __construct(){
-        $this->model                = new SGCProceso_cero();
+        $this->model                = new SGCTipo_proceso();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
 
@@ -38,11 +35,9 @@ class Proceso_ceroController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
-        $datos["tipo_proceso"]      = SGCTipo_proceso::get();
-        $datos["responsable"]       = SGCEntidad::get();
         $datos["data"]              = [];
         if( $id != null )
-            $datos["data"]          = SGCProceso_cero::withTrashed()->find($id);
+            $datos["data"]          = SGCTipo_proceso::withTrashed()->find($id);
 
         return $datos;
     }
@@ -53,11 +48,11 @@ class Proceso_ceroController extends Controller
 
     public function grilla(){
         //withTrashed
-        $objeto = SGCProceso_cero::
-            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.proceso_cero.idestado')
-            ->select('sgc.proceso_cero.id as id', 'sgc.proceso_cero.descripcion as descripcion', 'sgc.proceso_cero.codigo as codigo', 'sgc.estado.descripcion as estado')
-            ->orderBy('sgc.proceso_cero.idtipo_proceso', 'asc')
-            ->withTrashed();
+        $objeto = SGCTipo_proceso::
+            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.tipo_proceso.idestado')
+            ->select('sgc.tipo_proceso.id as id', 'sgc.tipo_proceso.descripcion as descripcion', 'sgc.tipo_proceso.codigo as codigo', 'sgc.estado.descripcion as estado')
+            ->orderBy('id', 'asc')
+            ->get();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -75,34 +70,19 @@ class Proceso_ceroController extends Controller
     }
 
     public function store(Request $request){
-        
         $this->validate($request,[
-            'idtipo_proceso'=>'required',
             'codigo'=> 'required',
             'descripcion' => 'required',
-            'idresponsable'=>'required',
-            'objetivo'=>'required',
-            'alcance'=>'required',
             ],[
-            'idtipo_proceso.required' => 'Seleccione el tipo de proceso',
-            'codigo.required'=> 'Escriba el código del proceso',
-            'descripcion.required' => 'Escriba el Nombre del Proceso',
-            'idresponsable.required' => 'Seleccione el responsable del proceso',
-            'objetivo.required' => 'Escriba el objetivo del proceso',
-            'alcance.required' => 'Escriba el alcance del proceso',
+            'codigo'=> 'Escriba el código del tipo de proceso',
+            'descripcion' => 'Escriba el Nombre del Tipo de Proceso',
         ]);
+
         return DB::transaction(function() use ($request){
-            $obj_mov = MOVSGCMov_proceso_cero::withTrashed()->find($request->id);
-
-            if(is_null($obj_mov))
-                $obj_mov = new MOVSGCMov_proceso_cero();
-            $obj_mov->fill($request->all());
-            $obj_mov->save();
-
-            $obj = SGCProceso_cero::withTrashed()->find($request->id);
+            $obj        = SGCTipo_proceso::withTrashed()->find($request->id);
 
             if(is_null($obj))
-                $obj = new SGCProceso_cero();
+                $obj    = new SGCTipo_proceso();
             $obj->fill($request->all());
             $obj->save();
             return response()->json($obj);
@@ -111,21 +91,21 @@ class Proceso_ceroController extends Controller
     }
 
     public function edit($id){ 
-        $data  = SGCProceso_cero::withTrashed()->find($id);
+        $data  = SGCTipo_proceso::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
     public function destroy(Request $request){
 
-        /*$obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->with("proceso_uno")->first();
+        /*$obj = SGCProceso_uno::withTrashed()->where("id",$request->id)->with("proceso_uno")->first();
         if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
         if ($request->accion == "eliminar") {
-            SGCProceso_cero::find($request->id)->delete();
+            SGCTipo_proceso::find($request->id)->delete();
             return response()->json();
         }
-        SGCProceso_cero::withTrashed()->find($request->id)->restore();
+        SGCTipo_proceso::withTrashed()->find($request->id)->restore();
         return response()->json();        
     }
 }

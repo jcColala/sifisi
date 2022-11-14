@@ -15,27 +15,23 @@ class CreateProcesoceroTable extends Migration
     {
         Schema::create('sgc.proceso_cero', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('idestado')->default(1);
+            $table->unsignedInteger('idpersona_solicita');
+            $table->unsignedInteger('idpersona_aprueba')->nullable();
             $table->unsignedBigInteger('idtipo_proceso');
-            $table->string('descripcion', 120);
-            $table->string('abrev', 20)->unique();
-            $table->float('version', 10);
-            $table->string('responsable', 120);// ESTO DEBE SER FK 
+            $table->unsignedBigInteger('idresponsable');
+            $table->string('codigo', 20);
+            $table->text('descripcion');
             $table->text('objetivo');
             $table->text('alcance');
-            $table->text('proveedores');
-            $table->text('entradas');
-            $table->text('salidas');
-            $table->text('clientes');
-            $table->text('nombre_elaborado');//DEBE SER FK
-            $table->text('nombre_revisado');//DEBE SER FK
-            $table->text('nombre_aprobado');//DEBE SER FK
-            $table->text('cargo_elaborado');//DEBE SER FK
-            $table->text('cargo_revisado');//DEBE SER FK
-            $table->text('cargo_aprobado');//DEBE SER FK
             $table->softDeletes();
             $table->timestamps();
 
+            $table->foreign('idestado')->references('id')->on('sgc.estado');
+            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
+            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
             $table->foreign('idtipo_proceso')->references('id')->on('sgc.tipo_proceso');
+            $table->foreign('idresponsable')->references('id')->on('sgc.entidad');
         });
     }
 

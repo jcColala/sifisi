@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEntidadTable extends Migration
+class CreateEstadoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEntidadTable extends Migration
      */
     public function up()
     {
-        Schema::create('sgc.entidad', function (Blueprint $table) {
+        Schema::create('sgc.estado', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion', 120);
             $table->softDeletes();
@@ -28,6 +28,6 @@ class CreateEntidadTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entidad');
+        Schema::dropIfExists('estado');
     }
 }

@@ -10,7 +10,7 @@
 		<div class="card">
 			<div class="card-header">
 				<h3 class="card-title">Lista de {{"$modulo"}}</h3>
-				<div class="card-options">
+				<div class="card-options card_options">
 					<div class="btn-list">
 						<!-- START Botones-->
 						@include('extras.botones')

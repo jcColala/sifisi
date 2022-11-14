@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
-use App\Models\SGCTipoProceso;
+use App\Models\SGCEntidad;
+use App\Models\MOVSGCMov_entidad;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -11,10 +12,10 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class TipoProcesoController extends Controller
+class EntidadController extends Controller
 {
-    public $modulo                  = "Tipos de Procesos";
-    public $path_controller         = "tipo_proceso";
+    public $modulo                  = "Entidades";
+    public $path_controller         = "entidad";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -23,7 +24,7 @@ class TipoProcesoController extends Controller
     public $dataTableServer         = null;
 
     public function __construct(){
-        $this->model                = new SGCTipoProceso();
+        $this->model                = new SGCEntidad();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
 
@@ -36,7 +37,7 @@ class TipoProcesoController extends Controller
         $datos["prefix"]            = "";
         $datos["data"]              = [];
         if( $id != null )
-            $datos["data"]          = SGCTipoProceso::withTrashed()->find($id);
+            $datos["data"]          = SGCEntidad::withTrashed()->find($id);
 
         return $datos;
     }
@@ -47,7 +48,10 @@ class TipoProcesoController extends Controller
 
     public function grilla(){
         //withTrashed
-        $objeto = SGCTipoProceso::orderBy('id', 'asc')->withTrashed();
+        $objeto = SGCEntidad::
+            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.entidad.idestado')
+            ->select('sgc.entidad.id as id', 'sgc.entidad.descripcion as descripcion', 'sgc.entidad.cant_integrantes as integrantes', 'sgc.estado.descripcion as estado')
+            ->withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -67,17 +71,25 @@ class TipoProcesoController extends Controller
     public function store(Request $request){
         $this->validate($request,[
             'descripcion'=>'required',
-            'codigo' => 'required'
+            'cant_integrantes' => 'required',
             ],[
-            "descripcion.required"=>"Ingresar el nombre del Tipo de Proceso",
-            "codigo.required"=>"Ingresar el Código del Tipo de Proceso",
+            'descripcion.required'=>'Ingresar el nombre del Tipo de Proceso',
+            'cant_integrantes' => 'Ingresar la cantidad de integrantes de la entidad'
+
         ]);
 
         return DB::transaction(function() use ($request){
-            $obj = SGCTipoProceso::withTrashed()->find($request->id);
+            $obj_mov = MOVSGCMov_entidad::withTrashed()->find($request->id);
+
+            if(is_null($obj_mov))
+                $obj_mov = new MOVSGCMov_entidad();
+            $obj_mov->fill($request->all());
+            $obj_mov->save();
+
+            $obj = SGCEntidad::withTrashed()->find($request->id);
 
             if(is_null($obj))
-                $obj = new SGCTipoProceso();
+                $obj = new SGCEntidad();
             $obj->fill($request->all());
             $obj->save();
             return response()->json($obj);
@@ -86,21 +98,21 @@ class TipoProcesoController extends Controller
     }
 
     public function edit($id){ 
-        $data  = SGCTipoProceso::withTrashed()->find($id);
+        $data  = SGCEntidad::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
     public function destroy(Request $request){
 
-        /*$obj = SGCTipoProceso::withTrashed()->where("id",$request->id)->with("proceso_uno")->first();
+        /*$obj = SGCEntidad::withTrashed()->where("id",$request->id)->with("proceso_uno")->first();
         if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
         if ($request->accion == "eliminar") {
-            SGCTipoProceso::find($request->id)->delete();
+            SGCEntidad::find($request->id)->destroy();
             return response()->json();
         }
-        SGCTipoProceso::withTrashed()->find($request->id)->restore();
+        SGCEntidad::withTrashed()->find($request->id)->restore();
         return response()->json();        
     }
 }

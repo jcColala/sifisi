@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SGCTipoProceso extends Model
+class SGCTipo_proceso extends Model
 {
     use SoftDeletes;
 
@@ -14,6 +14,9 @@ class SGCTipoProceso extends Model
     protected $primaryKey   = "id";
 
     protected $fillable = [
+        'idpersona_solicita',
+        'idpersona_aprueba',
+        'idestado',
         'descripcion',
         'codigo',
         'deleted_at'

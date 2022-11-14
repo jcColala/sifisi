@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SGCProceso_cero extends Model
+class MOVSGCMov_proceso_cero extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "sgc.proceso_cero";
+    protected $table        = "movsgc.mov_proceso_cero";
     protected $primaryKey   = "id";
 
     protected $fillable = [
@@ -28,7 +28,7 @@ class SGCProceso_cero extends Model
 
     /*
     public function procesos_uno(){
-        return $this->hasMany(SGCProceso_uno::class);
+        return $this->hasMany(MOVSGCMov_proceso_uno::class);
     }
 
     public function tipo_proceso(){

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMovTipoProcesoTable extends Migration
+class CreateMovEntidadTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,18 @@ class CreateMovTipoProcesoTable extends Migration
      */
     public function up()
     {
-        Schema::create('movsgc.mov_tipo_proceso', function (Blueprint $table) {
+        Schema::create('movsgc.mov_entidad', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion', 120);
-            $table->string('abrev', 20);
+            $table->unsignedBigInteger('idestado')->default(1);
             $table->unsignedBigInteger('idpersona_solicita');
-            $table->unsignedBigInteger('idpersona_aprueba');
-            $table->unsignedBigInteger('idestado');
+            $table->unsignedBigInteger('idpersona_aprueba')->nullable();
+            $table->string('descripcion', 120);
+            $table->integer('cant_integrantes');
+            $table->boolean('editable')->default(true);
             $table->softDeletes();
             $table->timestamps();
-
-            $table->foreign('idestado')->references('id')->on('movsgc.mov_estado');
+            
+            $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
         });
@@ -36,6 +37,6 @@ class CreateMovTipoProcesoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mov_tipo_proceso');
+        Schema::dropIfExists('mov_entidad');
     }
 }

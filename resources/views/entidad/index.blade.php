@@ -24,9 +24,10 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="05%">Código</th>
-								<th width="30%">Procesos Nivel 0</th>
-								<th width="05%">Estado</th>
+								<th width="15%">Entidad</th>
+								<th width="15%">Integrantes</th>	
+								<th width="10%">Estado</th>
+								<th width="05%"></th>
 							</tr>
 						</thead>
 						<tbody>

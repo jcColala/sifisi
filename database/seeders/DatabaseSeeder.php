@@ -15,11 +15,14 @@ use App\Models\Perfil;
 use App\Models\User;
 use App\Models\Modulo_padre;
 use App\Models\Modulo;
+use App\Models\MOVSGCMov_estado;
 use App\Models\Accesos;
 use App\Models\Funcion;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
+use App\Models\SGCEntidad;
+use App\Models\SGCEstado;
+use App\Models\SGCTipo_proceso;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 Use Faker\Factory as Facker;
@@ -138,10 +141,6 @@ class DatabaseSeeder extends Seeder
         $data->orden        = 2;
         $data->save();
 
-        //facker
-        //$faker = Facker::create();
-        //$int   = 1;
-        //foreach(range(1,500) as $value) {
         
         //------------------------------------------------------- Modulo
 
@@ -181,11 +180,51 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
-        $data->modulo           = "Preceso nivel cero";
-        $data->abreviatura      = "";
-        $data->url              = "proceso_cero";
+        $data->modulo           = "Entidades";
+        $data->abreviatura      = "SGC_E";
+        $data->url              = "entidad";
         $data->icono            = null;
         $data->orden            = 1;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Tipos de Proceso";
+        $data->abreviatura      = "SGC_TP";
+        $data->url              = "tipo_proceso";
+        $data->icono            = null;
+        $data->orden            = 2;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Procesos Nivel 0";
+        $data->abreviatura      = "SGC_P0";
+        $data->url              = "proceso_cero";
+        $data->icono            = null;
+        $data->orden            = 3;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Procesos Nivel 1";
+        $data->abreviatura      = "SGC_P1";
+        $data->url              = "proceso_uno";
+        $data->icono            = null;
+        $data->orden            = 4;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Movimientos";
+        $data->abreviatura      = "SGC_MOV";
+        $data->url              = "movimientos";
+        $data->icono            = null;
+        $data->orden            = 5;
         $data->save();
 
         //}
@@ -269,5 +308,66 @@ class DatabaseSeeder extends Seeder
         $permisos = Permission::pluck('id', 'id')->all();
         $rol->syncPermissions($permisos);        
         $user->assignRole($rol->id);
+        $data->acceder    = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 5;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 6;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 7;
+        $data->idperfil   = 1;
+        $data->acceder    = 1;
+        $data->save();
+
+        //--------------------------------------------------MOVSGC
+        $data = new SGCEstado();
+        $data->descripcion= 'Pendiente';
+        $data->save();
+
+        $data = new SGCEstado();
+        $data->descripcion= 'Aceptado';
+        $data->save();
+
+        $data = new SGCEstado();
+        $data->descripcion= 'Rechazado';
+        $data->save();
+
+        //ENTIDADES
+        $data = new SGCEntidad();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Decano';
+        $data->cant_integrantes = 1;
+        $data->editable = false;
+        $data->save();
+
+        $data = new SGCEntidad();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Director de escuela';
+        $data->cant_integrantes = 1;
+        $data->editable = false;
+        $data->save();
+
+        //TIPOS DE PROCESO
+        $data = new SGCTipo_proceso();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Procesos Estratégicos';
+        $data->codigo = 'PE';
+        $data->save();
+
+        $data = new SGCTipo_proceso();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Procesos Misionales';
+        $data->codigo = 'PM';
+        $data->save();
     }
 }

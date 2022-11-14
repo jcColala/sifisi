@@ -3,12 +3,12 @@ const text_icono = (e, obj, _key, _paht) => {
     set_icono(_key, valor, _paht)
 }
 
-form.register(_path_controller_proceso_cero, {
+form.register(_path_controller_entidad, {
     nuevo: function() {
-        get_modal(_path_controller_proceso_cero,_prefix_proceso_cero)
+        get_modal(_path_controller_entidad,_prefix_entidad)
     },
     editar: function(id) {
-        get_modal(_path_controller_proceso_cero, _prefix_proceso_cero, "edit", id)
+        get_modal(_path_controller_entidad, _prefix_entidad, "edit", id)
     },
     eliminar_restaurar: function(id, obj) {
         var $self = this
@@ -18,7 +18,7 @@ form.register(_path_controller_proceso_cero, {
         swal({ title: "Confirmar", text: "¿Desea " + accion__ + " el registro seleccionado?", type: "warning", showCancelButton: !0, confirmButtonText: "Confirmar", cancelButtonText: "Cancelar" }, function() {
 
             $.ajax({
-                url: route(_path_controller_proceso_cero + '.destroy', 'delete'),
+                url: route(_path_controller_entidad + '.destroy', 'delete'),
                 data: { id: id, accion: accion__ },
                 type: 'DELETE',
                 beforeSend: function() {
@@ -26,7 +26,7 @@ form.register(_path_controller_proceso_cero, {
                 },
                 success: function(response) {
                     //return console.log(response)
-                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación Procesos Nivel 0')
+                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación Procesos Nivel Cero')
                     $self.callback(response)
                     init_btndelete()
                 },
@@ -37,7 +37,7 @@ form.register(_path_controller_proceso_cero, {
                     if (e.status == 422) { //Errores de Validacion
                         $.each(e.responseJSON.errors, function(i, item) {
                             if (i == 'referencias') {
-                                toastr.warning(item, 'Notificación Proceso Nivel Cero')
+                                toastr.warning(item, 'Notificación Procesos Nivel Cero')
                             }
 
                         });
@@ -54,11 +54,11 @@ form.register(_path_controller_proceso_cero, {
     },
     guardar: function() {
         var $self = this;
-        let _form = "#form-" + _path_controller_proceso_cero
+        let _form = "#form-" + _path_controller_entidad
         let post_data = $(_form).serialize()
 
         $.ajax({
-            url: route(_path_controller_proceso_cero + '.store'),
+            url: route(_path_controller_entidad + '.store'),
             type: 'POST',
             data: post_data,
             cache: false,
@@ -67,10 +67,10 @@ form.register(_path_controller_proceso_cero, {
                 //loading();
             },
             success: function(response) {
-                //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_proceso_cero, {"timeOut":500000,"tapToDismiss": false})
+                //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_entidad, {"timeOut":500000,"tapToDismiss": false})
                 toastr.success('Datos grabados correctamente', 'Notificación Procesos Nivel Cero')
                 $self.callback(response)
-                close_modal(_path_controller_proceso_cero)
+                close_modal(_path_controller_entidad)
             },
             complete: function() {
                 //loading("complete");
@@ -79,15 +79,15 @@ form.register(_path_controller_proceso_cero, {
 
                 //Msj($("#descripcion"), "Ingrese Descripcion ","","above",false)
                 if (e.status == 422) { //Errores de Validacion
-                    limpieza(_path_controller_proceso_cero);
+                    limpieza(_path_controller_entidad);
                     $.each(e.responseJSON.errors, function(i, item) {
-                        $('#' + i+"_"+_prefix_proceso_cero).addClass('is_invalid');
-                        $('.' + i+"_"+_prefix_proceso_cero).removeClass('d-none');
-                        $('.' + i+"_"+_prefix_proceso_cero).attr('data-content', item);
-                        $('.' + i+"_"+_prefix_proceso_cero).addClass('msj_error_exist');
+                        $('#' + i+"_"+_prefix_entidad).addClass('is_invalid');
+                        $('.' + i+"_"+_prefix_entidad).removeClass('d-none');
+                        $('.' + i+"_"+_prefix_entidad).attr('data-content', item);
+                        $('.' + i+"_"+_prefix_entidad).addClass('msj_error_exist');
 
                     });
-                    $("#form-" + _path_controller_proceso_cero + " .msj_error_exist").first().popover('show');
+                    $("#form-" + _path_controller_entidad + " .msj_error_exist").first().popover('show');
 
 
                 } else if (e.status == 419) {
@@ -100,6 +100,6 @@ form.register(_path_controller_proceso_cero, {
 
     },
     callback: function(data) {
-        grilla.reload(_path_controller_proceso_cero);
+        grilla.reload(_path_controller_entidad);
     }
 });

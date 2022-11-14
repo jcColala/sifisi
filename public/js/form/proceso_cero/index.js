@@ -23,12 +23,17 @@ const load_datatable = () => {
                 className: "text-center"
             },
             {
+                data: 'codigo',
+                name: 'codigo',
+                searchable: true
+            },
+            {
                 data: 'descripcion',
                 orderable: false,
                 searchable: true
             },
             {
-                data: 'activo',
+                data: 'estado',
                 orderable: false,
                 searchable: true,
                 className: "text-center"
@@ -75,7 +80,7 @@ $("#btn-edit").on("click", function(e) {
     }
 });
 
-$("#form-Proceso_cero").on("submit", function(e){
+$("#form-proceso_cero").on("submit", function(e){
     e.preventDefault();
     alert('A la mrda');
 });

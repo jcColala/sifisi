@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Tipo de Proceso</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Registrar Entidad</h5>
 				<span class="col-auto align-self-center"> | <span class="text_requiere">campos obligatorios </span>
 				<span class="form-help" data-toggle="popover" data-placement="top" data-content="Los campos que contengan un ' * ' son obligatorios y es necesario que se ingrese la información correspondiente." data-original-title="" title="">?</span>
 				</span>
@@ -15,7 +15,7 @@
 				<div class="modal-body modal_body">
    					<input type="hidden" name="id" id="id_{{$prefix}}" >
    					<div class="form-group form-row">
-						<div class="col-md-6">
+						<div class="col-md-8">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Descripción*">
                                     <span class="focus-input100"></span>
@@ -25,16 +25,17 @@
                                     <span class="descripcion_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
                         </div>
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="wrap-input100 mrginput100 validate-input">
-                                    <input type="text" class="input100" id="codigo_{{$prefix}}" name="codigo" placeholder="AB*">
+                                    <input type="text" class="input100" id="cant_integrantes_{{$prefix}}" name="cant_integrantes" placeholder="Cantidad Integrantes*">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
                                     </span>
-                                    <span class="codigo_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+                                    <span class="cant_integrantes_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
                         </div>
+
 
 					</div>
 				</div>
