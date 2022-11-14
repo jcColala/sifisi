@@ -80,6 +80,7 @@ class AccesosController extends Controller
             }
 
             if($request->filled("accesos_true") OR $request->filled("accesos_false")){
+                $idmodulo_ant = 0;
                 if ($request->filled("accesos_false")) {
                     foreach($request->accesos_false as $key => $value){
                         $ids = explode("-", $value["id"]);
@@ -87,8 +88,14 @@ class AccesosController extends Controller
                         $funcion  = $ids[2];
                         Accesos::where("idperfil",$request->idperfil)->where("idmodulo",$idmodulo)->delete();
 
-                        if (array_key_exists($idmodulo, $array_mdpermisos))
+                        if (array_key_exists($idmodulo, $array_mdpermisos)){
+                            if ($idmodulo != $idmodulo_ant) {
+                                $array_mdpermisos[$idmodulo]["index"] = ["funcion" => "index-".$modulo["url"]];
+                                $array_mdpermisos[$idmodulo]["store"] = ["funcion" => "store-".$modulo["url"]];
+                                
+                            }
                             unset($array_mdpermisos[$idmodulo][$funcion]);
+                        }
 
                     }
                 }
