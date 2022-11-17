@@ -40,6 +40,6 @@ class CreateEntidadesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sgc.entidades');
+        Schema::dropIfExists('sgc.entidad');
     }
 }

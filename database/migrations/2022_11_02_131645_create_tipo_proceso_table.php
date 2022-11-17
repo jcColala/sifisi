@@ -22,12 +22,12 @@ class CreateTipoprocesoTable extends Migration
             $table->unsignedBigInteger('idestado')->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->unsignedBigInteger('idtipo_accion')->default(1);
+            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
 
             $table->string('descripcion', 120);
             $table->string('codigo', 20);
             $table->boolean('editable')->default(true);
 
-            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
             $table->softDeletes();
             $table->timestamps();
 

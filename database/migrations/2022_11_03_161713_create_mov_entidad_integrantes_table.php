@@ -28,7 +28,6 @@ class CreateMovEntidadIntegrantesTable extends Migration
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
 
-
             $table->softDeletes();
             $table->timestamps();
 
