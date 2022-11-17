@@ -42,6 +42,6 @@ class CreateMovEntidadIntegrantesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mov_entidad_integrantes');
+        Schema::dropIfExists('movsgc.mov_entidad_integrantes');
     }
 }

@@ -40,6 +40,6 @@ class CreateMovtipoprocesoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_proceso');
+        Schema::dropIfExists('movsgc.tipo_proceso');
     }
 }

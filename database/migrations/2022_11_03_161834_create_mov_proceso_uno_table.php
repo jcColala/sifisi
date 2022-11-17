@@ -54,6 +54,6 @@ class CreateMovProcesounoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mov_proceso_uno');
+        Schema::dropIfExists('movsgc.mov_proceso_uno');
     }
 }

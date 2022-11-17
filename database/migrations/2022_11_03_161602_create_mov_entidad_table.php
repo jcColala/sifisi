@@ -40,6 +40,6 @@ class CreateMovEntidadTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mov_entidad');
+        Schema::dropIfExists('movsgc.mov_entidad');
     }
 }

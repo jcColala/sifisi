@@ -35,6 +35,6 @@ class CreateMovConsejoFacultadIntegrantesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mov_consejo_facultad_integrantes');
+        Schema::dropIfExists('movsgc.mov_consejo_facultad_integrantes');
     }
 }

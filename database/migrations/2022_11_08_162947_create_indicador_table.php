@@ -48,6 +48,6 @@ class CreateIndicadorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('indicador');
+        Schema::dropIfExists('movsgc.indicador');
     }
 }

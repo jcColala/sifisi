@@ -28,6 +28,6 @@ class CreateMovEstadoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mov_estado');
+        Schema::dropIfExists('movsgc.mov_estado');
     }
 }
