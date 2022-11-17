@@ -16,8 +16,6 @@ class CreateEntidadesTable extends Migration
         Schema::create('sgc.entidad', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idestado')->default(1);
-
-            $table->unsignedBigInteger('idpersona_solicita')->nullable()->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->unsignedBigInteger('idpersona_solicita');
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
