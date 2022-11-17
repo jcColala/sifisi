@@ -16,21 +16,22 @@ class CreateMovEntidadIntegrantesTable extends Migration
         Schema::create('movsgc.mov_entidad_integrantes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('identidad');
+            $table->foreign('identidad')->references('id')->on('sgc.entidad');
             $table->unsignedBigInteger('idestado');
+            $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->unsignedBigInteger('idpersona_solicita');
+            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->unsignedBigInteger('idpersona_aprueba');
+            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
             $table->unsignedBigInteger('idintegrante');
+            $table->foreign('idintegrante')->references('dni')->on('general.persona');
             $table->unsignedBigInteger('idtipo_accion')->default(1);
+            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
+
 
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('identidad')->references('id')->on('sgc.entidad');
-            $table->foreign('idestado')->references('id')->on('sgc.estado');
-            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
-            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
-            $table->foreign('idintegrante')->references('dni')->on('general.persona');
-            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
 
         });
     }
