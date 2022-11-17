@@ -17,7 +17,10 @@ class CreateFuncionesTable extends Migration
             $table->id();
             $table->string("nombre", 120);
             $table->string("funcion", 120);
-            $table->integer("orden")->default(1);
+            $table->string("clase", 120)->nullable();
+            $table->string("icono", 60)->nullable();
+            $table->integer("orden")->nullable();
+            $table->string("mostrar", 1)->default('N');
             $table->boolean("editable")->default(true);
             $table->softDeletes();
             $table->timestamps();

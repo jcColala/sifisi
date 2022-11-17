@@ -1,3 +1,7 @@
+const text_icono = (e, obj, _key, _paht) => {
+    let valor = $('input:text[name=icono]').val()
+    set_icono(_key, valor, _paht)
+}
 
 form.register(_path_controller_funcion, {
     nuevo: function() {
@@ -40,7 +44,7 @@ form.register(_path_controller_funcion, {
         var $self = this;
         let _form = "#form-" + _path_controller_funcion
         let post_data = $(_form).serialize()
-
+        post_data += "&mostrar="+mostrar_
         $.ajax({
             url: route(_path_controller_funcion + '.store'),
             type: 'POST',

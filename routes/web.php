@@ -34,9 +34,7 @@ Route::get('/', function () {return view('welcome');})->name('web');
 
 //--------------------------------------------------------------------------------------------------- Error
 // 404
-Route::get('/404', function () {return view('error/404');})->name('404');
-// 500
-Route::get('/500', function () {return view('error/500');})->name('500');
+Route::get('/404', function () {return view('errors/404');})->name('404');
 
 
 Route::group(["middleware"=>['auth']], function(){

@@ -16,13 +16,21 @@ class CreateProcesounoTable extends Migration
         Schema::create('sgc.proceso_uno', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idestado')->default(1);
+            $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->unsignedInteger('idpersona_solicita');
+            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->unsignedInteger('idpersona_aprueba')->nullable();
+            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
             $table->unsignedBigInteger('idproceso_cero');
+            $table->foreign('idproceso_cero')->references('id')->on('sgc.proceso_cero');
             $table->unsignedBigInteger('idelaborado');
+            $table->foreign('idelaborado')->references('id')->on('sgc.entidad');
             $table->unsignedBigInteger('idrevisado');
+            $table->foreign('idrevisado')->references('id')->on('sgc.entidad');
             $table->unsignedBigInteger('idaprobado');
+            $table->foreign('idaprobado')->references('id')->on('sgc.entidad');
             $table->unsignedBigInteger('idtipo_accion')->default(1);
+            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
             $table->string('codigo', 20);
             $table->text('descripcion');
             $table->float('version');
@@ -35,15 +43,6 @@ class CreateProcesounoTable extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('idestado')->references('id')->on('sgc.estado');
-            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
-            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
-            $table->foreign('idproceso_cero')->references('id')->on('sgc.proceso_cero');
-            $table->foreign('idelaborado')->references('id')->on('sgc.entidad');
-            $table->foreign('idrevisado')->references('id')->on('sgc.entidad');
-            $table->foreign('idaprobado')->references('id')->on('sgc.entidad');
-            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
-
         });
     }
 
@@ -54,6 +53,6 @@ class CreateProcesounoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proceso_uno');
+        Schema::dropIfExists('sgc.proceso_uno');
     }
 }

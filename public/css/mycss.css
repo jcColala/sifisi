@@ -1,12 +1,21 @@
 @import 'colores.css';
 
+:focus {
+    outline: none;
+}
 .md_nocturno_o_o label {
     margin: 0;
     width: auto;
     cursor: pointer;
     color: #76839a !important;
 }
-
+.mw-2em{
+    min-width: 2em;
+}
+.btn_ptb{
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
 .pl-2px{
     padding-left: 2px;
 }

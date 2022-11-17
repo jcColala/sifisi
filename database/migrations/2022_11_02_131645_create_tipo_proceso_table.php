@@ -18,16 +18,16 @@ class CreateTipoprocesoTable extends Migration
             $table->string('descripcion', 120);
             $table->string('codigo', 20);
             $table->unsignedBigInteger('idpersona_solicita');
+            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
             $table->unsignedBigInteger('idpersona_aprueba')->nullable();
+            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
             $table->unsignedBigInteger('idestado')->default(1);
+            $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->unsignedBigInteger('idtipo_accion')->default(1);
+            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('idestado')->references('id')->on('sgc.estado');
-            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
-            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
-            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
         });
     }
 
@@ -38,6 +38,6 @@ class CreateTipoprocesoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_proceso');
+        Schema::dropIfExists('sgc.tipo_proceso');
     }
 }

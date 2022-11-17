@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEstadoTable extends Migration
+class CreateFuncionModuloTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateEstadoTable extends Migration
      */
     public function up()
     {
-        Schema::create('sgc.estado', function (Blueprint $table) {
+        Schema::create('seguridad.funcion_modulo', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion', 120);
+            $table->unsignedBigInteger("idmodulo");
+            $table->foreign('idmodulo')->references('id')->on('seguridad.modulo');
+            $table->unsignedBigInteger("idfuncion");
+            $table->foreign('idfuncion')->references('id')->on('seguridad.funcion');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +31,6 @@ class CreateEstadoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sgc.sgc.estado');
+        Schema::dropIfExists('seguridad.funcion_modulo');
     }
 }

@@ -27,6 +27,6 @@ class CreateTipoAccionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_accion');
+        Schema::dropIfExists('sgc.tipo_accion');
     }
 }

@@ -101,16 +101,16 @@ class Modulo_padre extends Model
     }
 
     public function getTraerFunciones($idmodulo = null,$url = null, $idrol = null, $idperfil = null){
-
         $children = [];
-        foreach (Funcion::whereNotIn('id',[1,4])->get() as $key => $item) {
+        $funcion = Funcion_modulo::with('funcion')->where("idmodulo",$idmodulo)->get();
+        foreach ($funcion as $key => $item) {
                 $value                          = [];
-                $value['id']                    = "f-".$idmodulo."-".$item->funcion;
-                $value['text']                  = $item->nombre;
+                $value['id']                    = "f-".$idmodulo."-".$item["funcion"]->funcion;
+                $value['text']                  = $item["funcion"]->nombre;
                 $value['icon']                  = "mdi mdi-xml";
                 if ($idrol != null){
-                    $value['state']['selected'] = $this->getComprobarPermiso($url,$item->funcion,$idrol);
-                    $value['state']['opened']   = $this->getComprobarPermiso($url,$item->funcion,$idrol);
+                    $value['state']['selected'] = $this->getComprobarPermiso($url,$item["funcion"]->funcion,$idrol);
+                    $value['state']['opened']   = $this->getComprobarPermiso($url,$item["funcion"]->funcion,$idrol);
                 }
                 $children[]                     = $value;
         }
@@ -128,8 +128,11 @@ class Modulo_padre extends Model
                     //$value['state']['selected'] = $this->getComprobarAcesoModulo($item->id,$idperfil);
                     $value['state']['opened']   = $this->getComprobarAcesoModulo($item->id,$idperfil);
                 }
-                //$value['children']              = $this->getTraerModulos($modulo,$item->id,$idperfil);
-                $value['children']              = $this->getTraerFunciones($item->id,$item->url,$idrol,$idperfil);
+                if($this->getTraerModulos($modulo,$item->id,$idperfil) == null){
+                    $value['children']          = $this->getTraerFunciones($item->id,$item->url,$idrol,$idperfil);
+                }else{
+                    $value['children']          = $this->getTraerModulos($modulo,$item->id,$idperfil,$idrol);
+                }
 
                 return $value;
             })->values()->all();

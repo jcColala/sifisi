@@ -54,10 +54,13 @@ class FuncionController extends Controller
         $objeto = Funcion::withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
+                ->addColumn("icono", function($objeto){
+                    return "<i class='{$objeto->icono}'></i>";
+                })
                 ->addColumn("estado", function($row){
                     return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
                 })
-                ->rawColumns(["estado"])
+                ->rawColumns(["icono","estado"])
                 ->make(true);
     }
 
@@ -84,8 +87,7 @@ class FuncionController extends Controller
         
     }
 
-    public function edit($id){ 
-        $data  = Funcion::withTrashed()->find($id);
+    public function edit($id){
         return view("{$this->path_controller}.form",$this->form($id));
     }
 

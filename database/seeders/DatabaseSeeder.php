@@ -164,7 +164,7 @@ class DatabaseSeeder extends Seeder
         $data->url              = "modulo_padre";
         $data->icono            = null;
         $data->orden            = 2;
-        $data->editable         = false;
+        $data->editable         = true;
         $data->save();
 
         $data = new Modulo();
@@ -175,7 +175,18 @@ class DatabaseSeeder extends Seeder
         $data->url              = "modulo";
         $data->icono            = null;
         $data->orden            = 3;
-        $data->editable         = false; 
+        $data->editable         = true; 
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 1;
+        $data->idpadre          = null;
+        $data->modulo           = "Funcion";
+        $data->abreviatura      = "Md";
+        $data->url              = "funcion";
+        $data->icono            = null;
+        $data->orden            = 4;
+        $data->editable         = true; 
         $data->save();
 
         $data = new Modulo();
@@ -269,35 +280,41 @@ class DatabaseSeeder extends Seeder
         $data->nombre   = 'Ver';
         $data->funcion  = 'index';
         $data->orden    = 1;
-        $data->editable = false;
+        $data->editable = true;
         $data->save();
 
         $data = new Funcion();
         $data->nombre   = 'Crear';
         $data->funcion  = 'create';
+        $data->icono    = 'fe fe-plus-circle';
         $data->orden    = 2;
-        $data->editable = false;
+        $data->mostrar  = "S";
+        $data->editable = true;
         $data->save();
 
         $data = new Funcion();
         $data->nombre   = 'Editar';
         $data->funcion  = 'edit';
+        $data->icono    = 'fe fe-edit';
         $data->orden    = 3;
-        $data->editable = false;
+        $data->mostrar  = "S";
+        $data->editable = true;
         $data->save();
 
         $data = new Funcion();
         $data->nombre   = 'Guardar';
         $data->funcion  = 'store';
         $data->orden    = 4;
-        $data->editable = false;
+        $data->editable = true;
         $data->save();
 
         $data = new Funcion();
         $data->nombre   = 'Eliminar';
         $data->funcion  = 'destroy';
+        $data->icono    = 'fe fe-circle';
         $data->orden    = 5;
-        $data->editable = false;
+        $data->mostrar  = "S";
+        $data->editable = true;
         $data->save();
 
         //------------------------------------------------------- Permisos

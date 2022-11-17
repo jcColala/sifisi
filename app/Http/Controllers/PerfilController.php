@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Perfil;
+use App\Models\Funcion;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class PerfilController extends Controller
 {
@@ -21,6 +24,11 @@ class PerfilController extends Controller
     public $name_table              = "";
 
     public function __construct(){
+
+        foreach (Funcion::get() as $key => $value) {
+            $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
+        }
+        
         $this->model                = new Perfil();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
@@ -76,7 +84,6 @@ class PerfilController extends Controller
     }
 
     public function edit($id){ 
-        $data  = Perfil::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
