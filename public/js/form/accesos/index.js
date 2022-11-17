@@ -91,7 +91,8 @@ function guardar_accesos(e) {
 //------------------------------------------------------------- Jstree
 function armar_jstree(e) {
     e.preventDefault()
-
+    
+    limpieza(_path_controller_accesos)
     $('#jstree_' + _path_controller_accesos).jstree('destroy')
     __jstree = $('#jstree_' + _path_controller_accesos).jstree({
         'plugins': ["wholerow", "checkbox", "types"],

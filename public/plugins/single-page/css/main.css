@@ -384,3 +384,22 @@ iframe {
 	padding-left: 0;
 	padding-right: 0;
 }
+.text-transparent_primary{
+	color: #5e2dd8;
+    opacity: .5;
+}
+.login_errors{
+	/*background: url(../../../images/errors/errors.jpg);
+	background-repeat: no-repeat;
+    background-position-x: 80px;
+    background-position-y: 52%;
+    background-size: 24em;
+	background-position: 30px;*/
+	background: #fff;
+}
+.login_errors .login-img{
+	background: none;
+}
+.login_errors h1{
+	font-size: ;
+}

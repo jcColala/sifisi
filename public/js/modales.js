@@ -1,7 +1,7 @@
 //------------------------------------------------------------- Variables globales
 let selected = ""
 let data_form = ""
-let btn_el_rest = "#btn-delete_restore"
+let btn_el_rest = "#btn-destroy"
 let msj_sesion = "La sesión ya expiró, por favor cierre sesión y vuelva a ingresar."
 let msj_soporte = "Hubo problemas internos, por favor comunicate de inmediato con SOPORTE."
 let msj_accesos = "Lo sentimos, usted no tiene los permisos para realizar dicha acción."
@@ -75,11 +75,11 @@ $(".databale").on('click', 'tr', function(e) {
                 return alertas.warning("Acción denegada!", msj_denegada);
             }
             if (table.row(this).data()["deleted_at"] == null) {
-                $(btn_el_rest).html("<i class='fe fe-trash bt_grilla text-primary-shadow'></i> &nbsp;&nbsp;Eliminar&nbsp;")
+                $(btn_el_rest).html("<i class='fe fe-trash bt_grilla text-primary-shadow'></i> &nbsp;Eliminar&nbsp;")
                 $(btn_el_rest).attr("data-action", " eliminar")
                 $(btn_el_rest).addClass("btn btn-outline-danger")
             } else {
-                $(btn_el_rest).html('<i class="fe fe-rotate-ccw bt_grilla text-primary-shadow"></i>&nbsp;Restaurar')
+                $(btn_el_rest).html('<i class="fe fe-rotate-ccw bt_grilla text-primary-shadow"></i>Restaurar')
                 $(btn_el_rest).attr("data-action", "restaurar")
                 $(btn_el_rest).addClass("btn btn-outline-success")
 
@@ -296,7 +296,7 @@ const limpieza = (_paht) => {
 const init_btndelete = () => {
     if (document.querySelectorAll(btn_el_rest).length) {
         $(btn_el_rest).attr("class", "")
-        $(btn_el_rest).html("<i class='fe fe-circle bt_grilla text-primary-shadow'></i>&nbsp;Elim/Rest")
+        $(btn_el_rest).html("<i class='fe fe-circle bt_grilla text-primary-shadow'></i>Elim/Rest")
         $(btn_el_rest).attr("data-action", "")
         $(btn_el_rest).addClass("btn btn-outline-default")
     }

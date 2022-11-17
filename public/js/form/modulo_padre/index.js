@@ -58,7 +58,7 @@ const load_datatable = () => {
 }
 
 //------------------------------------------------------------- Nuevo
-$("#btn-new").on("click", function(e) {
+$("#btn-create").on("click", function(e) {
     e.preventDefault();
     form.get(_path_controller_modulo_padre).nuevo();
 });
@@ -76,7 +76,7 @@ $("#btn-edit").on("click", function(e) {
 });
 
 //------------------------------------------------------------- Eliminar
-$("#btn-delete_restore").on("click", function(e) {
+$("#btn-destroy").on("click", function(e) {
     e.preventDefault();
     var id = grilla.get_id(_name_tabla_modulo_padre);
     if (id != null) {

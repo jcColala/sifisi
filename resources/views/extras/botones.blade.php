@@ -1,3 +1,6 @@
-<a href="#" id="btn-new"    data-controller="" class="btn btn-outline-primary" ><i class="fe fe-plus-circle bt_grilla text-primary-shadow"></i> Nuevo</a>
-<a href="#" id="btn-edit"   data-controller="" class="btn btn-outline-info" ><i class="fe fe-edit bt_grilla text-primary-shadow"></i> Editar</a>
-<a href="#" id="btn-delete_restore" data-controller="" class="btn btn-outline-default" data-action="" ><i class="fe fe-circle bt_grilla text-primary-shadow"></i>&nbsp;Elim/Rest</a>
+@foreach ($funcion as $key => $row)
+	@can($row["funcion"].'-'.$path_controller)
+		<a href="#" id="btn-{{$row["funcion"]}}" data-controller="{{$path_controller}}" class="{{$row["clase"]}}" >
+			<i class="{{$row["icono"]}} bt_grilla text-primary-shadow"></i> {{$row["nombre"]}}</a>
+	@endcan
+@endforeach
