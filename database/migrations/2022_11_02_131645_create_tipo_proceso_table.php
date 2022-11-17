@@ -15,12 +15,13 @@ class CreateTipoprocesoTable extends Migration
     {
         Schema::create('sgc.tipo_proceso', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion', 120);
-            $table->string('codigo', 20);
             $table->unsignedBigInteger('idpersona_solicita');
             $table->unsignedBigInteger('idpersona_aprueba')->nullable();
             $table->unsignedBigInteger('idestado')->default(1);
             $table->unsignedBigInteger('idtipo_accion')->default(1);
+            $table->string('descripcion', 120);
+            $table->string('codigo', 20);
+            $table->boolean('editable')->default(true);
             $table->softDeletes();
             $table->timestamps();
 

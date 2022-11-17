@@ -22,6 +22,7 @@ class CreateProcesoceroTable extends Migration
             $table->unsignedBigInteger('idresponsable');
             $table->unsignedBigInteger('idtipo_accion')->default(1);
 
+            $table->boolean('editable')->default(true);
             $table->string('codigo', 20);
             $table->text('descripcion');
             $table->text('objetivo');

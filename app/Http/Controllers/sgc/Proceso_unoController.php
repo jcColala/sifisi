@@ -57,11 +57,8 @@ class Proceso_unoController extends Controller
 
     public function grilla(){
         //withTrashed
-        $objeto = SGCProceso_uno::
-            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.proceso_uno.idestado')
-            ->select('sgc.proceso_uno.id as id', 'sgc.proceso_uno.descripcion as descripcion', 'sgc.proceso_uno.codigo as codigo', 'sgc.estado.descripcion as estado')
-            ->orderBy('id', 'asc')
-            ->get();
+        $objeto = SGCProceso_uno::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'ASC')->get();
+
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){

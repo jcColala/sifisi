@@ -52,12 +52,12 @@
 
 						<div class="col-md-3">
 							<div class="wrap-input100 mrginput100 validate-input">
-                                    <input type="text" class="input100" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*">
-                                    <span class="focus-input100"></span>
-                                    <span class="symbol-input100">
-                                        <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
-                                    </span>
-                                    <span class="codigo_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+                                <input type="text" class="input100" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
+                                </span>
+                                <span class="codigo_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
                         </div>
 

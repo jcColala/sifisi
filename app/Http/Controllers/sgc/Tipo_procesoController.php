@@ -4,7 +4,7 @@ namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
 use App\Models\SGCTipo_proceso;
 use App\Models\MOVSGCMov_tipo_proceso;
-
+use App\Models\SGCTipo_accion;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -47,12 +47,9 @@ class Tipo_procesoController extends Controller
     }
 
     public function grilla(){
-        //withTrashed
-        $objeto = SGCTipo_proceso::
-            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.tipo_proceso.idestado')
-            ->select('sgc.tipo_proceso.id as id', 'sgc.tipo_proceso.descripcion as descripcion', 'sgc.tipo_proceso.codigo as codigo', 'sgc.estado.descripcion as estado')
-            ->orderBy('id', 'asc')
-            ->get();
+        $objeto = SGCTipo_proceso::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'asc')->withTrashed();
+        
+        
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){

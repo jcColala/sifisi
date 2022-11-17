@@ -18,6 +18,7 @@ class SGCEstado extends Model
         'deleted_at'
     ];
 
+
     public function getTableName(){
         return (explode(".", $this->table))[1];
     }

@@ -23,6 +23,7 @@ class CreateProcesounoTable extends Migration
             $table->unsignedBigInteger('idrevisado');
             $table->unsignedBigInteger('idaprobado');
             $table->unsignedBigInteger('idtipo_accion')->default(1);
+            $table->boolean('editable')->default(true);
             $table->string('codigo', 20);
             $table->text('descripcion');
             $table->float('version');

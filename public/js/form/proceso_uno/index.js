@@ -33,7 +33,13 @@ const load_datatable = () => {
                 searchable: true
             },
             {
-                data: 'estado',
+                data: 'tipo_accion.descripcion',
+                orderable: false,
+                searchable: true,
+                className: "text-center"
+            },
+            {
+                data: 'estado.descripcion',
                 orderable: false,
                 searchable: true,
                 className: "text-center"

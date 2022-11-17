@@ -16,6 +16,8 @@ class CreateTipoAccionTable extends Migration
         Schema::create('sgc.tipo_accion', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion', 120);
+            
+            $table->softDeletes();
             $table->timestamps();
         });
     }

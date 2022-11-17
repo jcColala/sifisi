@@ -26,7 +26,7 @@
 								<th width="05%">#</th>
 								<th width="15%">Entidad</th>
 								<th width="05%">Integrantes</th>	
-								<th width="10%">Accion</th>	
+								<th width="10%">Accion</th>
 								<th width="10%">Estado</th>
 							</tr>
 						</thead>

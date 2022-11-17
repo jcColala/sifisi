@@ -53,11 +53,8 @@ class Proceso_ceroController extends Controller
 
     public function grilla(){
         //withTrashed
-        $objeto = SGCProceso_cero::
-            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.proceso_cero.idestado')
-            ->select('sgc.proceso_cero.id as id', 'sgc.proceso_cero.descripcion as descripcion', 'sgc.proceso_cero.codigo as codigo', 'sgc.estado.descripcion as estado')
-            ->orderBy('sgc.proceso_cero.idtipo_proceso', 'asc')
-            ->withTrashed();
+        $objeto = SGCProceso_cero::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'ASC')->get();
+
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -69,8 +66,9 @@ class Proceso_ceroController extends Controller
                 ->rawColumns(['icono', "activo"])
                 ->make(true);
     }
-
+    
     public function create(){
+        
         return view("{$this->path_controller}.form",$this->form());
     }
 
@@ -111,7 +109,6 @@ class Proceso_ceroController extends Controller
     }
 
     public function edit($id){ 
-        $data  = SGCProceso_cero::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 

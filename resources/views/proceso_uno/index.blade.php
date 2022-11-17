@@ -28,6 +28,7 @@
 								<th width="30%">Procesos Nivel 1</th>
 								<th width="20%">Código</th>
 								<th width="05%">Estado</th>
+								<th width="05%">Accion</th>
 							</tr>
 						</thead>
 						<tbody>

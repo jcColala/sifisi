@@ -390,12 +390,14 @@ class DatabaseSeeder extends Seeder
         $data->idpersona_solicita = '1';
         $data->descripcion = 'Procesos Estratégicos';
         $data->codigo = 'PE';
+        $data->editable = false;
         $data->save();
 
         $data = new SGCTipo_proceso();
         $data->idpersona_solicita = '1';
         $data->descripcion = 'Procesos Misionales';
         $data->codigo = 'PM';
+        $data->editable = false;
         $data->save();
     }
 }

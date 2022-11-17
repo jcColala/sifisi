@@ -47,12 +47,9 @@ class EntidadController extends Controller
     }
 
     public function grilla(){
-        //withTrashed
-        $objeto = SGCEntidad::
-            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.entidad.idestado')
-            ->join('sgc.tipo_accion', 'sgc.tipo_accion.id', '=', 'sgc.entidad.idtipo_accion')
-            ->select('sgc.entidad.id as id', 'sgc.entidad.descripcion as descripcion', 'sgc.entidad.cant_integrantes as integrantes', 'sgc.tipo_accion.descripcion as accion','sgc.estado.descripcion as estado')
-            ->get();
+
+        $objeto = SGCEntidad::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->withTrashed();
+        
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){

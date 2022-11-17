@@ -28,17 +28,17 @@ const load_datatable = () => {
                 searchable: true
             },
             {
-                data: 'integrantes',
+                data: 'cant_integrantes',
                 orderable: false,
                 searchable: true
             },
             {
-                data: 'accion',
+                data: 'tipo_accion.descripcion',
                 orderable: false,
                 searchable: true
             },
             {
-                data: 'estado',
+                data: 'estado.descripcion',
                 orderable: false,
                 searchable: true
             },
@@ -84,10 +84,6 @@ $("#btn-edit").on("click", function(e) {
     }
 });
 
-$("#form-entidad").on("submit", function(e){
-    e.preventDefault();
-    alert('A la mrda');
-});
 
 //------------------------------------------------------------- Eliminar
 $("#btn-delete_restore").on("click", function(e) {
