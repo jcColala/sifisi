@@ -16,8 +16,11 @@ class Funcion extends Model
     protected $fillable = [
         'nombre',
         'funcion',
-        'editable',
+        'clase',
+        'icono',
         'orden',
+        'mostrar',
+        'editable',
         'deleted_at'
     ];
 

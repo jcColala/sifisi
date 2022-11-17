@@ -5,6 +5,7 @@ use App\Models\Modulo;
 use App\Models\Modulo_padre;
 use App\Models\User;
 use App\Models\Funcion;
+use App\Models\Funcion_modulo;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -35,14 +36,19 @@ class ModuloController extends Controller
     }
 
     public function form($id = null){
+        $funcion_modulo             = "";
         $datos["table_name"]        = $this->name_table;
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "modulo";
         $datos["modulo_padre"]      = Modulo_padre::get();
+        $datos["funcion"]           = Funcion::where("mostrar","S")->get();
         $datos["data"]              = [];
-        if( $id != null )
-            $datos["data"]          = Modulo::withTrashed()->find($id);
+        if( $id != null ){
+            $datos["data"]     = Modulo::withTrashed()->find($id);
+            $funcion_modulo    = Funcion_modulo::with('funcion')->where("idmodulo",$id)->get();
+        }
+        $datos["funcion_modulo"]    = $funcion_modulo;
         return $datos;
     }
 
@@ -84,14 +90,33 @@ class ModuloController extends Controller
             if(is_null($obj))
                 $obj    = new Modulo();
             $obj->fill($request->all());
-            $obj->save();
+
+            if ($obj->save()) {
+                if($request->filled("modulo_funcion")){
+                    foreach($request->input("modulo_funcion") as $key => $value){
+                        if($key == 0)
+                            Funcion_modulo::where("idmodulo",$obj->id)->delete();
+
+                        $funcion_modulo   = Funcion_modulo::where("idmodulo",$obj->id)->where('idfuncion',$value["id"])->withTrashed()->first();
+
+                        if(is_null($funcion_modulo))
+                            $funcion_modulo    = new Funcion_modulo();
+                        $funcion_modulo->idmodulo       = $obj->id;
+                        $funcion_modulo->idfuncion      = $value["id"];
+                        $funcion_modulo->deleted_at     = null;
+                        $funcion_modulo->save();
+                    }
+                }else{
+                    Funcion_modulo::where("idmodulo",$obj->id)->delete();
+                    //throw ValidationException::withMessages(['required_funcion' => $value["index"]]);
+                }
+            }
             return response()->json($obj);
         });
 
     }
 
     public function edit($id){ 
-        $data   = Modulo::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 

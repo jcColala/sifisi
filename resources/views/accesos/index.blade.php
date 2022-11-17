@@ -62,9 +62,9 @@
 	<div class="col-sm-12 col-md-12 col-lg-12 col-xl-7">
 		<div class="card overflow-hidden bg-white work-progress">
 			<div class="card-header">
-				<h3 class="card-title">Lista de {{$modulo}}</h3>
+				<h3 class="card-title">Lista de {{$modulo}} y Permisos</h3>
 			</div>
-			<div class="card-body">
+			<div class="card-body ml-6 mr-6">
 				<div id="jstree_{{$pathController}}"></div>				
 			</div>
 		</div>

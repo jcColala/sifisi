@@ -24,8 +24,10 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="50%">Nombre</th>
+								<th width="40%">Nombre</th>
 								<th width="35%">Funci&oacute;n</th>
+								<th width="05%">Icono</th>
+								<th width="05%">Mostrar</th>
 								<th width="05%">Orden</th>
 								<th width="05%">Estado</th>
 							</tr>

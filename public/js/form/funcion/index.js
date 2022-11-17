@@ -24,7 +24,25 @@ const load_datatable = () => {
             },
             { data: 'nombre' },
             { data: 'funcion' },
-            { data: 'orden' },
+            {
+                data: 'icono',
+                orderable: false,
+                searchable: false,
+                className: "text-center"
+            },
+            {
+                data: 'mostrar',
+                orderable: false,
+                searchable: false,
+                className: "text-center",
+                render: function(data, type, row) {
+                    if (data == "N") {
+                        return "No"
+                    }
+                    return "Si";
+                }
+            },
+            { data: 'orden',className: "text-center" },
             {
                 data: 'estado',
                 orderable: false,
@@ -34,7 +52,7 @@ const load_datatable = () => {
 
         ],
         order: [
-            [3, 'ASC']
+            [5, 'ASC']
         ]
     });
 

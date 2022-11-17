@@ -17,11 +17,12 @@ class CreateProcesounoTable extends Migration
             $table->id();
             $table->unsignedBigInteger('idestado')->default(1);
             $table->unsignedInteger('idpersona_solicita');
+            $table->unsignedBigInteger('idrevisado');
             $table->unsignedInteger('idpersona_aprueba')->nullable();
             $table->unsignedBigInteger('idproceso_cero');
-            $table->unsignedBigInteger('idelaborado');
-            $table->unsignedBigInteger('idrevisado');
             $table->unsignedBigInteger('idaprobado');
+            $table->unsignedBigInteger('idelaborado');
+            
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->boolean('editable')->default(true);
             $table->string('codigo', 20);
@@ -33,17 +34,22 @@ class CreateProcesounoTable extends Migration
             $table->text('salidas');
             $table->text('clientes');
             $table->text('diagrama')->default('hola buenas tardes');
+
             $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('idestado')->references('id')->on('sgc.estado');
-            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
-            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
-            $table->foreign('idproceso_cero')->references('id')->on('sgc.proceso_cero');
             $table->foreign('idelaborado')->references('id')->on('sgc.entidad');
             $table->foreign('idrevisado')->references('id')->on('sgc.entidad');
             $table->foreign('idaprobado')->references('id')->on('sgc.entidad');
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
+            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
+            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
+            $table->foreign('idproceso_cero')->references('id')->on('sgc.proceso_cero');
+
+
+
+
 
         });
     }
@@ -55,6 +61,6 @@ class CreateProcesounoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proceso_uno');
+        Schema::dropIfExists('sgc.proceso_uno');
     }
 }

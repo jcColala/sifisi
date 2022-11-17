@@ -93,7 +93,6 @@ class Modulo_padreController extends Controller
     }
 
     public function edit($id){ 
-        $data  = Modulo_padre::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 

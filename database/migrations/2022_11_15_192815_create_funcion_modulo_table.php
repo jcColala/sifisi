@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTipoAccionTable extends Migration
+class CreateFuncionModuloTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateTipoAccionTable extends Migration
      */
     public function up()
     {
-        Schema::create('sgc.tipo_accion', function (Blueprint $table) {
+        Schema::create('seguridad.funcion_modulo', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion', 120);
-            
+            $table->unsignedBigInteger("idmodulo");
+            $table->foreign('idmodulo')->references('id')->on('seguridad.modulo');
+            $table->unsignedBigInteger("idfuncion");
+            $table->foreign('idfuncion')->references('id')->on('seguridad.funcion');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -29,6 +31,6 @@ class CreateTipoAccionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sgc.tipo_accion');
+        Schema::dropIfExists('seguridad.funcion_modulo');
     }
 }

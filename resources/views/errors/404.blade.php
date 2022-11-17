@@ -16,7 +16,7 @@
                             Lo sentimos, se ha producido un error, ¡ página solicitada no encontrada !
                         </h5>
                         <div class="text-center">
-                            <a class="btn btn-secondary mt-5 mb-5" href="{{ route('web') }}"> <i class="fa fa-long-arrow-left"></i> Regresar a la página principal </a>
+                            <a class="btn btn-secondary mt-5 mb-5" href="javascript:history.back()"> <i class="fa fa-long-arrow-left"></i> Regresar a la anterior </a>
                         </div>
                     </div>
                 </div>

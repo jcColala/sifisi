@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class FuncionController extends Controller
 {
@@ -21,6 +23,11 @@ class FuncionController extends Controller
     public $name_table              = "";
 
     public function __construct(){
+
+        foreach (Funcion::get() as $key => $value) {
+            $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
+        }
+
         $this->model                = new Funcion();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
@@ -47,10 +54,13 @@ class FuncionController extends Controller
         $objeto = Funcion::withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
+                ->addColumn("icono", function($objeto){
+                    return "<i class='{$objeto->icono}'></i>";
+                })
                 ->addColumn("estado", function($row){
                     return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
                 })
-                ->rawColumns(["estado"])
+                ->rawColumns(["icono","estado"])
                 ->make(true);
     }
 
@@ -77,8 +87,7 @@ class FuncionController extends Controller
         
     }
 
-    public function edit($id){ 
-        $data  = Funcion::withTrashed()->find($id);
+    public function edit($id){
         return view("{$this->path_controller}.form",$this->form($id));
     }
 

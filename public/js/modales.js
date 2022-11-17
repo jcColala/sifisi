@@ -5,7 +5,7 @@ let btn_el_rest = "#btn-delete_restore"
 let msj_sesion = "La sesión ya expiró, por favor cierre sesión y vuelva a ingresar."
 let msj_soporte = "Hubo problemas internos, por favor comunicate de inmediato con SOPORTE."
 let msj_accesos = "Lo sentimos, usted no tiene los permisos para realizar dicha acción."
-let msj_denegada = "El registro actual no tiene las opcines de editar y eliminar."
+let msj_denegada = "El registro actual no tiene las opciones de editar y eliminar."
 csrf_token($('meta[name="csrf-token"]').attr('content'))
 
 
@@ -245,7 +245,7 @@ const get_modal = (_paht, _prefix, funcion = "create", id = null) => {
         },
         error: function(e) {
             $("#div_md-" + _paht).html('')
-            
+
             if (e.status == 419) {
                 console.log(msj_sesion);
             } else if (e.status == 500) {
@@ -299,5 +299,16 @@ const init_btndelete = () => {
         $(btn_el_rest).html("<i class='fe fe-circle bt_grilla text-primary-shadow'></i>&nbsp;Elim/Rest")
         $(btn_el_rest).attr("data-action", "")
         $(btn_el_rest).addClass("btn btn-outline-default")
+    }
+}
+
+
+const mostrar_errores_externos = (e) => {
+    if (e.status == 419) {
+        console.log(msj_sesion);
+    } else if (e.status == 500) {
+        console.log((e.responseJSON.message) ? msj_soporte : ' ');
+    } else if (e.status == 403) {
+        toastr.warning(msj_accesos, 'Notificación accesos')
     }
 }
