@@ -16,6 +16,7 @@ class Accesos extends Model
     protected $fillable = [
         'idmodulo',
         'idperfil',
+        'idrol',
         'deleted_at'  
     ];
 

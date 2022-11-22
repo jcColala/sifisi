@@ -273,43 +273,53 @@ class DatabaseSeeder extends Seeder
 
         //}
 
+        //------------------------------------------------------- Role
+        $rol = Role::create(['name' => 'SuperAdmin']);
+        
         //------------------------------------------------------- Accesos
         $data = new Accesos();
         $data->idmodulo   = 1;
         $data->idperfil   = 1;
+        $data->idrol      = 1;
         $data->editable   = false;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 2;
         $data->idperfil   = 1;
+        $data->idrol      = 1;
         $data->editable   = true;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 3;
         $data->idperfil   = 1;
+        $data->idrol      = 1;
         $data->editable   = true;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 5;
         $data->idperfil   = 1;
+        $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 6;
         $data->idperfil   = 1;
+        $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 7;
         $data->idperfil   = 1;
+        $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 8;
         $data->idperfil   = 1;
+        $data->idrol      = 1;
         $data->save();
 
         //------------------------------------------------------- Funcion
@@ -414,8 +424,6 @@ class DatabaseSeeder extends Seeder
             Permission::create(['name'=>$permiso]);
         }
 
-        //------------------------------------------------------- Roles
-        $rol = Role::create(['name' => 'SuperAdmin']);
         $permisos = Permission::pluck('id', 'id')->all();
         $rol->syncPermissions($permisos);        
         $user->assignRole($rol->id);

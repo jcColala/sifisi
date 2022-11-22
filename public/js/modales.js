@@ -69,10 +69,12 @@ $(".databale").on('click', 'tr', function(e) {
         //selecionar el estado
         if (document.querySelectorAll(btn_el_rest).length && table.row(this).data() != undefined) {
             $(btn_el_rest).attr("class", "")
-            if (!table.row(this).data()["editable"]) {
-                setTimeout(function() { table.$('tr.selected').removeClass('selected') }, 600)
-                init_btndelete()
-                return alertas.warning("Acción denegada!", msj_denegada);
+            if(table.row(this).data()["editable"] != undefined){
+                if (!table.row(this).data()["editable"]) {
+                    setTimeout(function() { table.$('tr.selected').removeClass('selected') }, 600)
+                    init_btndelete()
+                    return alertas.warning("Acción denegada!", msj_denegada);
+                }
             }
             if (table.row(this).data()["deleted_at"] == null) {
                 $(btn_el_rest).html("<i class='fe fe-trash bt_grilla text-primary-shadow'></i> &nbsp;Eliminar&nbsp;")

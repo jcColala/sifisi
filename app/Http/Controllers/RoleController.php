@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class PerfilController extends Controller
+class RoleController extends Controller
 {
     public $modulo                  = "Role";
     public $path_controller         = "role";
@@ -67,7 +67,12 @@ class PerfilController extends Controller
 
     public function store(Request $request){
         $this->validate($request,[
-            'perfil'=>'required'
+            'name'=>['required',
+                    Rule::unique("{$this->driver_current}.{$this->model->getTable()}", "name")
+                          ->ignore($request->id, "id")]
+            ],[
+            "name.required"=>"El campo nombre es obligatorio.",
+            "name.unique"=>"El valor del campo nombre ya está en uso."
             ]);
 
         return DB::transaction(function() use ($request){

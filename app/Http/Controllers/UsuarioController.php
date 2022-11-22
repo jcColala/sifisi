@@ -104,15 +104,17 @@ class UsuarioController extends Controller
                 }
             }
 
-            $obj        = User::withTrashed()->find($request->id);
+            $obj            = User::withTrashed()->find($request->id);
+            $password       = null;
             if(is_null($obj)){
-                $obj    = new User();
+                $obj        = new User();
+                $password   = Hash::make($request->password);
             }else{
-                DB::table('seguridad.usuario_roles')->where('model_id',$request->id)->delete();
+                DB::table('seguridad.usuario_role')->where('model_id',$request->id)->delete();
             }
             $obj->fill($request->all());
-            if(is_null($obj))
-                $obj->password = Hash::make($request->password);
+            if(!is_null($password))
+                $obj->password = $password;
             $obj->avatar = $file_name;
             $obj->save();
             $obj->assignRole($request->rol);

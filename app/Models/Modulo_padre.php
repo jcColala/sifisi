@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Models\Permission;
-
+use Illuminate\Support\Facades\DB;
 
 class Modulo_padre extends Model
 {
@@ -57,10 +57,12 @@ class Modulo_padre extends Model
 
     public function scopeAccesoModulos($query){
         $idperfil   = auth()->user()->perfil->id;
-
-        return $query->with(['modulo'=>function($q) use ($idperfil){
+        $idrol      = DB::table("seguridad.usuario_role")->where('model_id',auth()->user()->id)->first()->role_id;
+        
+        return $query->with(['modulo'=>function($q) use ($idperfil, $idrol){
             $q->join('seguridad.accesos','accesos.idmodulo','=','modulo.id');
             $q->where('accesos.idperfil',$idperfil);
+            $q->where('accesos.idrol',$idrol);
             $q->whereNull('accesos.deleted_at');
             $q->orderBy("modulo.idpadre");
             $q->orderBy("modulo.orden");
@@ -92,7 +94,7 @@ class Modulo_padre extends Model
 
     public function getComprobarPermiso($url = null, $funcion = null, $idrol = null){
         $query  = Permission::select('r_p.*')
-                    ->join('seguridad.roles_permisos as r_p','seguridad.permisos.id','=','r_p.permission_id')
+                    ->join('seguridad.role_permisos as r_p','seguridad.permisos.id','=','r_p.permission_id')
                     ->where('seguridad.permisos.name',$funcion."-".$url)
                     ->where('r_p.role_id',$idrol)->first();
         if ($query)

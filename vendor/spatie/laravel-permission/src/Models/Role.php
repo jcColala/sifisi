@@ -12,11 +12,32 @@ use Spatie\Permission\Guard;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\RefreshesPermissionCache;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Role extends Model implements RoleContract
 {
     use HasPermissions;
     use RefreshesPermissionCache;
+    use SoftDeletes;
+
+    protected $table        = "seguridad.role";
+    protected $primaryKey   = "id";
+
+    protected $fillable = [
+        'name',
+        'guard_name',
+        'deleted_at'
+    ];
+
+    public function getTableName(){
+        return (explode(".", $this->table))[1];
+    }
+
+    public function getSchemaName(){
+        return (explode(".", $this->table))[0]??"public";
+    }
+
 
     protected $guarded = [];
 

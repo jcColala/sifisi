@@ -24,11 +24,7 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="30%">Nombres</th>
-								<th width="20%">Ap. Paterno</th>
-								<th width="20%">Ap. Materno</th>
-								<th width="10%">Nro. Documento</th>
-								<th width="10%">Usuario</th>
+								<th width="90%">Nombre</th>
 								<th width="05%">Estado</th>
 							</tr>
 						</thead>
