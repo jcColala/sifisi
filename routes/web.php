@@ -6,6 +6,7 @@ use App\Http\Controllers\Modulo_padreController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\AccesosController;
 use App\Http\Controllers\FuncionController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\sgc\EntidadController;
 use App\Http\Controllers\sgc\IndicadorController;
 use App\Http\Controllers\sgc\Proceso_ceroController;
@@ -64,6 +65,10 @@ Route::group(["middleware"=>['auth']], function(){
     //------------------------------------------------------------------------------------------------ Funcion
     Route::resource('funcion', FuncionController::class)->only("index","create", "store","edit", "destroy");
     Route::get('funcion/grilla',[FuncionController::class, 'grilla'])->name('funcion.grilla');
+
+    //------------------------------------------------------------------------------------------------ Usuarios
+    Route::resource('usuario', UsuarioController::class)->only("index","create", "store","edit", "destroy");
+    Route::get('usuario/grilla',[UsuarioController::class, 'grilla'])->name('usuario.grilla');
 
     //!----------------------------------------------SGC---------------------//
     

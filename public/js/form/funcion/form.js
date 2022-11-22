@@ -26,7 +26,7 @@ form.register(_path_controller_funcion, {
                 },
                 success: function(response) {
                     //return console.log(response)
-                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación modulo '+_path_controller_funcion)
+                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación módulo '+_path_controller_funcion)
                     $self.callback(response)
                     init_btndelete()
                 },
@@ -45,6 +45,7 @@ form.register(_path_controller_funcion, {
         let _form = "#form-" + _path_controller_funcion
         let post_data = $(_form).serialize()
         post_data += "&mostrar="+mostrar_
+        post_data += "&boton="+boton_
         $.ajax({
             url: route(_path_controller_funcion + '.store'),
             type: 'POST',
@@ -55,7 +56,7 @@ form.register(_path_controller_funcion, {
                 //loading();
             },
             success: function(response) {
-                toastr.success('Datos grabados correctamente', 'Notificación modulo '+_path_controller_funcion)
+                toastr.success('Datos grabados correctamente', 'Notificación módulo '+_path_controller_funcion)
                 $self.callback(response)
                 close_modal(_path_controller_funcion)
             },

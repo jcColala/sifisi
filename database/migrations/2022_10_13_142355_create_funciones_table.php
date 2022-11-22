@@ -21,6 +21,7 @@ class CreateFuncionesTable extends Migration
             $table->string("icono", 60)->nullable();
             $table->integer("orden")->nullable();
             $table->string("mostrar", 1)->default('N');
+            $table->string("boton", 1)->default('N');
             $table->boolean("editable")->default(true);
             $table->softDeletes();
             $table->timestamps();

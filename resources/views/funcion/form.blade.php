@@ -39,7 +39,7 @@
                                     <input type="text" class="input100" id="clase_{{$prefix}}" name="clase" placeholder="Clase">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
-                                        <i class="zmdi zmdi-file-text" aria-hidden="true"></i>
+                                        <i class="zmdi zmdi-code" aria-hidden="true"></i>
                                     </span>
                                     <span class="clase_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
@@ -70,12 +70,22 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
 		                    <div class="input-group mt-10px">
 		                       	<label class="custom-switch mt-10px pl-2px">
 									<input type="checkbox" class="custom-switch-input" id="mostrar_{{$prefix}}">
 									<span id="formostrar_{{$prefix}}" class="custom-switch-indicator">si</span>
-									<span class="custom-switch-description"> ¿Mostrar?</span>
+									<span class="custom-switch-description"> ¿Mostrar es accesos?</span>
+								</label>
+		                    </div>
+		                </div>
+
+		                <div class="col-md-4">
+		                    <div class="input-group mt-10px">
+		                       	<label class="custom-switch mt-10px pl-2px">
+									<input type="checkbox" class="custom-switch-input" id="boton_{{$prefix}}">
+									<span id="forboton_{{$prefix}}" class="custom-switch-indicator">si</span>
+									<span class="custom-switch-description"> ¿Mostrar en botones?</span>
 								</label>
 		                    </div>
 		                </div>

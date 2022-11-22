@@ -18,6 +18,7 @@ use App\Models\Modulo;
 use App\Models\MOVSGCMov_estado;
 use App\Models\Accesos;
 use App\Models\Funcion;
+use App\Models\Funcion_modulo;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\SGCEntidad;
@@ -109,9 +110,30 @@ class DatabaseSeeder extends Seeder
         $data->nacionalidad                 = "Peruano";
         $data->save();
 
+        $data = new Persona();
+        $data->dni                          = 71885613;    
+        $data->idescuela                    = 1;
+        $data->idestadopersona              = 1;
+        $data->idtipopersona                = 1;
+        $data->ubigeo_origen                = 1;
+        $data->ubigeo_actual                = 1;
+        $data->idtipo_documento_identidad   = 1;
+        $data->idestado_civil               = 1;
+        $data->idsexo                       = 1;
+        $data->nombres                      = "Juan carlos";
+        $data->apellido_paterno             = "Nose";
+        $data->apellido_materno             = "Tampoco";
+        $data->correo_institucional         = "arroba@alumno.unsm.edu.pe";
+        $data->correo_personal              = "arroba@gmail.com";
+        $data->direccion                    = "nose";
+        $data->telefono                     = "917779907";
+        $data->fecha_nacimiento             = "10-05-2000";
+        $data->nacionalidad                 = "Peruano";
+        $data->save();
+
         //------------------------------------------------------- Perfil
         $data = new Perfil();
-        $data->perfil       = 'ADMINISTRADOR';
+        $data->perfil       = 'Administrador';
         $data->abreviatura  = "ADMIN";
         $data->editable     = false;
         $data->save();
@@ -131,7 +153,7 @@ class DatabaseSeeder extends Seeder
         $data->url          = "#";
         $data->icono        = "ti-lock";
         $data->orden        = 1;
-        $data->editable     = false;
+        $data->editable     = true;
         $data->save();
 
         $data = new Modulo_padre();
@@ -261,81 +283,13 @@ class DatabaseSeeder extends Seeder
         $data = new Accesos();
         $data->idmodulo   = 2;
         $data->idperfil   = 1;
-        $data->editable   = false;
+        $data->editable   = true;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 3;
         $data->idperfil   = 1;
-        $data->editable   = false;
-        $data->save();
-
-        $data = new Accesos();
-        $data->idmodulo   = 4;
-        $data->idperfil   = 1;
-        $data->save();
-
-        //------------------------------------------------------- Funcion
-        $data = new Funcion();
-        $data->nombre   = 'Ver';
-        $data->funcion  = 'index';
-        $data->orden    = 1;
-        $data->editable = true;
-        $data->save();
-
-        $data = new Funcion();
-        $data->nombre   = 'Crear';
-        $data->funcion  = 'create';
-        $data->icono    = 'fe fe-plus-circle';
-        $data->orden    = 2;
-        $data->mostrar  = "S";
-        $data->editable = true;
-        $data->save();
-
-        $data = new Funcion();
-        $data->nombre   = 'Editar';
-        $data->funcion  = 'edit';
-        $data->icono    = 'fe fe-edit';
-        $data->orden    = 3;
-        $data->mostrar  = "S";
-        $data->editable = true;
-        $data->save();
-
-        $data = new Funcion();
-        $data->nombre   = 'Guardar';
-        $data->funcion  = 'store';
-        $data->orden    = 4;
-        $data->editable = true;
-        $data->save();
-
-        $data = new Funcion();
-        $data->nombre   = 'Eliminar';
-        $data->funcion  = 'destroy';
-        $data->icono    = 'fe fe-circle';
-        $data->orden    = 5;
-        $data->mostrar  = "S";
-        $data->editable = true;
-        $data->save();
-
-        //------------------------------------------------------- Permisos
-        $permisos = [
-            //Operaciones sobre tabla roles
-            'index-modulo',
-            'create-modulo',
-            'edit-modulo',
-            'store-modulo',
-            'destroy-modulo',
-        ];
-
-        foreach($permisos as $permiso) {
-            Permission::create(['name'=>$permiso]);
-        }
-
-        //------------------------------------------------------- Roles
-        $rol = Role::create(['name' => 'Admin']);
-        $permisos = Permission::pluck('id', 'id')->all();
-        $rol->syncPermissions($permisos);        
-        $user->assignRole($rol->id);
+        $data->editable   = true;
         $data->save();
 
         $data = new Accesos();
@@ -356,6 +310,115 @@ class DatabaseSeeder extends Seeder
         $data = new Accesos();
         $data->idmodulo   = 8;
         $data->idperfil   = 1;
+        $data->save();
+
+        //------------------------------------------------------- Funcion
+        $data = new Funcion();
+        $data->nombre   = 'Ver';
+        $data->funcion  = 'index';
+        $data->orden    = 1;
+        $data->editable = false;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Crear';
+        $data->funcion  = 'create';
+        $data->clase    = 'btn btn-outline-primary';
+        $data->icono    = 'fe fe-plus-circle';
+        $data->orden    = 2;
+        $data->mostrar  = "S";
+        $data->boton    = "S";
+        $data->editable = true;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Editar';
+        $data->funcion  = 'edit';
+        $data->clase    = 'btn btn-outline-info';
+        $data->icono    = 'fe fe-edit';
+        $data->orden    = 3;
+        $data->mostrar  = "S";
+        $data->boton    = "S";
+        $data->editable = true;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Guardar';
+        $data->funcion  = 'store';
+        $data->orden    = 4;
+        $data->editable = false;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Elim/Rest';
+        $data->funcion  = 'destroy';
+        $data->clase    = 'btn btn-outline-default';
+        $data->icono    = 'fe fe-circle';
+        $data->orden    = 5;
+        $data->mostrar  = "S";
+        $data->boton    = "S";
+        $data->editable = true;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Accesos';
+        $data->funcion  = 'acceso';
+        $data->orden    = 6;
+        $data->mostrar  = "S";
+        $data->editable = true;
+        $data->save();
+
+        //------------------------------------------------------- Funcion_modulo
+
+        $data = new Funcion_modulo();
+        $data->idmodulo   = 1;
+        $data->idfuncion  = 2;
+        $data->save();
+
+        $data = new Funcion_modulo();
+        $data->idmodulo   = 1;
+        $data->idfuncion  = 6;
+        $data->save();
+
+        $data = new Funcion_modulo();
+        $data->idmodulo   = 3;
+        $data->idfuncion  = 2;
+        $data->save();
+
+        $data = new Funcion_modulo();
+        $data->idmodulo   = 3;
+        $data->idfuncion  = 3;
+        $data->save();
+
+        $data = new Funcion_modulo();
+        $data->idmodulo   = 3;
+        $data->idfuncion  = 5;
+        $data->save();
+
+        //------------------------------------------------------- Permisos
+        $permisos = [
+            'index-accesos',
+            'create-accesos',
+            'acceso-accesos',
+            'store-accesos',
+
+            //modulo
+            'index-modulo',
+            'create-modulo',
+            'edit-modulo',
+            'store-modulo',
+            'destroy-modulo',
+        ];
+
+        foreach($permisos as $permiso) {
+            Permission::create(['name'=>$permiso]);
+        }
+
+        //------------------------------------------------------- Roles
+        $rol = Role::create(['name' => 'SuperAdmin']);
+        $permisos = Permission::pluck('id', 'id')->all();
+        $rol->syncPermissions($permisos);        
+        $user->assignRole($rol->id);
         $data->save();
 
         //--------------------------------------------------MOVSGC

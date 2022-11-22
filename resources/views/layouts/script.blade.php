@@ -78,4 +78,7 @@
 <!-- JSTREE -->
 <script src="{{asset('plugins/jstree/jstree.min.js')}}"></script>
 
+<script src="{{asset('plugins/fileuploads/js/fileupload.js')}}"></script>
+<script src="{{asset('plugins/fileuploads/js/file-upload.js')}}"></script>
+
 @yield('script')

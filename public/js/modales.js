@@ -229,7 +229,7 @@ const get_modal = (_paht, _prefix, funcion = "create", id = null) => {
         success: function(response) {
             $("#div_md-" + _paht).html(response)
 
-            if (data_form != []) {
+            if (data_form.length != 0) {
                 $.each(data_form, function(key, val) {
                     $("#" + key + "_" + _prefix, "#form-" + _paht).val(val)
 
@@ -296,7 +296,7 @@ const limpieza = (_paht) => {
 const init_btndelete = () => {
     if (document.querySelectorAll(btn_el_rest).length) {
         $(btn_el_rest).attr("class", "")
-        $(btn_el_rest).html("<i class='fe fe-circle bt_grilla text-primary-shadow'></i>Elim/Rest")
+        $(btn_el_rest).html("<i class='fe fe-circle bt_grilla text-primary-shadow'></i> Elim/Rest")
         $(btn_el_rest).attr("data-action", "")
         $(btn_el_rest).addClass("btn btn-outline-default")
     }

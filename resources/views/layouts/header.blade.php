@@ -70,5 +70,7 @@
 
         <!-- Jstree -->
         <link rel="stylesheet" href="{{asset('plugins/jstree/themes/default/style.css')}}">
+
+        <link href="{{asset('plugins/fileuploads/css/fileupload.css')}}" rel="stylesheet" />
 </head>
 @routes

@@ -107,7 +107,11 @@ class Modulo_padre extends Model
                 $value                          = [];
                 $value['id']                    = "f-".$idmodulo."-".$item["funcion"]->funcion;
                 $value['text']                  = $item["funcion"]->nombre;
-                $value['icon']                  = "mdi mdi-xml";
+                if ($item["funcion"]->icono == null) {
+                    $value['icon']              = "fe fe-code";
+                }else{
+                    $value['icon']              = $item["funcion"]->icono;
+                }
                 if ($idrol != null){
                     $value['state']['selected'] = $this->getComprobarPermiso($url,$item["funcion"]->funcion,$idrol);
                     $value['state']['opened']   = $this->getComprobarPermiso($url,$item["funcion"]->funcion,$idrol);
