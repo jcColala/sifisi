@@ -22,10 +22,16 @@ form.register(_path_controller_tipo_proceso, {
                 data: { id: id, accion: accion__ },
                 type: 'DELETE',
                 beforeSend: function() {
-                    //loading();
+                    //LOADING PAGE
                 },
                 success: function(response) {
                     //return console.log(response)
+                    if(response.type == "error"){
+                        toastr.error(response.text)
+                        $self.callback(response)
+                        return init_btndelete()
+                    }
+                    
                     toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación Procesos Nivel Cero')
                     $self.callback(response)
                     init_btndelete()
@@ -37,7 +43,7 @@ form.register(_path_controller_tipo_proceso, {
                     if (e.status == 422) { //Errores de Validacion
                         $.each(e.responseJSON.errors, function(i, item) {
                             if (i == 'referencias') {
-                                toastr.warning(item, 'Notificación Procesos Nivel Cero')
+                                toastr.warning(item, 'Notificación tipo_procesoes')
                             }
 
                         });
@@ -67,8 +73,13 @@ form.register(_path_controller_tipo_proceso, {
                 //loading();
             },
             success: function(response) {
+                if(response.type == "error"){
+                    toastr.error(response.text, '')
+                    $self.callback(response)
+                    return close_modal(_path_controller_tipo_proceso)
+                }
                 //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_tipo_proceso, {"timeOut":500000,"tapToDismiss": false})
-                toastr.success('Datos grabados correctamente', 'Notificación Procesos Nivel Cero')
+                toastr.success('Datos grabados correctamente', '')
                 $self.callback(response)
                 close_modal(_path_controller_tipo_proceso)
             },

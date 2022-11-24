@@ -17,6 +17,7 @@ class MOVSGCMov_tipo_proceso extends Model
         'idpersona_solicita',
         'idpersona_aprueba',
         'idestado',
+        'idsgc',
         'descripcion',
         'codigo',
         'deleted_at'

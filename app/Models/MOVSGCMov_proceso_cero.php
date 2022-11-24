@@ -19,6 +19,8 @@ class MOVSGCMov_proceso_cero extends Model
         'idpersona_aprueba',
         'idtipo_proceso',
         'idresponsable',
+        'idtipo_accion',
+        'idsgc',
         'codigo',
         'descripcion',
         'objetivo',

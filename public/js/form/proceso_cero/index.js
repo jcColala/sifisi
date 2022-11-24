@@ -24,7 +24,7 @@ const load_datatable = () => {
             },
             {
                 data: 'codigo',
-                name: 'codigo',
+                orderable: false,
                 searchable: true
             },
             {
@@ -35,14 +35,12 @@ const load_datatable = () => {
             {
                 data: 'tipo_accion.descripcion',
                 orderable: false,
-                searchable: true,
-                className: "text-center"
+                searchable: true
             },
             {
                 data: 'estado.descripcion',
                 orderable: false,
-                searchable: true,
-                className: "text-center"
+                searchable: true
             },
 
         ],
@@ -57,19 +55,9 @@ const load_datatable = () => {
     }).DataTable();
 }
 
-//------------------------------------------------------------- IR
-$("#btn-ir").on("click", function(e){
-    e.preventDefault();
-    var id = grilla.get_id(_name_tabla_proceso_cero);
-    if (id != null) {
-        window.location.href ='proceso_uno/'+id;
-    } else {
-        alertas.warning("Ups..!");
-    }
-});
 
 //------------------------------------------------------------- Nuevo
-$("#btn-new").on("click", function(e) {
+$("#btn-create").on("click", function(e) {
     e.preventDefault();
     form.get(_path_controller_proceso_cero).nuevo();
 });
@@ -86,13 +74,9 @@ $("#btn-edit").on("click", function(e) {
     }
 });
 
-$("#form-proceso_cero").on("submit", function(e){
-    e.preventDefault();
-    alert('A la mrda');
-});
 
 //------------------------------------------------------------- Eliminar
-$("#btn-delete_restore").on("click", function(e) {
+$("#btn-destroy").on("click", function(e) {
     e.preventDefault();
     var id = grilla.get_id(_name_tabla_proceso_cero);
     if (id != null) {
