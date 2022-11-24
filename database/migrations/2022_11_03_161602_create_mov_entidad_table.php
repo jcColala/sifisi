@@ -17,14 +17,21 @@ class CreateMovEntidadTable extends Migration
             $table->id();
             $table->unsignedBigInteger('idestado')->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
+
             $table->unsignedBigInteger('idpersona_solicita');
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
+
             $table->unsignedBigInteger('idpersona_aprueba')->nullable();
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
+
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
-            $table->string('descripcion', 120);
-            $table->integer('cant_integrantes');
+
+            $table->unsignedBigInteger('idsgc');
+            $table->foreign('idsgc')->references('id')->on('sgc.entidad');
+
+            $table->string('descripcion', 120)->nullable();;
+            $table->integer('cant_integrantes')->nullable();;
             $table->boolean('editable')->default(true);
             $table->softDeletes();
             $table->timestamps();

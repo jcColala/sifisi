@@ -26,8 +26,13 @@ form.register(_path_controller_entidad, {
                 },
                 success: function(response) {
                     //return console.log(response)
+                    if(response.type == "error"){
+                        toastr.error(response.text)
+                        $self.callback(response)
+                        return init_btndelete()
+                    }
                     
-                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación Procesos Nivel Cero')
+                    toastr.success('Registro ' + textaccion__ + ' correctamente')
                     $self.callback(response)
                     init_btndelete()
                 },
@@ -68,8 +73,13 @@ form.register(_path_controller_entidad, {
                 //loading();
             },
             success: function(response) {
+                if(response.type == "error"){
+                    toastr.error(response.text, '')
+                    $self.callback(response)
+                    return close_modal(_path_controller_entidad)
+                }
                 //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_entidad, {"timeOut":500000,"tapToDismiss": false})
-                toastr.success('Datos grabados correctamente', 'Notificación Procesos Nivel Cero')
+                toastr.success('Datos grabados correctamente', '')
                 $self.callback(response)
                 close_modal(_path_controller_entidad)
             },

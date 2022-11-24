@@ -17,12 +17,17 @@ class CreateTipoprocesoTable extends Migration
             $table->id();
             $table->unsignedBigInteger('idpersona_solicita');
             $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
+
             $table->unsignedBigInteger('idpersona_aprueba')->nullable();
             $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
+
             $table->unsignedBigInteger('idestado')->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
+
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
+
+            
 
             $table->string('descripcion', 120);
             $table->string('codigo', 20);
@@ -33,7 +38,7 @@ class CreateTipoprocesoTable extends Migration
 
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

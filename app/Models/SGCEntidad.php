@@ -18,8 +18,8 @@ class SGCEntidad extends Model
         'idpersona_solicita',
         'idpersona_aprueba',
         'idtipo_accion',
-        'cant_integrantes',
         'descripcion',
+        'cant_integrantes',
         'editable',
         'deleted_at'
     ];

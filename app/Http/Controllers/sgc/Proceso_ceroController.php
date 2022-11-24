@@ -7,6 +7,7 @@ use App\Models\SGCProceso_cero;
 use App\Models\MOVSGCMov_proceso_cero;
 use App\Models\SGCEntidad;
 use App\Models\SGCTipo_proceso;
+use App\Models\Funcion;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -27,6 +28,9 @@ class Proceso_ceroController extends Controller
     public $dataTableServer         = null;
 
     public function __construct(){
+        foreach (Funcion::get() as $key => $value) {
+            $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
+        }
         $this->model                = new SGCProceso_cero();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
@@ -90,19 +94,60 @@ class Proceso_ceroController extends Controller
             'alcance.required' => 'Escriba el alcance del proceso',
         ]);
         return DB::transaction(function() use ($request){
-            $obj_mov = MOVSGCMov_proceso_cero::withTrashed()->find($request->id);
+            $obj        = SGCProceso_cero::withTrashed()->find($request->id);
 
-            if(is_null($obj_mov))
-                $obj_mov = new MOVSGCMov_proceso_cero();
-            $obj_mov->fill($request->all());
-            $obj_mov->save();
-
-            $obj = SGCProceso_cero::withTrashed()->find($request->id);
-
-            if(is_null($obj))
+            if(empty($obj)){
+                //REGISTRO EN TABLA
                 $obj = new SGCProceso_cero();
-            $obj->fill($request->all());
-            $obj->save();
+                $obj->idpersona_solicita = $request->idpersona_solicita;
+                $obj->idtipo_accion = 1;
+                $obj->idtipo_proceso = $request->idtipo_proceso;
+                $obj->idresponsable = $request->idresponsable;
+                $obj->codigo = $request->codigo;
+                $obj->descripcion = $request->descripcion;
+                $obj->objetivo = $request->objetivo;
+                $obj->alcance = $request->alcance;
+                $obj->save();
+
+                //REGISTRO MOVIMIENTOS
+                $obj_mov = new MOVSGCMov_proceso_cero();
+                $obj_mov->idpersona_solicita = $request->idpersona_solicita;
+                $obj_mov->idtipo_accion = 1;
+                $obj_mov->idsgc = $obj->id;
+                $obj_mov->idtipo_proceso = $request->idtipo_proceso;
+                $obj_mov->idresponsable = $request->idresponsable;
+                $obj_mov->codigo = $request->codigo;
+                $obj_mov->descripcion = $request->descripcion;
+                $obj_mov->objetivo = $request->objetivo;
+                $obj_mov->alcance = $request->alcance;
+                $obj_mov->save();
+            }else{
+                if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
+                    $data = array(
+                        "type" => "error",
+                        "text" => "No puedes editar un registro que está en estado Pendiente"
+                    );
+                    return response()->json($data);
+                }
+                //EDICIÓN TABLA
+                $obj->idpersona_solicita = $request->idpersona_solicita;
+                $obj->idtipo_accion = 2;
+                $obj->idestado = 1;
+                $obj->save();
+
+                //EDICIÓN EN MOVIMIENTO
+                $obj_mov = new MOVSGCMov_proceso_cero();
+                $obj_mov->idpersona_solicita = $request->idpersona_solicita;
+                $obj_mov->idtipo_accion = 2;
+                $obj_mov->idsgc = $obj->id;
+                $obj_mov->idtipo_proceso = $request->idtipo_proceso;
+                $obj_mov->idresponsable = $request->idresponsable;
+                $obj_mov->codigo = $request->codigo;
+                $obj_mov->descripcion = $request->descripcion;
+                $obj_mov->objetivo = $request->objetivo;
+                $obj_mov->alcance = $request->alcance;
+                $obj_mov->save();
+            }
             return response()->json($obj);
         });
         
@@ -114,15 +159,41 @@ class Proceso_ceroController extends Controller
 
     public function destroy(Request $request){
 
-        /*$obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->with("proceso_uno")->first();
-        if($obj->modulo->isNotEmpty()){
+        $obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->first();
+        /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
+
+        
         if ($request->accion == "eliminar") {
-            SGCProceso_cero::find($request->id)->delete();
-            return response()->json();
+
+            if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
+                $data = array(
+                    "type" => "error",
+                    "text" => "No puedes eliminar un registro que está en estado Pendiente"
+                );
+                return response()->json($data);
+            }
+
+            $obj->idpersona_solicita = auth()->user()->persona->dni;
+            $obj->idtipo_accion = 3;
+            $obj->idestado = 1;
+            $obj->save();
+            return response()->json($obj);
         }
-        SGCProceso_cero::withTrashed()->find($request->id)->restore();
-        return response()->json();        
+
+        //RESTAURAR
+        if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
+            $data = array(
+                "type" => "error",
+                "text" => "No puedes restaurar un registro que está en estado Pendiente"
+            );
+            return response()->json($data);
+        }
+        $obj->idpersona_solicita = auth()->user()->persona->dni;
+        $obj->idtipo_accion = 4;
+        $obj->idestado = 1;
+        $obj->save();
+        return response()->json($obj);
     }
 }

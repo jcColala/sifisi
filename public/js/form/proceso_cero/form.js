@@ -25,7 +25,12 @@ form.register(_path_controller_proceso_cero, {
                     //loading();
                 },
                 success: function(response) {
-                    //return console.log(response)
+                    if(response.type == "error"){
+                        toastr.error(response.text)
+                        $self.callback(response)
+                        return close_modal(_path_controller_proceso_cero)
+                    }
+                    
                     toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación Procesos Nivel 0')
                     $self.callback(response)
                     init_btndelete()
@@ -67,7 +72,12 @@ form.register(_path_controller_proceso_cero, {
                 //loading();
             },
             success: function(response) {
-                //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_proceso_cero, {"timeOut":500000,"tapToDismiss": false})
+                //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_proceso_cero, {"timeOut":500000,"tapToDismiss": false})}
+                if(response.type == "error"){
+                    toastr.error(response.text)
+                    $self.callback(response)
+                    return close_modal(_path_controller_proceso_cero)
+                }
                 toastr.success('Datos grabados correctamente', 'Notificación Procesos Nivel Cero')
                 $self.callback(response)
                 close_modal(_path_controller_proceso_cero)
