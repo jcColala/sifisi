@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException; 
-
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -28,6 +27,11 @@ class AccesosController extends Controller
     public $name_table              = "";
 
     public function __construct(){
+
+        foreach (Funcion::get() as $key => $value) {
+            $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
+        }
+
         $this->model                = new Accesos();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
@@ -71,7 +75,7 @@ class AccesosController extends Controller
             foreach (Modulo::get() as $modulos) {
                 foreach (Funcion::get() as $key => $funciones) {
                     $validar = Permission::where("name",$funciones["funcion"]."-".$modulos["url"])
-                                ->join("seguridad.roles_permisos as r_p","r_p.permission_id","id")
+                                ->join("seguridad.role_permisos as r_p","r_p.permission_id","id")
                                 ->where("r_p.role_id",$request->idrol)
                                 ->count();
                     if ($validar == 1)
@@ -87,7 +91,7 @@ class AccesosController extends Controller
                         $ids = explode("-", $value["id"]);
                         $idmodulo = $ids[1];
                         $funcion  = $ids[2];
-                        Accesos::where("idperfil",$request->idperfil)->where("idmodulo",$idmodulo)->delete();
+                        Accesos::where("idperfil",$request->idperfil)->where("idmodulo",$idmodulo)->where("idrol",$request->idrol)->delete();
 
                         if (array_key_exists($idmodulo, $array_mdpermisos)){
                             if ($idmodulo != $idmodulo_ant) {
@@ -107,11 +111,12 @@ class AccesosController extends Controller
                         $idmodulo = $ids[1];
                         $funcion  = $ids[2];
 
-                        $obj = Accesos::withTrashed()->where("idperfil",$request->idperfil)->where('idmodulo',$idmodulo)->first();
+                        $obj = Accesos::withTrashed()->where("idperfil",$request->idperfil)->where('idmodulo',$idmodulo)->where("idrol",$request->idrol)->first();
                         if(is_null($obj))
                             $obj    = new Accesos();
                         $obj->idmodulo                          = $idmodulo;
                         $obj->idperfil                          = $request->idperfil;
+                        $obj->idrol                             = $request->idrol;
                         $obj->deleted_at                        = null;
                         if ($obj->save()){
                             $modulo = Modulo::find($idmodulo);

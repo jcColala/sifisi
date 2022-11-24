@@ -55,8 +55,8 @@ class PerfilController extends Controller
         $objeto = Perfil::withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
-                ->addColumn("estado", function($row){
-                    return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
+                ->addColumn("estado", function($objeto){
+                    return (is_null($objeto->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
                 })
                 ->rawColumns(["estado"])
                 ->make(true);

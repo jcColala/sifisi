@@ -1,11 +1,17 @@
 //------------------------------------------------------------- Cargar al Inicio
 $(document).ready(function() {
     load_datatable();
+
+    //------------------------------------------------------------- Localstore
+    if (localStorage.getItem("usuario")) {
+        toastr.success(localStorage.getItem("usuario"), 'Notificación módulo' + _path_controller_usuario)
+        setTimeout(deletemsj_localstore("usuario"),100);
+    }
 });
 
 //------------------------------------------------------------- Datatable
 const load_datatable = () => {
-    table = $('#dt-' + _path_controller_funcion).DataTable({
+    table = $('#dt-' + _path_controller_usuario).DataTable({
         pageLength: 10,
         processing: true,
         serverSide: true,
@@ -15,34 +21,18 @@ const load_datatable = () => {
         ordering: true,
         rowId: "id",
         bJQueryUI: true,
-        ajax: route(_path_controller_funcion + ".grilla"),
+        ajax: route(_path_controller_usuario + ".grilla"),
         columns: [{
                 data: 'DT_RowIndex',
                 orderable: false,
                 searchable: false,
                 className: "text-center"
             },
-            { data: 'nombre' },
-            { data: 'funcion' },
-            {
-                data: 'icono',
-                orderable: false,
-                searchable: false,
-                className: "text-center"
-            },
-            {
-                data: 'boton',
-                orderable: false,
-                searchable: false,
-                className: "text-center",
-                render: function(data, type, row) {
-                    if (data == "N") {
-                        return "No"
-                    }
-                    return "Si";
-                }
-            },
-            { data: 'orden',className: "text-center" },
+            { data: 'persona.nombres' },
+            { data: 'persona.apellido_paterno' },
+            { data: 'persona.apellido_materno' },
+            { data: 'persona.dni' },
+            { data: 'usuario' },
             {
                 data: 'estado',
                 orderable: false,
@@ -52,12 +42,16 @@ const load_datatable = () => {
 
         ],
         order: [
+            [1, 'ASC'],
+            [2, 'ASC'],
+            [3, 'ASC'],
             [5, 'ASC']
+
         ]
     });
 
     //-------------------------------------------------------- Horrores Datatable
-    $('#dt-' + _path_controller_funcion).on('error.dt', function(e, settings, techNote, message) {
+    $('#dt-' + _path_controller_usuario).on('error.dt', function(e, settings, techNote, message) {
         console.log('error ajax: ', message);
     }).DataTable();
 }
@@ -65,16 +59,16 @@ const load_datatable = () => {
 //------------------------------------------------------------- Nuevo
 $("#btn-create").on("click", function(e) {
     e.preventDefault();
-    form.get(_path_controller_funcion).nuevo();
+    window.location.href = route(_path_controller_usuario+".create");
 });
 
 //------------------------------------------------------------- Editar
 $("#btn-edit").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_funcion);
+    var id = grilla.get_id(_name_tabla_usuario);
 
     if (id != null) {
-        form.get(_path_controller_funcion).editar(id);
+        window.location.href = route(_path_controller_usuario+".edit", id);
     } else {
         alertas.warning("Ups..!");
     }
@@ -83,9 +77,9 @@ $("#btn-edit").on("click", function(e) {
 //------------------------------------------------------------- Eliminar
 $("#btn-destroy").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_funcion);
+    var id = grilla.get_id(_name_tabla_usuario);
     if (id != null) {
-        form.get(_path_controller_funcion).eliminar_restaurar(id, this);
+        form.get(_path_controller_usuario).eliminar_restaurar(id, this);
     } else {
         alertas.warning("Ups..!");
     }

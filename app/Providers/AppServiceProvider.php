@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer(['extras.botones'],function($view){
-            $view->with('funcion', Funcion::where("mostrar","S")->orderBy("orden","ASC")->get());
+            $view->with('funcion', Funcion::where("boton","S")->orderBy("orden","ASC")->get());
         });
     }
 }

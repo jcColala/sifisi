@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Roles_permisos extends Model
+class Role_permisos extends Model
 {
 
-    protected $table        = "seguridad.roles_permisos";
+    protected $table        = "seguridad.role_permisos";
     protected $primaryKey   = "id";
 
     protected $fillable = [

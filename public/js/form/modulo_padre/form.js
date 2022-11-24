@@ -26,7 +26,7 @@ form.register(_path_controller_modulo_padre, {
                 },
                 success: function(response) {
                     //return console.log(response)
-                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación modulo padre')
+                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación módulo padre')
                     $self.callback(response)
                     init_btndelete()
                 },
@@ -37,7 +37,7 @@ form.register(_path_controller_modulo_padre, {
                     if (e.status == 422) { //Errores de Validacion
                         $.each(e.responseJSON.errors, function(i, item) {
                             if (i == 'referencias') {
-                                toastr.warning(item, 'Notificación modulo padre')
+                                toastr.warning(item, 'Notificación módulo padre')
                             }
 
                         });
@@ -65,7 +65,7 @@ form.register(_path_controller_modulo_padre, {
             },
             success: function(response) {
                 //toastr.success('Datos grabados correctamente','Notificación '+_path_controller_modulo_padre, {"timeOut":500000,"tapToDismiss": false})
-                toastr.success('Datos grabados correctamente', 'Notificación modulo padre')
+                toastr.success('Datos grabados correctamente', 'Notificación módulo padre')
                 $self.callback(response)
                 close_modal(_path_controller_modulo_padre)
             },

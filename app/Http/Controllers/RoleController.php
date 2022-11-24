@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Modulo_padre;
-use App\Models\Modulo;
 use App\Models\Funcion;
 
 use Illuminate\Http\Request;
@@ -15,10 +13,10 @@ use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class Modulo_padreController extends Controller
+class RoleController extends Controller
 {
-    public $modulo                  = "Modulo Padre";
-    public $path_controller         = "modulo_padre";
+    public $modulo                  = "Role";
+    public $path_controller         = "role";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -29,8 +27,8 @@ class Modulo_padreController extends Controller
         foreach (Funcion::get() as $key => $value) {
             $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
         }
-
-        $this->model                = new Modulo_padre();
+        
+        $this->model                = new Role();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
 
@@ -40,10 +38,10 @@ class Modulo_padreController extends Controller
         $datos["table_name"]        = $this->name_table;
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
-        $datos["prefix"]            = "modulo_padre";
+        $datos["prefix"]            = "role";
         $datos["data"]              = [];
         if( $id != null )
-            $datos["data"]          = Modulo_padre::withTrashed()->find($id);
+            $datos["data"]          = Role::withTrashed()->find($id);
 
         return $datos;
     }
@@ -53,16 +51,13 @@ class Modulo_padreController extends Controller
     }
 
     public function grilla(){
-        $objeto = Modulo_padre::withTrashed();
+        $objeto = Role::withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
-                ->addColumn("icono", function($objeto){
-                    return "<i class='{$objeto->icono}'></i>";
-                })
                 ->addColumn("estado", function($objeto){
                     return (is_null($objeto->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
                 })
-                ->rawColumns(['icono', "estado"])
+                ->rawColumns(["estado"])
                 ->make(true);
     }
 
@@ -72,19 +67,19 @@ class Modulo_padreController extends Controller
 
     public function store(Request $request){
         $this->validate($request,[
-            'descripcion'=>'required',
-            'abreviatura'=>'required',
-            'icono'=>'required',
-            'orden'=>'required|integer'
+            'name'=>['required',
+                    Rule::unique("{$this->driver_current}.{$this->model->getTable()}", "name")
+                          ->ignore($request->id, "id")]
             ],[
-            "descripcion.required"=>"El campo modulo padre es obligatorio.",
-        ]);
+            "name.required"=>"El campo nombre es obligatorio.",
+            "name.unique"=>"El valor del campo nombre ya está en uso."
+            ]);
 
         return DB::transaction(function() use ($request){
-            $obj        = Modulo_padre::withTrashed()->find($request->id);
+            $obj        = Role::withTrashed()->find($request->id);
 
             if(is_null($obj))
-                $obj    = new Modulo_padre();
+                $obj    = new Role();
             $obj->fill($request->all());
             $obj->save();
             return response()->json($obj);
@@ -98,15 +93,11 @@ class Modulo_padreController extends Controller
 
     public function destroy(Request $request){
 
-        $obj = Modulo_padre::withTrashed()->where("id",$request->id)->with("modulo")->first();
-        if($obj->modulo->isNotEmpty()){
-            throw ValidationException::withMessages(["referencias" => "El modulo padre ".$obj->descripcion." esta siendo utilizado por lo cual no se puede eliminar."]);
-        }
         if ($request->accion == "eliminar") {
-            Modulo_padre::find($request->id)->delete();
+            Role::find($request->id)->delete();
             return response()->json();
         }
-        Modulo_padre::withTrashed()->find($request->id)->restore();
+        Role::withTrashed()->find($request->id)->restore();
         return response()->json();        
     }
 }

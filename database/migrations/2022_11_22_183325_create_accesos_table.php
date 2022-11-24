@@ -19,7 +19,8 @@ class CreateAccesosTable extends Migration
             $table->foreign('idmodulo')->references('id')->on('seguridad.modulo');
             $table->unsignedBigInteger("idperfil");
             $table->foreign('idperfil')->references('id')->on('seguridad.perfil');
-            $table->boolean("editable")->default(true);
+            $table->unsignedBigInteger("idrol");
+            $table->foreign('idrol')->references('id')->on('seguridad.role');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -14,35 +14,41 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
-    //use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
 
     protected $table        = "seguridad.usuario";
     protected $primaryKey   = "id";
 
     protected $fillable = [
-        'idpersona','usuario', 'password', 'avatar', 'es_superusuario', 'tema', 'deleted_at'
+        'idpersona','idperfil','usuario', 'password', 'avatar', 'es_superusuario', 'tema', 'deleted_at'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    const PATH_FILE         = 'images/users/';
+    protected $appends      = ['path_file'];
+    public function getPathFile(){
+        return static::PATH_FILE;
+    }
+
+    public function getPathFileAttribute(){
+        return url($this->getPathFile()).'/';
+    }
+    
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getTableName(){
+        return (explode(".", $this->table))[1];
+    }
+
+    public function getSchemaName(){
+        return (explode(".", $this->table))[0]??"public";
+    }
 
     public function persona(){
         return $this->belongsTo(Persona::class,'idpersona');

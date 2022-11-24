@@ -57,8 +57,8 @@ class FuncionController extends Controller
                 ->addColumn("icono", function($objeto){
                     return "<i class='{$objeto->icono}'></i>";
                 })
-                ->addColumn("estado", function($row){
-                    return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
+                ->addColumn("estado", function($objeto){
+                    return (is_null($objeto->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
                 })
                 ->rawColumns(["icono","estado"])
                 ->make(true);

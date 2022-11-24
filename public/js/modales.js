@@ -69,10 +69,12 @@ $(".databale").on('click', 'tr', function(e) {
         //selecionar el estado
         if (document.querySelectorAll(btn_el_rest).length && table.row(this).data() != undefined) {
             $(btn_el_rest).attr("class", "")
-            if (!table.row(this).data()["editable"]) {
-                setTimeout(function() { table.$('tr.selected').removeClass('selected') }, 600)
-                init_btndelete()
-                return alertas.warning("Acción denegada!", msj_denegada);
+            if(table.row(this).data()["editable"] != undefined){
+                if (!table.row(this).data()["editable"]) {
+                    setTimeout(function() { table.$('tr.selected').removeClass('selected') }, 600)
+                    init_btndelete()
+                    return alertas.warning("Acción denegada!", msj_denegada);
+                }
             }
             if (table.row(this).data()["deleted_at"] == null) {
                 $(btn_el_rest).html("<i class='fe fe-trash bt_grilla text-primary-shadow'></i> &nbsp;Eliminar&nbsp;")
@@ -229,7 +231,7 @@ const get_modal = (_paht, _prefix, funcion = "create", id = null) => {
         success: function(response) {
             $("#div_md-" + _paht).html(response)
 
-            if (data_form != []) {
+            if (data_form.length != 0) {
                 $.each(data_form, function(key, val) {
                     $("#" + key + "_" + _prefix, "#form-" + _paht).val(val)
 
@@ -296,7 +298,7 @@ const limpieza = (_paht) => {
 const init_btndelete = () => {
     if (document.querySelectorAll(btn_el_rest).length) {
         $(btn_el_rest).attr("class", "")
-        $(btn_el_rest).html("<i class='fe fe-circle bt_grilla text-primary-shadow'></i>Elim/Rest")
+        $(btn_el_rest).html("<i class='fe fe-circle bt_grilla text-primary-shadow'></i> Elim/Rest")
         $(btn_el_rest).attr("data-action", "")
         $(btn_el_rest).addClass("btn btn-outline-default")
     }

@@ -11,7 +11,7 @@ if (localStorage.getItem("accesos")) {
     $("#idmodulo_padre_" + _prefix_accesos).val(datos[1])
     $("#idperfil_" + _prefix_accesos).val(datos[2])
     $("#idrol_" + _prefix_accesos).val(datos[3])
-    toastr.success(datos[0], 'Notificación ' + _path_controller_accesos)
+    toastr.success(datos[0], 'Notificación módulo' + _path_controller_accesos)
     setTimeout(deletemsj_localstore("accesos"),100);
 }
 
@@ -56,7 +56,6 @@ function guardar_accesos(e) {
             //loading();
         },
         success: function(response) {
-            limpieza(_path_controller_accesos)
             localStorage.accesos = "Datos grabados correctamente-" + $("#idmodulo_padre_" + _prefix_accesos).val() + "-" + $("#idperfil_" + _prefix_accesos).val() + "-" + $("#idrol_" + _prefix_accesos).val()
             location.reload();
         },

@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 //------------------------------------------------------------- Datatable
 const load_datatable = () => {
-    table = $('#dt-' + _path_controller_funcion).DataTable({
+    table = $('#dt-' + _path_controller_role).DataTable({
         pageLength: 10,
         processing: true,
         serverSide: true,
@@ -15,34 +15,14 @@ const load_datatable = () => {
         ordering: true,
         rowId: "id",
         bJQueryUI: true,
-        ajax: route(_path_controller_funcion + ".grilla"),
+        ajax: route(_path_controller_role + ".grilla"),
         columns: [{
                 data: 'DT_RowIndex',
                 orderable: false,
                 searchable: false,
                 className: "text-center"
             },
-            { data: 'nombre' },
-            { data: 'funcion' },
-            {
-                data: 'icono',
-                orderable: false,
-                searchable: false,
-                className: "text-center"
-            },
-            {
-                data: 'boton',
-                orderable: false,
-                searchable: false,
-                className: "text-center",
-                render: function(data, type, row) {
-                    if (data == "N") {
-                        return "No"
-                    }
-                    return "Si";
-                }
-            },
-            { data: 'orden',className: "text-center" },
+            { data: 'name' },
             {
                 data: 'estado',
                 orderable: false,
@@ -52,12 +32,12 @@ const load_datatable = () => {
 
         ],
         order: [
-            [5, 'ASC']
+            [1, 'ASC']
         ]
     });
 
     //-------------------------------------------------------- Horrores Datatable
-    $('#dt-' + _path_controller_funcion).on('error.dt', function(e, settings, techNote, message) {
+    $('#dt-' + _path_controller_role).on('error.dt', function(e, settings, techNote, message) {
         console.log('error ajax: ', message);
     }).DataTable();
 }
@@ -65,16 +45,16 @@ const load_datatable = () => {
 //------------------------------------------------------------- Nuevo
 $("#btn-create").on("click", function(e) {
     e.preventDefault();
-    form.get(_path_controller_funcion).nuevo();
+    form.get(_path_controller_role).nuevo();
 });
 
 //------------------------------------------------------------- Editar
 $("#btn-edit").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_funcion);
+    var id = grilla.get_id(_name_tabla_role);
 
     if (id != null) {
-        form.get(_path_controller_funcion).editar(id);
+        form.get(_path_controller_role).editar(id);
     } else {
         alertas.warning("Ups..!");
     }
@@ -83,9 +63,9 @@ $("#btn-edit").on("click", function(e) {
 //------------------------------------------------------------- Eliminar
 $("#btn-destroy").on("click", function(e) {
     e.preventDefault();
-    var id = grilla.get_id(_name_tabla_funcion);
+    var id = grilla.get_id(_name_tabla_role);
     if (id != null) {
-        form.get(_path_controller_funcion).eliminar_restaurar(id, this);
+        form.get(_path_controller_role).eliminar_restaurar(id, this);
     } else {
         alertas.warning("Ups..!");
     }

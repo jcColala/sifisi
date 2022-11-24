@@ -20,6 +20,7 @@ class Funcion extends Model
         'icono',
         'orden',
         'mostrar',
+        'boton',
         'editable',
         'deleted_at'
     ];
