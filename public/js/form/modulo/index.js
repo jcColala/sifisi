@@ -56,7 +56,7 @@ const load_datatable = () => {
 
         ],
         order: [
-            [3, 'ASC']
+            [1, 'ASC']
         ]
     });
 
