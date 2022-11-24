@@ -10,7 +10,7 @@
 		<div class="card">
 			<div class="card-header">
 				<h3 class="card-title">Registrar {{"$modulo"}}</h3>
-				<span class="col-auto align-self-center"> | <span class="text_requiere">campos obrigatorios </span>
+				<span class="col-auto align-self-center"> | <span class="text_requiere">campos obligatorios </span>
 				<span class="form-help" data-toggle="popover" data-placement="top" data-content="Los campos que contengan un ' * ' son obligatorios y es necesario que se ingrese la información correspondiente." data-original-title="" title="">?</span>
 				</span>
 			</div>
@@ -94,8 +94,9 @@
 											<span class="avatar_{{$prefix}} form-help msj_error_exist" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Solo se acepta formatos tipo (*.jpg, *.png, *.jpeg, *.svg)" data-original-title="" title="">?</span>
 											</span>
 										</div>
-										<div class="card-body div_avatar_{{$prefix}}">
-											<input type="file" class="dropify" id="avatar_{{$prefix}}" name="avatar" data-height="200" />
+										<div class="card-body">
+											<input type="hidden" id="avatar_nombre_{{$prefix}}" name="avatar_nombre">
+											<input type="file" class="dropify" id="avatar_{{$prefix}}" name="avatar" data-height="200" >
 										</div>
 									</div>
 								</div>

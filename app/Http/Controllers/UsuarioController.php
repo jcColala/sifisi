@@ -91,7 +91,7 @@ class UsuarioController extends Controller
         ]);
 
         return DB::transaction(function() use ($request){
-            $file_name = null;
+            $file_name = $request->avatar_nombre;
             if($request->hasFile('avatar')){
                 $file_paht  = $request->file("avatar");
                 $file_name  = $_FILES['avatar']['name'];

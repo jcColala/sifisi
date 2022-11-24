@@ -2,7 +2,7 @@
 @section('content')
 <div class="page-header">
 	<!-- START NAVBAR Header -->
-	@include('layouts.navbar',['title'=>"$modulo",'modulo'=>"$modulo",'paht'=>'Index'])
+	@include('layouts.navbar',['title'=>"Rol",'modulo'=>"Rol",'paht'=>'Index'])
 	<!-- END NAVBAR Header -->
 </div>
 <div class="row">

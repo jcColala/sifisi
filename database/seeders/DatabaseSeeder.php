@@ -274,28 +274,25 @@ class DatabaseSeeder extends Seeder
         //}
 
         //------------------------------------------------------- Role
-        $rol = Role::create(['name' => 'SuperAdmin']);
-        
+        $rol = Role::create(['name' => 'SuperAdmin','editable' => false]);
+
         //------------------------------------------------------- Accesos
         $data = new Accesos();
         $data->idmodulo   = 1;
         $data->idperfil   = 1;
         $data->idrol      = 1;
-        $data->editable   = false;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 2;
         $data->idperfil   = 1;
         $data->idrol      = 1;
-        $data->editable   = true;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 3;
         $data->idperfil   = 1;
         $data->idrol      = 1;
-        $data->editable   = true;
         $data->save();
 
         $data = new Accesos();

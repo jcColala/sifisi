@@ -22,7 +22,7 @@ form.register(_path_controller_role, {
                 },
                 success: function(response) {
                     //return console.log(response)
-                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación módulo '+_path_controller_role)
+                    toastr.success('Registro ' + textaccion__ + ' correctamente', 'Notificación módulo rol')
                     $self.callback(response)
                     init_btndelete()
                 },
@@ -51,7 +51,7 @@ form.register(_path_controller_role, {
                 //loading();
             },
             success: function(response) {
-                toastr.success('Datos grabados correctamente', 'Notificación módulo '+_path_controller_role)
+                toastr.success('Datos grabados correctamente', 'Notificación módulo rol')
                 $self.callback(response)
                 close_modal(_path_controller_role)
             },

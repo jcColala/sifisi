@@ -18,8 +18,19 @@ function init() {
     $.each(data_form, function(key, val) {
         if (key == 'avatar') {
             if (val != null) {
-                $(".div_avatar_" + _prefix_usuario).html('<input type="file" class="dropify" id="avatar_' + _prefix_usuario + '" name="avatar" data-default-file="' + data_form.path_file + val + '" data-height="200" />')
-                $("#" + key + "_" + _prefix_usuario, "#form-" + _path_controller_usuario).dropify()
+
+                var imagen_url = data_form.path_file + val
+                var get_input = $("#" + key + "_" + _prefix_usuario, "#form-" + _path_controller_usuario).dropify({
+                    defaultFile: imagen_url
+                });
+                get_input = get_input.data('dropify');
+                get_input.resetPreview();
+                get_input.clearElement();
+                get_input.settings.defaultFile = imagen_url;
+                get_input.destroy();
+                get_input.init();
+
+                $("#avatar_nombre_" + _prefix_usuario, "#form-" + _path_controller_usuario).val(val)
             }
         } else {
             $("#" + key + "_" + _prefix_usuario, "#form-" + _path_controller_usuario).val(val)
@@ -29,14 +40,19 @@ function init() {
     $("#password_confirmation_" + _prefix_usuario, "#form-" + _path_controller_usuario).val("******")
     $("#password_" + _prefix_usuario, "#form-" + _path_controller_usuario).attr("disabled", true)
     $("#password_confirmation_" + _prefix_usuario, "#form-" + _path_controller_usuario).attr("disabled", true)
-    console.log(data_form);
 }
+
+//------------------------------------------------------------- Dropify remove
+var remove_input = $("#avatar_" + _prefix_usuario, "#form-" + _path_controller_usuario).dropify()
+remove_input.on('dropify.afterClear', function(event, element) {
+    $("#avatar_nombre_" + _prefix_usuario, "#form-" + _path_controller_usuario).val(null)
+})
 
 //------------------------------------------------------------- Cancelar
 $(document).on("click", "#cancelar_" + _prefix_usuario, function(e) {
     e.preventDefault();
     window.location.href = route(_path_controller_usuario + ".index");
-});
+})
 
 
 form.register(_path_controller_usuario, {
