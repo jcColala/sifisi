@@ -77,25 +77,22 @@ new Autocomplete('#autocomplete', {
   },
   
   renderResult: (result, props) => {
-    return console.log(props)    
     return `
       <li ${props}>
         <div class="wiki-title">
-          ${result.dni_ruc}
+          ${result.nombres}
         </div>
         <div class="wiki-snippet">
-          ${result.snippet}
+          ${result.nombres}
         </div>
       </li>
     `
   },
   
-  getResultValue: result => result.title,
+  getResultValue: result => result.nombres,
 
   onSubmit: result => {
-    window.open(`${wikiUrl}/wiki/${
-      encodeURI(result.title)
-    }`)
+    //window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
   }
 })
 

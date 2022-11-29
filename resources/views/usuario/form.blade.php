@@ -15,7 +15,7 @@
 				</span>
 			</div>
 			<div class="card-body pdd_card_body">
-				<form id="form-{{$pathController}}" onsubmit="md_guardar(event,'btn-save')" >
+				<form id="form-{{$pathController}}" onsubmit="md_guardar(event,'btn-save')" autocomplete="off">
    					<input type="hidden" name="id" id="id_{{$prefix}}" >
    					<div class="row">
    						<div class="col-md-7">
@@ -74,7 +74,7 @@
 		                        </div>
 		                        <div class="col-md-6">
 		                            <div class="wrap-input100 mrginput100 validate-input">
-		                                    <input type="password" class="input100" id="password_{{$prefix}}" name="password" placeholder="Contraseña*">
+		                                    <input type="password" class="input100" id="password_{{$prefix}}" name="password" placeholder="Contraseña*" autocomplete="new-password">
 		                                    <span class="focus-input100"></span>
 		                                    <span class="symbol-input100">
 		                                        <i class="zmdi zmdi-key" aria-hidden="true"></i>
