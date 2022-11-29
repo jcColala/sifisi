@@ -175,7 +175,7 @@ class DatabaseSeeder extends Seeder
         $data->url              = "accesos";
         $data->icono            = null;
         $data->orden            = 1;
-        $data->editable         = true;
+        $data->editable         = false;
         $data->save();
 
         $data = new Modulo();
@@ -197,7 +197,7 @@ class DatabaseSeeder extends Seeder
         $data->url              = "modulo";
         $data->icono            = null;
         $data->orden            = 3;
-        $data->editable         = true; 
+        $data->editable         = false; 
         $data->save();
 
         $data = new Modulo();

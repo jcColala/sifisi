@@ -126,13 +126,15 @@ class Modulo_padre extends Model
     public function getTraerModulos($modulo, $idpadre = null, $idperfil = null, $idrol = null){
         return collect($modulo)
             ->where('idpadre',$idpadre)
+            ->whereNotIn('id',[1])
             ->map(function($item) use ($modulo,$idpadre,$idperfil,$idrol){
                 $value                          = [];
                 $value['id']                    = "m-".$item->id;
                 $value['text']                  = $item->modulo;
                 if ($idrol != null){
                     //$value['state']['selected'] = $this->getComprobarAcesoModulo($item->id,$idperfil);
-                    $value['state']['opened']   = $this->getComprobarAcesoModulo($item->id,$idperfil);
+                    //$value['state']['opened']   = $this->getComprobarAcesoModulo($item->id,$idperfil);
+                    $value['state']['opened']   = true;
                 }
                 if($this->getTraerModulos($modulo,$item->id,$idperfil) == null){
                     $value['children']          = $this->getTraerFunciones($item->id,$item->url,$idrol,$idperfil);

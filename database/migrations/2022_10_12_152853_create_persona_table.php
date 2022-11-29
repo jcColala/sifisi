@@ -14,7 +14,7 @@ class CreatePersonaTable extends Migration
     public function up()
     {
         Schema::create('general.persona', function (Blueprint $table) {
-            $table->integer("dni")->primary();
+            $table->id();
             $table->unsignedBigInteger('idescuela');
             $table->foreign('idescuela')->references('id')->on('facultad.escuela');
             $table->unsignedBigInteger('idestadopersona');
@@ -29,6 +29,8 @@ class CreatePersonaTable extends Migration
             $table->foreign('ubigeo_actual')->references('id')->on('general.ubigeo');
             $table->unsignedBigInteger('idtipo_documento_identidad');
             $table->foreign('idtipo_documento_identidad')->references('id')->on('general.tipo_documento_identidad');
+            $table->string("numero_documento_identidad", 16);
+            $table->date("fecha_emision_documento_identidad")->nullable();
             $table->unsignedBigInteger('idestado_civil');
             $table->foreign('idestado_civil')->references('id')->on('general.estado_civil');
             $table->unsignedBigInteger('idsexo');

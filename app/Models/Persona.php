@@ -34,4 +34,12 @@ class Persona extends Model
         'nacionalidad',
         'deleted_at'
     ];
+
+    public function getTableName(){
+        return (explode(".", $this->table))[1];
+    }
+
+    public function getSchemaName(){
+        return (explode(".", $this->table))[0]??"public";
+    }
 }

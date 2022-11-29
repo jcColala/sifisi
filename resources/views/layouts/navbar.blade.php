@@ -35,7 +35,7 @@
             <i class="fe fe-moon cambiar_tema"></i>
         </a>
     </div>
-    <div class="dropdown d-md-flex message">
+    <!--<div class="dropdown d-md-flex message">
         <a class="nav-link icon text-center" data-toggle="dropdown">
             <i class="fe fe-mail"></i>
             <span class="nav-unread badge badge-success badge-pill">3</span>
@@ -73,7 +73,7 @@
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item text-center">See all Messages</a>
         </div>
-    </div>
+    </div>-->
     <div class="dropdown profile-1">
         <a href="#" data-toggle="dropdown" class="nav-link pr-2 leading-none d-flex">
             <span>
@@ -88,12 +88,12 @@
                 </div>
             </div>
             <div class="dropdown-divider m-0"></div>
-            <a class="dropdown-item" href="#">
+            <!--<a class="dropdown-item" href="#">
                 <i class="dropdown-icon mdi mdi-account-outline"></i> Profile
             </a>
             <a class="dropdown-item" href="#">
                 <i class="dropdown-icon  mdi mdi-settings"></i> Settings
-            </a>
+            </a>-->
 
             <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('logout-form').submit();" role="button" >
                 <i class="dropdown-icon ti-power-off"></i> Cerrar Session

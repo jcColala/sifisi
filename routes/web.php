@@ -8,6 +8,7 @@ use App\Http\Controllers\AccesosController;
 use App\Http\Controllers\FuncionController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\sgc\EntidadController;
 use App\Http\Controllers\sgc\IndicadorController;
 use App\Http\Controllers\sgc\Proceso_ceroController;
@@ -74,6 +75,11 @@ Route::group(["middleware"=>['auth']], function(){
     //------------------------------------------------------------------------------------------------ Usuarios
     Route::resource('role', RoleController::class)->only("index","create", "store","edit", "destroy");
     Route::get('role/grilla',[RoleController::class, 'grilla'])->name('role.grilla');
+
+    //------------------------------------------------------------------------------------------------ Usuarios
+    Route::get('persona/buscar/{search}',[PersonaController::class, 'buscar'])->name('persona.buscar');
+
+
 
     //!----------------------------------------------SGC---------------------//
     

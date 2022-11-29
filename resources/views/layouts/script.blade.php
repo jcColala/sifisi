@@ -78,7 +78,11 @@
 <!-- JSTREE -->
 <script src="{{asset('plugins/jstree/jstree.min.js')}}"></script>
 
+<!-- file -->
 <script src="{{asset('plugins/fileuploads/js/fileupload.js')}}"></script>
 <script src="{{asset('plugins/fileuploads/js/file-upload.js')}}"></script>
+
+<!-- autocomplete -->
+<script src="{{asset('plugins/autocompletejs_2.3/autocomplete.min.js')}}"></script>
 
 @yield('script')

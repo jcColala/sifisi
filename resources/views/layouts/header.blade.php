@@ -71,6 +71,10 @@
         <!-- Jstree -->
         <link rel="stylesheet" href="{{asset('plugins/jstree/themes/default/style.css')}}">
 
+        <!-- file -->
         <link href="{{asset('plugins/fileuploads/css/fileupload.css')}}" rel="stylesheet" />
+
+        <!-- autocomplete -->
+        <link rel="stylesheet" href="{{asset('plugins/autocompletejs_2.3/style.css')}}">
 </head>
 @routes
