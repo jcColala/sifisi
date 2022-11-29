@@ -55,46 +55,48 @@ $(document).on("click", "#cancelar_" + _prefix_usuario, function(e) {
 })
 
 //------------------------------------------------------------- Autocomplete
-new Autocomplete('#autocomplete', {
-  
-  search: input => {
-    const url = route("persona.buscar", encodeURI(input))
+if ($("#autocomplete")){
+    new Autocomplete('#autocomplete', {
+      
+      search: input => {
+        const url = route("persona.buscar", encodeURI(input))
 
-    return new Promise(resolve => {
-      if (input.length < 3) {
-        return resolve([])
-      }
+        return new Promise(resolve => {
+          if (input.length < 3) {
+            return resolve([])
+          }
 
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          const results = data.search.map((result, index) => {
-            return { ...result, index }
-          })
-          resolve(results)
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              const results = data.search.map((result, index) => {
+                return { ...result, index }
+              })
+              resolve(results)
+            })
         })
-    })
-  },
-  
-  renderResult: (result, props) => {
-    return `
-      <li ${props}>
-        <div class="wiki-title">
-          ${result.nombres}
-        </div>
-        <div class="wiki-snippet">
-          ${result.nombres}
-        </div>
-      </li>
-    `
-  },
-  
-  getResultValue: result => result.nombres,
+      },
+      
+      renderResult: (result, props) => {
+        return `
+          <li ${props}>
+            <div class="wiki-title">
+              ${result.nombres}
+            </div>
+            <div class="wiki-snippet">
+              ${result.nombres}
+            </div>
+          </li>
+        `
+      },
+      
+      getResultValue: result => result.nombres,
 
-  onSubmit: result => {
-    //window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
-  }
-})
+      onSubmit: result => {
+        //window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
+      }
+    })
+}
 
 //------------------------------------------------------------- Guardar editar y eliminar
 form.register(_path_controller_usuario, {
