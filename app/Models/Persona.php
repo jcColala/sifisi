@@ -21,6 +21,7 @@ class Persona extends Model
         'ubigeo_origen',
         'ubigeo_actual',
         'idtipo_documento_identidad',
+        'numero_documento_identidad',
         'idestado_civil',
         'idsexo',
         'nombres',

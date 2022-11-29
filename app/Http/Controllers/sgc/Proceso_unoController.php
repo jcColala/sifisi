@@ -129,7 +129,10 @@ class Proceso_unoController extends Controller
             {
                 $obj    = new SGCProceso_uno();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
-                $obj->version = "";
+                $obj->version = $request->version;
+                $obj->fecha_aprobado = $request->fecha_aprobado;
+                $obj->idproceso_cero = $request->idproceso_cero;
+                
             }else{
 
             }
