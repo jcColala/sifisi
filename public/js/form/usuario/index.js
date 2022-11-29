@@ -31,7 +31,7 @@ const load_datatable = () => {
             { data: 'persona.nombres' },
             { data: 'persona.apellido_paterno' },
             { data: 'persona.apellido_materno' },
-            { data: 'persona.dni' },
+            { data: 'persona.numero_documento_identidad' },
             { data: 'usuario' },
             {
                 data: 'estado',
