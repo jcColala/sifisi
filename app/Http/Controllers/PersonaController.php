@@ -77,7 +77,7 @@ class PersonaController extends Controller
 
     public function buscar($search, Request $request){
         //$search    = Str::upper($search);
-        $consulta = Persona::where('dni','LIKE','%'.$search.'%')
+        $consulta = Persona::where('numero_documento_identidad','LIKE','%'.$search.'%')
                            ->orWhere('nombres','LIKE','%'.$search.'%')
                            ->orWhere('apellido_paterno','LIKE','%'.$search.'%')
                            ->orWhere('apellido_materno','LIKE','%'.$search.'%')
@@ -91,9 +91,10 @@ class PersonaController extends Controller
                       'nombres'         =>$key->nombres." ".$key->apellido_paterno." ".$key->apellido_materno,
                       'dni_ruc'         =>$key->id
                     ];
+            $datos["search"] = [$array];
+
         }
 
-        $datos["search"] = [$array];
 
       return $datos;
     }

@@ -55,30 +55,31 @@ $(document).on("click", "#cancelar_" + _prefix_usuario, function(e) {
 })
 
 //------------------------------------------------------------- Autocomplete
-if ($("#autocomplete")){
+
+if ($("#autocomplete").length) {
     new Autocomplete('#autocomplete', {
-      
-      search: input => {
-        const url = route("persona.buscar", encodeURI(input))
 
-        return new Promise(resolve => {
-          if (input.length < 3) {
-            return resolve([])
-          }
+        search: input => {
+            const url = route("persona.buscar", encodeURI(input))
 
-          fetch(url)
-            .then(response => response.json())
-            .then(data => {
-              const results = data.search.map((result, index) => {
-                return { ...result, index }
-              })
-              resolve(results)
+            return new Promise(resolve => {
+                if (input.length < 2) {
+                    return resolve([])
+                }
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        const results = data.search.map((result, index) => {
+                            return { ...result, index }
+                        })
+                        resolve(results)
+                    })
             })
-        })
-      },
-      
-      renderResult: (result, props) => {
-        return `
+        },
+
+        renderResult: (result, props) => {
+            return `
           <li ${props}>
             <div class="wiki-title">
               ${result.nombres}
@@ -88,13 +89,13 @@ if ($("#autocomplete")){
             </div>
           </li>
         `
-      },
-      
-      getResultValue: result => result.nombres,
+        },
 
-      onSubmit: result => {
-        //window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
-      }
+        getResultValue: result => result.nombres,
+
+        onSubmit: result => {
+            //window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
+        }
     })
 }
 
