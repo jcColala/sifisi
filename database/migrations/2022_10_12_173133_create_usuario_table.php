@@ -16,7 +16,7 @@ class CreateUsuarioTable extends Migration
         Schema::create('seguridad.usuario', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("idpersona");
-            $table->foreign('idpersona')->references('dni')->on('general.persona');
+            $table->foreign('idpersona')->references('id')->on('general.persona');
             $table->unsignedBigInteger("idperfil")->nullable();
             $table->foreign('idperfil')->references('id')->on('seguridad.perfil');
             $table->string("usuario", 60);

@@ -17,6 +17,8 @@ class CreateModuloTable extends Migration
             $table->id();
             $table->unsignedBigInteger("idmodulo_padre");
             $table->foreign('idmodulo_padre')->references('id')->on('seguridad.modulo_padre');
+            $table->unsignedBigInteger("idsistema")->nullable();
+            $table->foreign('idsistema')->references('id')->on('sistemas.sistema');
             $table->integer("idpadre")->nullable();
             $table->string("modulo", 120);
             $table->string("abreviatura", 60)->nullable();

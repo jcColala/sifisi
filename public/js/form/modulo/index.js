@@ -25,7 +25,7 @@ const load_datatable = () => {
             {
                 data: 'padre.descripcion',
                 orderable: false,
-                searchable: false
+
             },
             {
                 data: 'modulopadre.modulo',

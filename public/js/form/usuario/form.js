@@ -54,7 +54,52 @@ $(document).on("click", "#cancelar_" + _prefix_usuario, function(e) {
     window.location.href = route(_path_controller_usuario + ".index");
 })
 
+//------------------------------------------------------------- Autocomplete
+new Autocomplete('#autocomplete', {
+  
+  search: input => {
+    const url = route("persona.buscar", encodeURI(input))
 
+    return new Promise(resolve => {
+      if (input.length < 3) {
+        return resolve([])
+      }
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const results = data.search.map((result, index) => {
+            return { ...result, index }
+          })
+          resolve(results)
+        })
+    })
+  },
+  
+  renderResult: (result, props) => {
+    return console.log(props)    
+    return `
+      <li ${props}>
+        <div class="wiki-title">
+          ${result.dni_ruc}
+        </div>
+        <div class="wiki-snippet">
+          ${result.snippet}
+        </div>
+      </li>
+    `
+  },
+  
+  getResultValue: result => result.title,
+
+  onSubmit: result => {
+    window.open(`${wikiUrl}/wiki/${
+      encodeURI(result.title)
+    }`)
+  }
+})
+
+//------------------------------------------------------------- Guardar editar y eliminar
 form.register(_path_controller_usuario, {
     nuevo: function() {
         get_modal(_path_controller_usuario, _prefix_usuario)
