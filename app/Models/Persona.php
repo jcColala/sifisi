@@ -14,13 +14,14 @@ class Persona extends Model
     protected $primaryKey   = "id";
 
     protected $fillable = [
-        'id',
         'idescuela',
         'idestadopersona',
         'idtipopersona',
         'ubigeo_origen',
         'ubigeo_actual',
         'idtipo_documento_identidad',
+        'numero_documento_identidad',
+        'fecha_emision_documento_identidad',
         'idestado_civil',
         'idsexo',
         'nombres',
