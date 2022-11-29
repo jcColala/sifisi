@@ -11,6 +11,7 @@ use App\Models\SGCTipo_proceso;
 use App\Models\SGCIndicador;
 use App\Models\MOVSGCMov_indicador;
 
+use App\Models\Funcion;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;  
@@ -29,6 +30,10 @@ class Proceso_unoController extends Controller
     public $dataTableServer         = null;
 
     public function __construct(){
+        foreach (Funcion::get() as $key => $value) {
+            $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
+        }
+
         $this->model                = new SGCProceso_uno();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
@@ -111,24 +116,27 @@ class Proceso_unoController extends Controller
 
         return DB::transaction(function() use ($request){
             //LLENADO - EDICIÓN EN LA TABLA MOVIMIENTOS
-            $obj_mov        = MOVSGCMov_proceso_uno::withTrashed()->find($request->id);
+            /*$obj_mov        = MOVSGCMov_proceso_uno::withTrashed()->find($request->id);
 
             if(is_null($obj_mov))
                 $obj_mov    = new MOVSGCMov_proceso_uno();
             $obj_mov->fill($request->all());
-            $obj_mov->save();
+            $obj_mov->save();*/
 
-            //LLENADO - EDICIÓN EN LA TABLA MOVIMIENTOS
+            //LLENADO - EDICIÓN EN LA TABLA SGC
             $obj        = SGCProceso_uno::withTrashed()->find($request->id);
-
-            if(is_null($obj))
+            if(empty($obj))
+            {
                 $obj    = new SGCProceso_uno();
-            $obj->fill($request->all());
-            $obj->save();
+                $obj->idpersona_solicita = $request->idpersona_solicita;
+                $obj->version = "";
+            }else{
 
+            }
+                
             //!INDICADORES
             //movimiento
-            for ($i=0; $i < count($request->codigo_indicador); $i++) { 
+            /*for ($i=0; $i < count($request->codigo_indicador); $i++) { 
                 $indicador_mov  = MOVSGCMov_indicador::where('codigo',$request->codigo_indicador[$i])->first();
                 
                 if(is_null($indicador_mov))
@@ -139,7 +147,7 @@ class Proceso_unoController extends Controller
                 $indicador_mov->descripcion = $request->descripcion_indicador[$i];
                 $indicador_mov->version = $request->version;
                 $indicador_mov->save();
-            }
+            }*/
 
             //sgc
             for ($i=0; $i < count($request->codigo_indicador); $i++){ 
@@ -160,7 +168,6 @@ class Proceso_unoController extends Controller
     }
 
     public function edit($id){ 
-        $data  = SGCProceso_uno::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 

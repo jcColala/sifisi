@@ -62,14 +62,14 @@ $("#btn-ir").on("click", function(e){
     e.preventDefault();
     var id = grilla.get_id(_name_tabla_proceso_uno);
     if (id != null) {
-        window.location.href ='proceso_uno_detalle/'+id;
+        window.location.href ='proceso_uno/'+id;
     } else {
         alertas.warning("Ups..!");
     }
 });
 
 //------------------------------------------------------------- Nuevo
-$("#btn-new").on("click", function(e) {
+$("#btn-create").on("click", function(e) {
     e.preventDefault();
     form.get(_path_controller_proceso_uno).nuevo();
 });
@@ -86,13 +86,9 @@ $("#btn-edit").on("click", function(e) {
     }
 });
 
-$("#form-Proceso_uno").on("submit", function(e){
-    e.preventDefault();
-    alert('A la mrda');
-});
 
 //------------------------------------------------------------- Eliminar
-$("#btn-delete_restore").on("click", function(e) {
+$("#btn-destroy").on("click", function(e) {
     e.preventDefault();
     var id = grilla.get_id(_name_tabla_proceso_uno);
     if (id != null) {

@@ -13,7 +13,7 @@
 				<div class="card-options card_options">
 					<div class="btn-list">
 						<!-- START Botones-->
-						@include('indicador.botonIr')
+						@include('extras.botones',['path_controller' => "$pathController"])
 						<!-- END Botones-->
 					</div>
 				</div>

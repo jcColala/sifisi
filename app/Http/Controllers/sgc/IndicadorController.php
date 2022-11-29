@@ -8,6 +8,7 @@ use App\Models\MOVSGCMov_proceso_cero;
 use App\Models\SGCIndicador;
 use App\Models\MOVSGCMov_indicador;
 
+use App\Models\Funcion;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,9 @@ class IndicadorController extends Controller
     public $dataTableServer         = null;
 
     public function __construct(){
+        foreach (Funcion::get() as $key => $value) {
+            $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
+        }
         $this->model                = new SGCIndicador();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
