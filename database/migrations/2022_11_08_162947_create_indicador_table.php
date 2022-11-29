@@ -18,9 +18,9 @@ class CreateIndicadorTable extends Migration
             $table->unsignedBigInteger('idestado')->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->unsignedInteger('idpersona_solicita');
-            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
+            $table->foreign('idpersona_solicita')->references('id')->on('general.persona');
             $table->unsignedInteger('idpersona_aprueba')->nullable();
-            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
+            $table->foreign('idpersona_aprueba')->references('id')->on('general.persona');
             $table->unsignedBigInteger('idproceso_uno');
             $table->foreign('idproceso_uno')->references('id')->on('sgc.proceso_uno');
             $table->unsignedBigInteger('idtipo_accion')->default(1);

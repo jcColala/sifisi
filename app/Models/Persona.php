@@ -11,10 +11,10 @@ class Persona extends Model
     use SoftDeletes;
 
     protected $table        = "general.persona";
-    protected $primaryKey   = "dni";
+    protected $primaryKey   = "id";
 
     protected $fillable = [
-        'dni',
+        'id',
         'idescuela',
         'idestadopersona',
         'idtipopersona',

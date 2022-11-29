@@ -81,7 +81,6 @@ class DatabaseSeeder extends Seeder
         $data = new Estado_civil();
         $data->descripcion  = 'Soltero';
         $data->save();
-
         //------------------------------------------------------- Sexo
         $data = new Sexo();
         $data->descripcion  = 'Masculino';
@@ -89,14 +88,14 @@ class DatabaseSeeder extends Seeder
         $data->save();
 
         //------------------------------------------------------- Persona
-        $data = new Persona();
-        $data->dni                          = 1;    
+        $data = new Persona();  
         $data->idescuela                    = 1;
         $data->idestadopersona              = 1;
         $data->idtipopersona                = 1;
         $data->ubigeo_origen                = 1;
         $data->ubigeo_actual                = 1;
         $data->idtipo_documento_identidad   = 1;
+        $data->numero_documento_identidad   = 71104111;
         $data->idestado_civil               = 1;
         $data->idsexo                       = 1;
         $data->nombres                      = "Anonimos";
@@ -110,14 +109,14 @@ class DatabaseSeeder extends Seeder
         $data->nacionalidad                 = "Peruano";
         $data->save();
 
-        $data = new Persona();
-        $data->dni                          = 71885613;    
+        $data = new Persona();  
         $data->idescuela                    = 1;
         $data->idestadopersona              = 1;
         $data->idtipopersona                = 1;
         $data->ubigeo_origen                = 1;
         $data->ubigeo_actual                = 1;
         $data->idtipo_documento_identidad   = 1;
+        $data->numero_documento_identidad   = 11111111;
         $data->idestado_civil               = 1;
         $data->idsexo                       = 1;
         $data->nombres                      = "Juan carlos";

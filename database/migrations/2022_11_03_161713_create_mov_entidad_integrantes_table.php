@@ -20,11 +20,11 @@ class CreateMovEntidadIntegrantesTable extends Migration
             $table->unsignedBigInteger('idestado');
             $table->foreign('idestado')->references('id')->on('sgc.estado');
             $table->unsignedBigInteger('idpersona_solicita');
-            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
+            $table->foreign('idpersona_solicita')->references('id')->on('general.persona');
             $table->unsignedBigInteger('idpersona_aprueba');
-            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
+            $table->foreign('idpersona_aprueba')->references('id')->on('general.persona');
             $table->unsignedBigInteger('idintegrante');
-            $table->foreign('idintegrante')->references('dni')->on('general.persona');
+            $table->foreign('idintegrante')->references('id')->on('general.persona');
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
 

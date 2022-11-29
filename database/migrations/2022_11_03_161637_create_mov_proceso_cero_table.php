@@ -19,10 +19,10 @@ class CreateMovProcesoceroTable extends Migration
             $table->foreign('idestado')->references('id')->on('sgc.estado');
 
             $table->unsignedInteger('idpersona_solicita');
-            $table->foreign('idpersona_solicita')->references('dni')->on('general.persona');
+            $table->foreign('idpersona_solicita')->references('id')->on('general.persona');
 
             $table->unsignedInteger('idpersona_aprueba')->nullable();
-            $table->foreign('idpersona_aprueba')->references('dni')->on('general.persona');
+            $table->foreign('idpersona_aprueba')->references('id')->on('general.persona');
 
             $table->unsignedBigInteger('idtipo_proceso');
             $table->foreign('idtipo_proceso')->references('id')->on('sgc.tipo_proceso');
