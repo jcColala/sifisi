@@ -36,7 +36,7 @@
 .autocomplete[data-loading=true]:after {
     content: "";
     border: 3px solid rgba(0, 0, 0, .12);
-    border-right-color: rgba(0, 0, 0, .48);
+    border-right-color: var(--color_principal);
     border-radius: 100%;
     width: 20px;
     height: 20px;
@@ -63,7 +63,7 @@
     margin-top: -1px;
     border-top-color: transparent;
     border-radius: 0 0 8px 8px;
-    padding-bottom: 8px
+    padding-bottom: 5px
 }
 
 [data-position=above] .autocomplete-result-list {
@@ -75,12 +75,18 @@
 
 .autocomplete-result {
     cursor: default;
-    padding: 12px 12px 12px 48px;
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjY2NjIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iOCIvPjxwYXRoIGQ9Ik0yMSAyMWwtNC00Ii8+PC9zdmc+");
+    padding: 10px 10px 10px 45px;
+    background-image: url("../../images/svgs/search.svg");
     background-repeat: no-repeat;
-    background-position: 12px
+    background-position: 10px;
+    background-size: 20px;
 }
-
+.dark-mode .autocomplete-result, .dark-mode .autocomplete-result-list{
+    background: #22223d;
+}
+.dark-mode .autocomplete-result{
+    border-top: 1px solid hsla(0,0%,100%,.1);
+}
 .autocomplete-result:hover,
 .autocomplete-result[aria-selected=true] {
     background-color: rgba(0, 0, 0, .06)

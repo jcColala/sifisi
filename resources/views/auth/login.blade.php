@@ -37,7 +37,7 @@
                                     <input type="text" class="input100 @error('usuario') is-invalid @enderror" id="usuario" name="usuario" value="{{ old('usuario') }}" autofocus placeholder="Usuario">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
-                                        <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                        <i class="fa fa-user" aria-hidden="true"></i>
                                     </span>
                                 </div>
                                 @if ($errors->has('usuario') AND $errors->first('usuario') != "Lo sentimos, las credenciales ingresadas no coinciden con ninguno de nuestros registros.")

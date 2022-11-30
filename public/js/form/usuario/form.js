@@ -60,14 +60,13 @@ if ($("#autocomplete").length) {
     new Autocomplete('#autocomplete', {
 
         search: input => {
-            const url = route("persona.buscar", encodeURI(input))
 
             return new Promise(resolve => {
                 if (input.length < 2) {
                     return resolve([])
                 }
 
-                fetch(url)
+                fetch(route("persona.buscar", encodeURI(input)))
                     .then(response => response.json())
                     .then(data => {
                         const results = data.search.map((result, index) => {
@@ -82,19 +81,17 @@ if ($("#autocomplete").length) {
             return `
           <li ${props}>
             <div class="wiki-title">
-              ${result.nombres}
+              ${result.numero_documento_identidad}
             </div>
             <div class="wiki-snippet">
-              ${result.nombres}
+                ${result.apellido_paterno} ${result.apellido_materno} ${result.nombres} 
             </div>
-          </li>
-        `
+          </li>`
         },
 
-        getResultValue: result => result.nombres,
-
+        getResultValue: result => result.apellido_paterno+' '+result.apellido_materno+' '+result.nombres,
         onSubmit: result => {
-            //window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
+            $("#idpersona_"+_prefix_usuario).val(result.id)
         }
     })
 }
@@ -171,6 +168,9 @@ form.register(_path_controller_usuario, {
                             $(".avatar_" + _prefix_usuario).addClass("bg-danger text-white")
                             $(".avatar_" + _prefix_usuario).first().popover('show');
 
+                        }
+                        if (i == 'idpersona') {
+                            $("#persona_nombres_" + _prefix_usuario).addClass('is_invalid');
                         }
                         $('#' + i + "_" + _prefix_usuario).addClass('is_invalid');
                         $('.select2-' + i + "_" + _prefix_usuario).addClass('select2-is_invalid');

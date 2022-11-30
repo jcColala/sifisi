@@ -51,7 +51,7 @@ class UsuarioController extends Controller
         if( $id != null ){
             $datos["data"]                      = User::withTrashed()->with('persona')->find($id);
             $datos["data"]["rol"]               = User::withTrashed()->find($id)->roles->first()["id"];
-            $datos["data"]["persona_nombres"]   = $datos["data"]["persona"]["dni"]." - ".$datos["data"]["persona"]["apellido_paterno"]." ".$datos["data"]["persona"]["apellido_materno"]." ".$datos["data"]["persona"]["nombres"];
+            $datos["data"]["persona_nombres"]   = $datos["data"]["persona"]["apellido_paterno"]." ".$datos["data"]["persona"]["apellido_materno"]." ".$datos["data"]["persona"]["nombres"];
         }
         return $datos;
     }
@@ -77,6 +77,7 @@ class UsuarioController extends Controller
 
     public function store(Request $request){
         $this->validate($request,[
+            'idpersona' => 'required',
             'idperfil' => 'required',
             'rol' => 'required',
             'usuario' =>['required',
@@ -86,8 +87,11 @@ class UsuarioController extends Controller
                         ],
             'password' => ['required_without:id', 'confirmed',],
         ],[
+            "idpersona.required"=>"El campo persona es obligatorio.",
             "idperfil.required"=>"El campo perfil es obligatorio.",
-            "rol.required"=>"El campo rol es obligatorio."
+            "rol.required"=>"El campo rol es obligatorio.",
+            "password.required_without"=>"El campo password es obligatorio.",
+            "password.confirmed"=>"Las passwords no coinciden."
         ]);
 
         return DB::transaction(function() use ($request){

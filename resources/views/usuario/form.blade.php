@@ -22,7 +22,7 @@
 		   					<div class="form-group form-row">
 								<div class="col-md-12">
 									<div class="wrap-input100 mrginput100 validate-input">
-											<input type="hidden" id="idpersona_{{$prefix}}" name="idpersona" value="71885613">
+											<input type="hidden" id="idpersona_{{$prefix}}" name="idpersona">
 											<div id="autocomplete" class="autocomplete">
 												<input type="text" class="input100" id="persona_nombres_{{$prefix}}" name="persona_nombres" placeholder="Buscar persona*">
 			                                    <span class="focus-input100"></span>
@@ -36,8 +36,8 @@
 		                                    <span class="focus-input100"></span>
 		                                    <span class="symbol-input100">
 		                                        <i class="mdi mdi-account-search" aria-hidden="true"></i>
-		                                    </span>
-		                                    <span class="idpersona_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>-->
+		                                    </span>-->
+		                                    <span class="idpersona_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 		                            </div>
 		                        </div>
 		                        <div class="col-md-6"> 
@@ -67,7 +67,7 @@
 		                                    <input type="text" class="input100" id="usuario_{{$prefix}}" name="usuario" placeholder="Usuario*">
 		                                    <span class="focus-input100"></span>
 		                                    <span class="symbol-input100">
-		                                        <i class="mdi mdi-account-circle" aria-hidden="true"></i>
+		                                        <i class="fa fa-user" aria-hidden="true"></i>
 		                                    </span>
 		                                    <span class="usuario_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 		                            </div>
