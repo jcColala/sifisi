@@ -29,14 +29,8 @@
 			                                    <span class="symbol-input100">
 			                                        <i class="mdi mdi-account-search" aria-hidden="true"></i>
 			                                    </span>
-											  
-											  <ul class="autocomplete-result-list"></ul>
+											  	<ul class="autocomplete-result-list"></ul>
 											</div>
-		                                    <!--<input type="text" class="input100" id="persona_nombres_{{$prefix}}" name="persona_nombres" placeholder="Buscar persona*">
-		                                    <span class="focus-input100"></span>
-		                                    <span class="symbol-input100">
-		                                        <i class="mdi mdi-account-search" aria-hidden="true"></i>
-		                                    </span>-->
 		                                    <span class="idpersona_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 		                            </div>
 		                        </div>
