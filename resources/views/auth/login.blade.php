@@ -62,9 +62,9 @@
                                     <span class="text-danger login_mjs_error">{{ $errors->first('g-recaptcha-response') }}</span>
                                 @enderror
 
-                                <div class="text-right pt-1">
-                                    <p class="mb-0"><a href="forgot-password.html" class="text-primary ml-1">¿Has olvidado tu contrase&ntilde;a?</a></p>
-                                </div>
+                                <!--<div class="text-right pt-1">
+                                    <p class="mb-0"><a href="{{ route('password.request') }}" class="text-primary ml-1">¿Has olvidado tu contrase&ntilde;a?</a></p>
+                                </div>-->
 
                                 @if ($errors->has('usuario') AND $errors->first('usuario') == "Lo sentimos, las credenciales ingresadas no coinciden con ninguno de nuestros registros.")
                                     <div class="alert alert-danger login_error">
