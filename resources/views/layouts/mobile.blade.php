@@ -24,13 +24,13 @@
                             </div>
                         </div>
                         <div class="dropdown-divider m-0"></div>
-                        <a class="dropdown-item" href="#">
+                        <!--<a class="dropdown-item" href="#">
                             <i class="dropdown-icon mdi mdi-account-outline"></i> Profile
                         </a>
                         <a class="dropdown-item" href="#">
                             <i class="dropdown-icon  mdi mdi-settings"></i> Settings
-                        </a>
-                        <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('logout-form').submit();" role="button" >
+                        </a>-->
+                        <a class="dropdown-item text-center" href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('logout-form').submit();" role="button" >
                             <i class="dropdown-icon ti-power-off"></i> Cerrar Session
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -66,13 +66,12 @@
                     <i class="fe fe-maximize fullscreen-button"></i>
                 </a>
             </div>
-            <div class="dropdown d-md-flex md_nocturno_o_o">
+            <div class="dropdown d-md-flex">
                 <a class="nav-link icon nav-link-bg">
-                    <input type="radio" name="onoffswitch2" id="myonoffswitch16" class="onoffswitch2-checkbox">
-                    <label for="myonoffswitch16" class="fe fe-moon onoffswitch2"></label>
+                    <i class="fe fe-moon cambiar_tema"></i>
                 </a>
             </div>
-            <div class="dropdown d-md-flex message">
+            <!--<div class="dropdown d-md-flex message">
                 <a class="nav-link icon text-center" data-toggle="dropdown">
                     <i class="fe fe-mail"></i>
                 </a>
@@ -109,7 +108,7 @@
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item text-center">See all Messages</a>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>
