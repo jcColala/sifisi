@@ -87,8 +87,8 @@ Route::group(["middleware"=>['auth']], function(){
 
 
     //!-------------------------------SGC-------------------------------//
-    
 
+    
     //------------------------------------------------------------------------------------------------- ENTIDAD
     Route::resource('entidad', EntidadController::class)->only('index', 'create', 'store', 'edit', 'destroy');
     Route::get('entidad/grilla',[EntidadController::class, 'grilla'])->name('entidad.grilla');

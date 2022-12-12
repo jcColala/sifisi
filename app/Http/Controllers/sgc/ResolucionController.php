@@ -143,6 +143,7 @@ class ResolucionController extends Controller
             return response()->json($obj);
     }
 
+
     public function destroy(Request $request){
 
         $obj = SGCResolucion::withTrashed()->where("id",$request->id)->first();
