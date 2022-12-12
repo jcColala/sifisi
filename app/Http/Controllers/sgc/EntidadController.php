@@ -7,6 +7,7 @@ use App\Models\MOVSGCMov_entidad;
 use App\Models\Funcion;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
@@ -135,13 +136,23 @@ class EntidadController extends Controller
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
+
+
     public function destroy(Request $request){
 
         $obj = SGCEntidad::withTrashed()->where("id",$request->id)->first();
         /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
+        if($request->accion = "aprobar"){
+            $obj = SGCEntidad::withTrashed()->find($request->id);
+            $obj->idpersona_aprueba = auth()->user()->persona->id;
+            $obj->idestado = 2;
+            $obj->save();
 
+            return response()->json($obj);
+
+        }
         
         if ($request->accion == "eliminar") {
 
@@ -153,7 +164,7 @@ class EntidadController extends Controller
                 return response()->json($data);
             }
 
-            $obj->idpersona_solicita = auth()->user()->persona->dni;
+            $obj->idpersona_solicita = auth()->user()->persona->id;
             $obj->idtipo_accion = 3;
             $obj->idestado = 1;
             $obj->save();

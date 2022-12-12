@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
-
-use App\Models\SGCProceso_cero;
-use App\Models\MOVSGCMov_proceso_cero;
 use App\Models\SGCEntidad;
-use App\Models\SGCTipo_proceso;
+use App\Models\MOVSGCMov_entidad;
 use App\Models\Funcion;
+use App\Models\SGCDocumento;
+use App\Models\SGCResolucion;
+use App\Models\SGCEstado;
+use App\Models\SGCTipo_documento;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class Proceso_ceroController extends Controller
+class DocumentoController extends Controller
 {
-    public $modulo                  = "Procesos de Nivel Cero";
-    public $path_controller         = "proceso_cero";
+    public $modulo                  = "Documentos";
+    public $path_controller         = "documentos";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -31,7 +33,8 @@ class Proceso_ceroController extends Controller
         foreach (Funcion::get() as $key => $value) {
             $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
         }
-        $this->model                = new SGCProceso_cero();
+
+        $this->model                = new SGCDocumento();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
 
@@ -42,12 +45,12 @@ class Proceso_ceroController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
-        $datos["tipo_proceso"]      = SGCTipo_proceso::get();
-        $datos["responsable"]       = SGCEntidad::get();
         $datos["data"]              = [];
+        $datos["entidades"]         = SGCEntidad::get();
+        $datos["tipo_documentos"]   = SGCTipo_documento::get();
+        $datos["resoluciones"]      = SGCResolucion::get();
         if( $id != null )
-            $datos["data"]          = SGCProceso_cero::withTrashed()->find($id);
-
+            $datos["data"]          = SGCDocumento::withTrashed()->find($id);
         return $datos;
     }
 
@@ -55,10 +58,10 @@ class Proceso_ceroController extends Controller
         return view("{$this->path_controller}.index", $this->form());
     }
 
-    public function grilla(){
-        //withTrashed
-        $objeto = SGCProceso_cero::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'ASC')->get();
 
+    public function grilla(){
+        $objeto = SGCDocumento::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->withTrashed();
+        
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -70,57 +73,66 @@ class Proceso_ceroController extends Controller
                 ->rawColumns(['icono', "activo"])
                 ->make(true);
     }
-    
+
     public function create(){
-        
         return view("{$this->path_controller}.form",$this->form());
     }
 
     public function store(Request $request){
-        
         $this->validate($request,[
-            'idtipo_proceso'=>'required',
-            'codigo'=> 'required',
-            'descripcion' => 'required',
-            'idresponsable'=>'required',
-            'objetivo'=>'required',
-            'alcance'=>'required',
+            'codigo'            =>'required',
+            'descripcion'       =>'required|max:120',
+            'version'           =>'required|numeric|regex:/^[\d]{0,11}(\.[\d]{1,2})?$/',
+            'fecha_emision'     =>'required',
+            'fecha_aprobacion'  =>'required',
+            'idtipo_documento'  =>'required',
+            'identidad'         =>'required',
+            'idresolucion'      =>'required',
+            'porcentaje'        => 'required|integer',
             ],[
-            'idtipo_proceso.required' => 'Seleccione el tipo de proceso',
-            'codigo.required'=> 'Escriba el código del proceso',
-            'descripcion.required' => 'Escriba el Nombre del Proceso',
-            'idresponsable.required' => 'Seleccione el responsable del proceso',
-            'objetivo.required' => 'Escriba el objetivo del proceso',
-            'alcance.required' => 'Escriba el alcance del proceso',
+            'codigo.required'=>'Ingresar el código del documento',
+            'descripcion.required'=>'Ingresar el nombre del documento',
+            'version.required'=>'Ingresar el version del documento',
+            'fecha_emision.required'=>'Ingresar la fecha de emisión del documento',
+            'fecha_aprobacion.required'=>'Ingresar la fecha de aprobación del documento',
+            'idtipo_documento.required'=>'Seleccionar el tipo del documento',
+            'identidad.required'=>'Seleccionar la entidad del documento',
+            'idresolucion.required'=>'Seleccionar la resolución asociada al documento',
+            'porcentaje.required' => 'Ingresar la cantidad de integrantes de la entidad',
+            'porcentaje.integer' => 'La cantidad de integrantes debe ser un número entero'
         ]);
-        return DB::transaction(function() use ($request){
-            $obj        = SGCProceso_cero::withTrashed()->find($request->id);
 
+        return DB::transaction(function() use ($request){            
+            $obj = SGCDocumento::withTrashed()->find($request->id);
+            
             if(empty($obj)){
+                //TRATAMIENTO DEL DOCUMENTO
+                $documento = $request->file('archivo');
+                if (!Storage::putFileAs('documentos', $documento, $documento->getClientOriginalName())) {
+                    $data = array(
+                        "type" => "error",
+                        "text" => "No se ha podido subir el documento, inténtelo nuevamente"
+                    );
+                    return response()->json($data);  
+                }
                 //REGISTRO EN TABLA
-                $obj = new SGCProceso_cero();
+                $obj = new SGCDocumento();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
                 $obj->idtipo_accion = 1;
-                $obj->idtipo_proceso = $request->idtipo_proceso;
-                $obj->idresponsable = $request->idresponsable;
                 $obj->codigo = $request->codigo;
                 $obj->descripcion = $request->descripcion;
-                $obj->objetivo = $request->objetivo;
-                $obj->alcance = $request->alcance;
+                $obj->version   = $request->version;
+                $obj->fecha_emision = $request->fecha_emision;
+                $obj->fecha_aprobacion = $request->fecha_aprobacion;
+                $obj->ubicacion_fisica = $request->ubicacion_fisica;
+                $obj->idtipo_documento = $request->idtipo_documento;
+                $obj->identidad        = $request->identidad;
+                $obj->idresolucion     = $request->idresolucion;
+                $obj->porcentaje       = $request->porcentaje;
+                $obj->documento        = $documento->getClientOriginalName();   
+                $obj->idtipo_archivo   = "1";
                 $obj->save();
 
-                //REGISTRO MOVIMIENTOS
-                $obj_mov = new MOVSGCMov_proceso_cero();
-                $obj_mov->idpersona_solicita = $request->idpersona_solicita;
-                $obj_mov->idtipo_accion = 1;
-                $obj_mov->idsgc = $obj->id;
-                $obj_mov->idtipo_proceso = $request->idtipo_proceso;
-                $obj_mov->idresponsable = $request->idresponsable;
-                $obj_mov->codigo = $request->codigo;
-                $obj_mov->descripcion = $request->descripcion;
-                $obj_mov->objetivo = $request->objetivo;
-                $obj_mov->alcance = $request->alcance;
-                $obj_mov->save();
             }else{
                 if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
                     $data = array(
@@ -129,25 +141,23 @@ class Proceso_ceroController extends Controller
                     );
                     return response()->json($data);
                 }
-                //EDICIÓN TABLA
                 $obj->idpersona_solicita = $request->idpersona_solicita;
-                $obj->idtipo_accion = 2;
-                $obj->idestado = 1;
+                $obj->idtipo_accion = 1;
+                $obj->codigo = $request->codigo;
+                $obj->descripcion = $request->descripcion;
+                $obj->version   = $request->version;
+                $obj->fecha_emision = $request->fecha_emision;
+                $obj->fecha_aprobacion = $request->fecha_aprobacion;
+                $obj->ubicacion_fisica = $request->ubicacion_fisica;
+                $obj->idtipo_documento = $request->idtipo_documento;
+                $obj->identidad        = $request->identidad;
+                $obj->idresolucion     = $request->idresolucion;
+                $obj->porcentaje       = $request->porcentaje;
+                $obj->documento        = "a";   
+                $obj->idtipo_archivo   = "1";
                 $obj->save();
-
-                //EDICIÓN EN MOVIMIENTO
-                $obj_mov = new MOVSGCMov_proceso_cero();
-                $obj_mov->idpersona_solicita = $request->idpersona_solicita;
-                $obj_mov->idtipo_accion = 2;
-                $obj_mov->idsgc = $obj->id;
-                $obj_mov->idtipo_proceso = $request->idtipo_proceso;
-                $obj_mov->idresponsable = $request->idresponsable;
-                $obj_mov->codigo = $request->codigo;
-                $obj_mov->descripcion = $request->descripcion;
-                $obj_mov->objetivo = $request->objetivo;
-                $obj_mov->alcance = $request->alcance;
-                $obj_mov->save();
             }
+
             return response()->json($obj);
         });
         
@@ -159,7 +169,7 @@ class Proceso_ceroController extends Controller
 
     public function destroy(Request $request){
 
-        $obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->first();
+        $obj = SGCDocumento::withTrashed()->where("id",$request->id)->first();
         /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
@@ -186,6 +196,13 @@ class Proceso_ceroController extends Controller
             $obj->idtipo_accion = 3;
             $obj->idestado = 1;
             $obj->save();
+
+            //EDICIÓN EN MOVIMIENTO
+            $obj_mov = new MOVSGCMov_entidad();
+            $obj_mov->idpersona_solicita = auth()->user()->persona->dni;
+            $obj_mov->idtipo_accion = 3;
+            $obj_mov->idsgc = $obj->id;
+            $obj_mov->save();
             return response()->json($obj);
         }
 

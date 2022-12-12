@@ -23,8 +23,14 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\SGCEntidad;
 use App\Models\SGCEstado;
+use App\Models\SGCPeriodicidad;
+use App\Models\SGCResolucion;
 use App\Models\SGCTipo_accion;
+use App\Models\SGCTipo_archivo;
+use App\Models\SGCTipo_documento;
 use App\Models\SGCTipo_proceso;
+
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 Use Faker\Factory as Facker;
@@ -214,7 +220,7 @@ class DatabaseSeeder extends Seeder
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
         $data->modulo           = "Entidades";
-        $data->abreviatura      = "SGC_E";
+        $data->abreviatura      = "SGC_ENT";
         $data->url              = "entidad";
         $data->icono            = null;
         $data->orden            = 1;
@@ -224,7 +230,7 @@ class DatabaseSeeder extends Seeder
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
         $data->modulo           = "Tipos de Proceso";
-        $data->abreviatura      = "SGC_TP";
+        $data->abreviatura      = "SGC_TPR";
         $data->url              = "tipo_proceso";
         $data->icono            = null;
         $data->orden            = 2;
@@ -234,7 +240,7 @@ class DatabaseSeeder extends Seeder
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
         $data->modulo           = "Procesos Nivel 0";
-        $data->abreviatura      = "SGC_P0";
+        $data->abreviatura      = "SGC_PR0";
         $data->url              = "proceso_cero";
         $data->icono            = null;
         $data->orden            = 3;
@@ -244,7 +250,7 @@ class DatabaseSeeder extends Seeder
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
         $data->modulo           = "Procesos Nivel 1";
-        $data->abreviatura      = "SGC_P1";
+        $data->abreviatura      = "SGC_PR1";
         $data->url              = "proceso_uno";
         $data->icono            = null;
         $data->orden            = 4;
@@ -254,7 +260,7 @@ class DatabaseSeeder extends Seeder
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
         $data->modulo           = "Indicadores";
-        $data->abreviatura      = "SGC_I";
+        $data->abreviatura      = "SGC_IND";
         $data->url              = "indicador";
         $data->icono            = null;
         $data->orden            = 5;
@@ -263,12 +269,23 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
-        $data->modulo           = "Movimientos";
-        $data->abreviatura      = "SGC_MOV";
-        $data->url              = "movimientos";
+        $data->modulo           = "Documentos";
+        $data->abreviatura      = "SGC_DOC";
+        $data->url              = "documentos";
         $data->icono            = null;
         $data->orden            = 6;
         $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Resoluciones";
+        $data->abreviatura      = "SGC_RES";
+        $data->url              = "resoluciones";
+        $data->icono            = null;
+        $data->orden            = 7;
+        $data->save();
+
 
         //}
 
@@ -295,6 +312,12 @@ class DatabaseSeeder extends Seeder
         $data->save();
 
         $data = new Accesos();
+        $data->idmodulo   = 4;
+        $data->idperfil   = 1;
+        $data->idrol      = 1;
+        $data->save();
+
+        $data = new Accesos();
         $data->idmodulo   = 5;
         $data->idperfil   = 1;
         $data->idrol      = 1;
@@ -314,6 +337,24 @@ class DatabaseSeeder extends Seeder
 
         $data = new Accesos();
         $data->idmodulo   = 8;
+        $data->idperfil   = 1;
+        $data->idrol      = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 9;
+        $data->idperfil   = 1;
+        $data->idrol      = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 10;
+        $data->idperfil   = 1;
+        $data->idrol      = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 11;
         $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
@@ -401,7 +442,7 @@ class DatabaseSeeder extends Seeder
         $data->idfuncion  = 5;
         $data->save();
 
-        //------------------------------------------------------- Permisos
+        //--------------------------------------------------- Permisos
         $permisos = [
             'index-accesos',
             'create-accesos',
@@ -482,6 +523,78 @@ class DatabaseSeeder extends Seeder
         $data->descripcion = 'Procesos Misionales';
         $data->codigo = 'PM';
         $data->editable = false;
+        $data->save();
+
+        //------------TIPO DE DOCUMENTO
+        $data = new SGCTipo_documento();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Informe';
+        $data->abreviatura = 'INF';
+        $data->save();
+
+        //-------------RESOLUCIONES
+        $data = new SGCResolucion();
+        $data->idpersona_solicita = '1';
+        $data->codigo = 'RES-2022-1FISI/EPISI';
+        $data->descripcion = 'Nombre de la Resolución';
+        $data->documento = "a";
+        $data->save();
+
+        //------------TIPO DE ARCHIVO
+        $data = new SGCTipo_archivo();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'PDF';
+        $data->abreviatura = 'PDF';
+        $data->extension   = 'pdf';
+        $data->save();
+
+        //------------TIPO DE ARCHIVO
+        $data = new SGCTipo_archivo();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'WORD';
+        $data->abreviatura = 'WORD';
+        $data->extension   = 'docs';
+        $data->save();
+
+        //----------------PERIODICIDAD
+        $data = new SGCPeriodicidad();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Mensual';
+        $data->save();
+
+        $data = new SGCPeriodicidad();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Bimensual';
+        $data->save();
+
+        $data = new SGCPeriodicidad();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Trimestral';
+        $data->save();
+
+        $data = new SGCPeriodicidad();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Cuatrimestral';
+        $data->save();
+
+        $data = new SGCPeriodicidad();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Semenstrarl';
+        $data->save();
+
+        $data = new SGCPeriodicidad();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Anual';
+        $data->save();
+
+        $data = new SGCPeriodicidad();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Bianual';
+        $data->save();
+
+        $data = new SGCPeriodicidad();
+        $data->idpersona_solicita = '1';
+        $data->descripcion = 'Trianual';
         $data->save();
     }
 }

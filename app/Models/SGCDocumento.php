@@ -6,33 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SGCIndicador extends Model
+class SGCDocumento extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "sgc.indicador";
+    protected $table        = "sgc.documentos";
     protected $primaryKey   = "id";
 
     protected $fillable = [
         'idestado',
         'idpersona_solicita',
         'idpersona_aprueba',
-        'idresponsable',
-        'idelaborado',
-        'idrevisado',
-        'idaprobado',
         'idtipo_accion',
-        'idproceso_uno',
-        'idperiodicidad',
+        'idtipo_documento',
+        'identidad',
+        'idresolucion',
+        'idtipo_archivo',
         'codigo',
         'descripcion',
-        'version',
-        'version_ficha',
-        'objetivo',
+        'fecha_emision',
         'fecha_aprobacion',
-        'varialbes',
-        'calculo',
-        'informacion',
+        'ubicacion_fisica',
+        'version',
+        'documento',
         'porcentaje',
         'deleted_at'
     ];
@@ -53,10 +49,21 @@ class SGCIndicador extends Model
         return $this->belongsTo(SGCTipo_accion::class, 'idtipo_accion');
     }
 
-    public function proceso_uno(){
-        return $this->belongsTo(SGCProceso_uno::class, 'idproceso_uno');
+    public function tipo_documento(){
+        return $this->belongsTo(SGCTipo_accion::class, 'idtipo_documento');
     }
 
+    public function tipo_archivo(){
+        return $this->belongsTo(SGCTipo_accion::class, 'idtipo_archivo');
+    }
+
+    public function resolucion(){
+        return $this->belongsTo(SGCTipo_accion::class, 'idresolucion');
+    }
+
+    public function entidad(){
+        return $this->belongsTo(SGCTipo_accion::class, 'identidad');
+    }
 
     public function getTableName(){
         return (explode(".", $this->table))[1];

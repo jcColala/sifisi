@@ -6,34 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SGCIndicador extends Model
+class SGCPeriodicidad extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "sgc.indicador";
+    protected $table        = "sgc.periodicidad";
     protected $primaryKey   = "id";
 
     protected $fillable = [
         'idestado',
         'idpersona_solicita',
         'idpersona_aprueba',
-        'idresponsable',
-        'idelaborado',
-        'idrevisado',
-        'idaprobado',
         'idtipo_accion',
-        'idproceso_uno',
-        'idperiodicidad',
-        'codigo',
         'descripcion',
-        'version',
-        'version_ficha',
-        'objetivo',
-        'fecha_aprobacion',
-        'varialbes',
-        'calculo',
-        'informacion',
-        'porcentaje',
         'deleted_at'
     ];
 
@@ -51,10 +36,6 @@ class SGCIndicador extends Model
 
     public function tipo_accion(){
         return $this->belongsTo(SGCTipo_accion::class, 'idtipo_accion');
-    }
-
-    public function proceso_uno(){
-        return $this->belongsTo(SGCProceso_uno::class, 'idproceso_uno');
     }
 
 

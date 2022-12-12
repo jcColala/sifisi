@@ -25,9 +25,8 @@
 							<tr>
 								<th width="05%">#</th>
 								<th width="05%">Código</th>
-								<th width="30%">Indicador</th>
-								<th width="30%">Proceso Nivel 1</th>
-								<th width="05%">Acción</th>
+								<th width="30%">Resolución</th>
+								<th width="05%">Accion</th>
 								<th width="05%">Estado</th>
 							</tr>
 						</thead>

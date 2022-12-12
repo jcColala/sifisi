@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
-
-use App\Models\SGCProceso_cero;
-use App\Models\MOVSGCMov_proceso_cero;
-use App\Models\SGCEntidad;
-use App\Models\SGCTipo_proceso;
+use App\Models\SGCResolucion;
+use App\Models\MOVSGCMov_entidad;
 use App\Models\Funcion;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class Proceso_ceroController extends Controller
+class ResolucionController extends Controller
 {
-    public $modulo                  = "Procesos de Nivel Cero";
-    public $path_controller         = "proceso_cero";
+    public $modulo                  = "Resoluciones";
+    public $path_controller         = "resoluciones";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -31,7 +29,8 @@ class Proceso_ceroController extends Controller
         foreach (Funcion::get() as $key => $value) {
             $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
         }
-        $this->model                = new SGCProceso_cero();
+
+        $this->model                = new SGCResolucion();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
 
@@ -42,11 +41,9 @@ class Proceso_ceroController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
-        $datos["tipo_proceso"]      = SGCTipo_proceso::get();
-        $datos["responsable"]       = SGCEntidad::get();
         $datos["data"]              = [];
         if( $id != null )
-            $datos["data"]          = SGCProceso_cero::withTrashed()->find($id);
+            $datos["data"]          = SGCResolucion::withTrashed()->find($id);
 
         return $datos;
     }
@@ -55,10 +52,11 @@ class Proceso_ceroController extends Controller
         return view("{$this->path_controller}.index", $this->form());
     }
 
-    public function grilla(){
-        //withTrashed
-        $objeto = SGCProceso_cero::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'ASC')->get();
 
+    public function grilla(){
+
+        $objeto = SGCResolucion::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->withTrashed();
+        
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -70,57 +68,46 @@ class Proceso_ceroController extends Controller
                 ->rawColumns(['icono', "activo"])
                 ->make(true);
     }
-    
+
     public function create(){
-        
         return view("{$this->path_controller}.form",$this->form());
     }
 
     public function store(Request $request){
-        
         $this->validate($request,[
-            'idtipo_proceso'=>'required',
-            'codigo'=> 'required',
-            'descripcion' => 'required',
-            'idresponsable'=>'required',
-            'objetivo'=>'required',
-            'alcance'=>'required',
+            'descripcion'=>'required',
+            'codigo' => 'required',
+            'archivo.*' => 'file',
             ],[
-            'idtipo_proceso.required' => 'Seleccione el tipo de proceso',
-            'codigo.required'=> 'Escriba el código del proceso',
-            'descripcion.required' => 'Escriba el Nombre del Proceso',
-            'idresponsable.required' => 'Seleccione el responsable del proceso',
-            'objetivo.required' => 'Escriba el objetivo del proceso',
-            'alcance.required' => 'Escriba el alcance del proceso',
+            'descripcion.required'=>'Ingresar el nombre de la resolucion',
+            'codigo.required' => 'Ingresar el codigo de la resolucion',
+            'archivo.file' => 'Igresar un documento',
         ]);
-        return DB::transaction(function() use ($request){
-            $obj        = SGCProceso_cero::withTrashed()->find($request->id);
 
+        return DB::transaction(function() use ($request){            
+            $obj = SGCResolucion::withTrashed()->find($request->id);
             if(empty($obj)){
+                //TRATAMIENTO DEL DOCUMENTO
+                $documento = $request->file('archivo');
+                if (!Storage::putFileAs('resoluciones', $documento, $documento->getClientOriginalName())) {
+                    $data = array(
+                        "type" => "error",
+                        "text" => "No se ha podido subir el documento, inténtelo nuevamente"
+                    );
+                    return response()->json($data);  
+                }
+
                 //REGISTRO EN TABLA
-                $obj = new SGCProceso_cero();
+                $obj = new SGCResolucion();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
                 $obj->idtipo_accion = 1;
-                $obj->idtipo_proceso = $request->idtipo_proceso;
-                $obj->idresponsable = $request->idresponsable;
                 $obj->codigo = $request->codigo;
                 $obj->descripcion = $request->descripcion;
-                $obj->objetivo = $request->objetivo;
-                $obj->alcance = $request->alcance;
+                $obj->documento = $documento->getClientOriginalName();
                 $obj->save();
 
                 //REGISTRO MOVIMIENTOS
-                $obj_mov = new MOVSGCMov_proceso_cero();
-                $obj_mov->idpersona_solicita = $request->idpersona_solicita;
-                $obj_mov->idtipo_accion = 1;
-                $obj_mov->idsgc = $obj->id;
-                $obj_mov->idtipo_proceso = $request->idtipo_proceso;
-                $obj_mov->idresponsable = $request->idresponsable;
-                $obj_mov->codigo = $request->codigo;
-                $obj_mov->descripcion = $request->descripcion;
-                $obj_mov->objetivo = $request->objetivo;
-                $obj_mov->alcance = $request->alcance;
-                $obj_mov->save();
+                
             }else{
                 if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
                     $data = array(
@@ -136,18 +123,9 @@ class Proceso_ceroController extends Controller
                 $obj->save();
 
                 //EDICIÓN EN MOVIMIENTO
-                $obj_mov = new MOVSGCMov_proceso_cero();
-                $obj_mov->idpersona_solicita = $request->idpersona_solicita;
-                $obj_mov->idtipo_accion = 2;
-                $obj_mov->idsgc = $obj->id;
-                $obj_mov->idtipo_proceso = $request->idtipo_proceso;
-                $obj_mov->idresponsable = $request->idresponsable;
-                $obj_mov->codigo = $request->codigo;
-                $obj_mov->descripcion = $request->descripcion;
-                $obj_mov->objetivo = $request->objetivo;
-                $obj_mov->alcance = $request->alcance;
-                $obj_mov->save();
+                
             }
+
             return response()->json($obj);
         });
         
@@ -157,21 +135,22 @@ class Proceso_ceroController extends Controller
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
-    public function destroy(Request $request){
-
-        $obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->first();
-        /*if($obj->modulo->isNotEmpty()){
-            throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
-        }*/
-        if($request->accion = "aprobar"){
-            $obj->idpersona_aprueba = auth()->user()->persona->id;
+    public function aprobar(request $request){
+        $obj = SGCResolucion::withTrashed()->where("id",$request->id)->first();
+        $obj->idpersona_aprueba = auth()->user()->persona->id;
             $obj->idestado = 2;
             $obj->save();
 
             return response()->json($obj);
+    }
 
-        }
-        
+    public function destroy(Request $request){
+
+        $obj = SGCResolucion::withTrashed()->where("id",$request->id)->first();
+        /*if($obj->modulo->isNotEmpty()){
+            throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
+        }*/
+    
         if ($request->accion == "eliminar") {
 
             if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
@@ -186,6 +165,13 @@ class Proceso_ceroController extends Controller
             $obj->idtipo_accion = 3;
             $obj->idestado = 1;
             $obj->save();
+
+            //EDICIÓN EN MOVIMIENTO
+            $obj_mov = new MOVSGCMov_entidad();
+            $obj_mov->idpersona_solicita = auth()->user()->persona->dni;
+            $obj_mov->idtipo_accion = 3;
+            $obj_mov->idsgc = $obj->id;
+            $obj_mov->save();
             return response()->json($obj);
         }
 
