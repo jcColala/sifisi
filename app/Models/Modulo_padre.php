@@ -102,12 +102,12 @@ class Modulo_padre extends Model
         return false;
     }
 
-    public function getTraerFunciones($idmodulo = null,$url = null, $idrol = null, $idperfil = null){
+    public function getTraerFunciones($idmodulo = null,$url = null, $idrol = null, $idperfil = null, $idpadre = null){
         $children = [];
         $funcion = Funcion_modulo::with('funcion')->where("idmodulo",$idmodulo)->get();
         foreach ($funcion as $key => $item) {
                 $value                          = [];
-                $value['id']                    = "f-".$idmodulo."-".$item["funcion"]->funcion;
+                $value['id']                    = "f-".$idmodulo."-".$item["funcion"]->funcion."-".$idpadre;
                 $value['text']                  = $item["funcion"]->nombre;
                 if ($item["funcion"]->icono == null) {
                     $value['icon']              = "fe fe-code";
@@ -129,7 +129,7 @@ class Modulo_padre extends Model
             ->whereNotIn('id',[1])
             ->map(function($item) use ($modulo,$idpadre,$idperfil,$idrol){
                 $value                          = [];
-                $value['id']                    = "m-".$item->id."-".$idpadre;
+                $value['id']                    = "m-".$item->id;
                 $value['text']                  = $item->modulo;
                 if ($idrol != null){
                     //$value['state']['selected'] = $this->getComprobarAcesoModulo($item->id,$idperfil);
@@ -137,7 +137,7 @@ class Modulo_padre extends Model
                     $value['state']['opened']   = true;
                 }
                 if($this->getTraerModulos($modulo,$item->id,$idperfil) == null){
-                    $value['children']          = $this->getTraerFunciones($item->id,$item->url,$idrol,$idperfil);
+                    $value['children']          = $this->getTraerFunciones($item->id,$item->url,$idrol,$idperfil,$idpadre);
                 }else{
                     $value['children']          = $this->getTraerModulos($modulo,$item->id,$idperfil,$idrol);
                 }
