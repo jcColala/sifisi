@@ -20,6 +20,7 @@ class CreateUsuarioTable extends Migration
             $table->unsignedBigInteger("idperfil")->nullable();
             $table->foreign('idperfil')->references('id')->on('seguridad.perfil');
             $table->string("usuario", 60);
+            $table->string('email')->nullable()->unique();
             $table->string('password');
             $table->string("avatar", 60)->nullable();
             $table->string("es_superusuario", 1)->default("N");

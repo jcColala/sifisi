@@ -122,6 +122,7 @@
     let _path_controller_{{$table_name}}    = "{{$pathController}}"
     let _name_module_{{$table_name}}        = "{{$modulo}}"
     let _prefix_{{$table_name}}        		= "{{$prefix}}"
+	let reset_true 							= false
 	data_form 								= @json($data);
 
 </script>
