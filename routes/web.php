@@ -117,5 +117,5 @@ Route::group(["middleware"=>['auth']], function(){
     Route::resource('resoluciones', ResolucionController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('resoluciones/grilla/',[ResolucionController::class, 'grilla'])->name('resoluciones.grilla');
     Route::post('resoluciones/aprobar', [ResolucionController::class, 'aprobar'])->name('resoluciones.aprobar');
-
+    
 });
