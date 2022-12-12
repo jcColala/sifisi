@@ -104,6 +104,15 @@ class AccesosController extends Controller
                     }
                 }
 
+                // Modulos padres delete
+                if ($request->filled("accesos_false_modulos")) {
+                    foreach($request->accesos_false_modulos as $key => $value){
+                        $ids = explode("-", $value["id"]);
+                        $idmodulo = $ids[2];
+                        Accesos::where("idperfil",$request->idperfil)->where("idmodulo",$idmodulo)->where("idrol",$request->idrol)->delete();
+                    }
+                }
+
                 $idmodulo_ant = 0;
                 if ($request->filled("accesos_true")) {
                     foreach($request->accesos_true as $key => $value){
@@ -128,6 +137,24 @@ class AccesosController extends Controller
                             $array_mdpermisos[$idmodulo][$funcion] = ["funcion" => $funcion."-".$modulo["url"]];
                             $idmodulo_ant = $idmodulo;
                         }
+                    }
+                    
+                }
+
+                // Modulos padres create
+                if ($request->filled("accesos_true_modulos")) {
+                    foreach($request->accesos_true_modulos as $key => $value){
+                        $ids = explode("-", $value["id"]);
+                        $idmodulo = $ids[2];
+
+                        $obj = Accesos::withTrashed()->where("idperfil",$request->idperfil)->where('idmodulo',$idmodulo)->where("idrol",$request->idrol)->first();
+                        if(is_null($obj))
+                            $obj    = new Accesos();
+                        $obj->idmodulo                          = $idmodulo;
+                        $obj->idperfil                          = $request->idperfil;
+                        $obj->idrol                             = $request->idrol;
+                        $obj->deleted_at                        = null;
+                        $obj->save();
                     }
                     
                 }

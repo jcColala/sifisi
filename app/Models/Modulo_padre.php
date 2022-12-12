@@ -129,7 +129,7 @@ class Modulo_padre extends Model
             ->whereNotIn('id',[1])
             ->map(function($item) use ($modulo,$idpadre,$idperfil,$idrol){
                 $value                          = [];
-                $value['id']                    = "m-".$item->id;
+                $value['id']                    = "m-".$item->id."-".$idpadre;
                 $value['text']                  = $item->modulo;
                 if ($idrol != null){
                     //$value['state']['selected'] = $this->getComprobarAcesoModulo($item->id,$idperfil);
