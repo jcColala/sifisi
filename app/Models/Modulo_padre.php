@@ -42,14 +42,14 @@ class Modulo_padre extends Model
             ->where('idpadre',$idpadre)
             ->map(function($item) use ($modulo){
                 $value                      = [];
-                $value['id']                = $item->id;
+                $value['id']                = $item->idmodulo;
                 $value['idpadre']           = $item->idpadre;
                 $value['text']              = $item->modulo;
                 $value['abreviatura']       = $item->abreviatura;
                 $value['acceso_directo']    = ($item->acceso_directo=="S");
                 $value['icon']              = $item->icono;
                 $value['url']               = $item->url;
-                $value['submenu']           = $this->getModulo($modulo,$item->id);
+                $value['submenu']           = $this->getModulo($modulo,$item->idmodulo);
                 return $value;
             })->values()->all();
 
