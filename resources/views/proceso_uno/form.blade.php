@@ -70,6 +70,18 @@
                                     <span class="descripcion_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
                         </div>
+						<div class="col-md-4">
+   							<div class="select2-idresponsable_{{$prefix}} div-select2 input-group mt-10px">
+							    <span><b>RESPONSABLE:</b></span>
+								<select class="form-control select2-show-search" id="idresponsable_{{$prefix}}" name="idresponsable" data-placeholder="Selecciona el que elaboró el proceso*" style="width:100%;" >
+									<option label="Selecciona el que elaboró el proceso"></option>
+									@foreach($entidades as $value)
+		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
+		                        	@endforeach
+								</select>
+								<span class="idresponsable_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+							</div>
+                        </div>
 								<div class="col-md-12">
 									<div class="wrap-input100 mrginput100 validate-input">
 										<span><b>PROVEEDORES</b></span>
@@ -171,7 +183,7 @@
 
 						<div class="col-md-4">
    							<div class="select2-idelaborado_{{$prefix}} div-select2 input-group mt-10px">
-							    <span><b>ELABORADO</b></span>
+							    <span><b>ELABORADO POR:</b></span>
 								<select class="form-control select2-show-search" id="idelaborado_{{$prefix}}" name="idelaborado" data-placeholder="Selecciona el que elaboró el proceso*" style="width:100%;" >
 									<option label="Selecciona el que elaboró el proceso"></option>
 									@foreach($entidades as $value)
@@ -184,7 +196,7 @@
 
 						<div class="col-md-4">
    							<div class="select2-idrevisado_{{$prefix}} div-select2 input-group mt-10px">
-								<span><b>REVISADO</b></span>
+								<span><b>REVISADO POR:</b></span>
 								<select class="form-control select2-show-search" id="idrevisado_{{$prefix}}" name="idrevisado" data-placeholder="Selecciona el que revisó el proceso*" style="width:100%;" >
 									<option label="Selecciona el que revisó el proceso"></option>
 									@foreach($entidades as $value)
@@ -197,7 +209,7 @@
 
 						<div class="col-md-4">
    							<div class="select2-idaprobado_{{$prefix}} div-select2 input-group mt-10px">
-							   <span><b>APROBADO</b></span>
+							   <span><b>APROBADO POR:</b></span>
 								<select class="form-control select2-show-search" id="idaprobado_{{$prefix}}" name="idaprobado" data-placeholder="Selecciona el que aprobó el proceso*" style="width:100%;" >
 									<option label="Selecciona el que aprobó el proceso"></option>
 									@foreach($entidades as $value)

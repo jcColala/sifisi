@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProcesoceroTable extends Migration
+class CreateIndicadorInformacion extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateProcesoceroTable extends Migration
      */
     public function up()
     {
-        Schema::create('sgc.proceso_cero', function (Blueprint $table) {
+        Schema::create('sgc.indicador_informacion', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idestado')->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
@@ -24,25 +24,18 @@ class CreateProcesoceroTable extends Migration
             $table->unsignedInteger('idpersona_aprueba')->nullable();
             $table->foreign('idpersona_aprueba')->references('id')->on('general.persona');
 
-            $table->unsignedBigInteger('idtipo_proceso');
-            $table->foreign('idtipo_proceso')->references('id')->on('sgc.tipo_proceso');
-
-            $table->unsignedBigInteger('idresponsable');
-            $table->foreign('idresponsable')->references('id')->on('sgc.entidad');
 
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
-            
-            $table->boolean('editable')->default(true);
-            
-            $table->string('codigo', 20);
-            $table->text('descripcion');
-            $table->text('objetivo');
-            $table->text('alcance');
-            $table->softDeletes();
+
+            $table->unsignedBigInteger('idindicador');
+            $table->foreign('idindicador')->references('id')->on('sgc.indicador');
+
+            $table->unsignedBigInteger('iddocumento');
+            $table->foreign('iddocumento')->references('id')->on('sgc.documentos');
+
             $table->timestamps();
-
-
+            $table->softDeletes();
         });
     }
 
@@ -53,6 +46,6 @@ class CreateProcesoceroTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sgc.proceso_cero');
+        Schema::dropIfExists('sgc.indicador_informacion');
     }
 }

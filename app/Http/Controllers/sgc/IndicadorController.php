@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
 
-use App\Models\SGCProceso_cero;
-use App\Models\MOVSGCMov_proceso_cero;
 use App\Models\SGCIndicador;
-use App\Models\MOVSGCMov_indicador;
+
 
 use App\Models\Funcion;
+use App\Models\SGCDocumento;
+use App\Models\SGCEntidad;
+use App\Models\SGCIndicador_informacion;
+use App\Models\SGCPeriodicidad;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -43,9 +45,15 @@ class IndicadorController extends Controller
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
         $datos["data"]              = [];
+        $datos["entidades"]         = SGCEntidad::get();
+        $datos["periodicidad"]      = SGCPeriodicidad::get();
+        $datos["documentos"]        = SGCDocumento::get();
+        $datos["informacion"]       = [];
         if( $id != null )
             $datos["data"]          = SGCIndicador::withTrashed()->find($id);
 
+        if( $id != null)
+            $datos["informacion"]   = SGCIndicador_informacion::where("idindicador", $id)->get();
         return $datos;
     }
 
@@ -55,11 +63,7 @@ class IndicadorController extends Controller
 
     public function grilla(){
 
-        $objeto = SGCIndicador::
-            join('sgc.estado', 'sgc.estado.id', '=', 'sgc.indicador.idestado')
-            ->select('sgc.indicador.id as id', 'sgc.indicador.descripcion as descripcion', 'sgc.indicador.codigo as codigo', 'sgc.estado.descripcion as estado')
-            ->orderBy('sgc.indicador.idproceso_uno', 'asc')
-            ->withTrashed();
+        $objeto = SGCIndicador::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->with('proceso_uno')->withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -70,64 +74,126 @@ class IndicadorController extends Controller
                 })
                 ->rawColumns(['icono', "activo"])
                 ->make(true);
-    }
+    } 
 
     public function create(){
         return view("{$this->path_controller}.form",$this->form());
     }
 
     public function store(Request $request){
-        
         $this->validate($request,[
-            'idtipo_proceso'=>'required',
-            'codigo'=> 'required',
-            'descripcion' => 'required',
-            'idresponsable'=>'required',
-            'objetivo'=>'required',
-            'alcance'=>'required',
+            'version_ficha'     =>'required|numeric|regex:/^[\d]{0,11}(\.[\d]{1,2})?$/',
+            'fecha_aprobacion'  =>'required',
+            'idresponsable'     =>'required',
+            'objetivo'          =>'required',
+            'variables'         =>'required',
+            'calculo'           =>'required',
+            'fecha_aprobacion'  =>'required',
+            'idperiodicidad'   =>'required',
+            'porcentaje'        =>'required|integer',
+            'idelaborado'       =>'required',
+            'idrevisado'        =>'required',
+            'idaprobado'        =>'required'
             ],[
-            'idtipo_proceso.required' => 'Seleccione el tipo de proceso',
-            'codigo.required'=> 'Escriba el código del proceso',
-            'descripcion.required' => 'Escriba el Nombre del Proceso',
-            'idresponsable.required' => 'Seleccione el responsable del proceso',
-            'objetivo.required' => 'Escriba el objetivo del proceso',
-            'alcance.required' => 'Escriba el alcance del proceso',
+            'version_ficha.required'=>'Ingresar el version del documento',
+            'fecha_aprobacion.required'=>'Ingresar la fecha de aprobación de la ficha del indicador',
+            'idresponsable.required'=>'Seleccionar el cargo responsable del indicador',
+            'objetivo.required' => 'Ingresar el objetivo del indicador',
+            'variables.required' => 'Ingresar las variables del indicador',
+            'calculo.required' => 'Ingresar calculo del indicador',
+            'fecha_aprobacion.required' => 'Seleccionar la fecha de aprobación',
+            'idperiodicidad.required' => 'Seleccionar la periodicidad de evaluación',
+            'porcentaje.required' => 'Ingresar la cantidad de integrantes de la entidad',
+            'porcentaje.integer' => 'La cantidad de integrantes debe ser un número entero',
+            'idelaborado.required' => 'Seleccionar quién elaboró el documento',
+            'idrevisado.required' => 'Seleccionar quién revisó el documento',
+            'idaprobado.required' => 'Seleccionar quién aprobó el documento',
         ]);
-        return DB::transaction(function() use ($request){
-            $obj_mov = MOVSGCMov_indicador::withTrashed()->find($request->id);
 
-            if(is_null($obj_mov))
-                $obj_mov = new MOVSGCMov_indicador();
-            $obj_mov->fill($request->all());
-            $obj_mov->save();
-
+        return DB::transaction(function() use ($request){            
             $obj = SGCIndicador::withTrashed()->find($request->id);
+                /*if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
+                    $data = array(
+                        "type" => "error",
+                        "text" => "No puedes editar un registro que está en estado Pendiente"
+                    );
+                    return response()->json($data);
+                }*/
+                $obj->idpersona_solicita = $request->idpersona_solicita;
+                $obj->idtipo_accion = 1;
+                $obj->version_ficha  = $request->version_ficha;
+                $obj->fecha_aprobacion = $request->fecha_aprobacion;
+                $obj->idresponsable        = $request->idresponsable;
+                $obj->objetivo = $request->objetivo;
+                $obj->variables = $request->variables;
+                $obj->calculo = $request->calculo;
+                $obj->idperiodicidad = $request->idperiodicidad;
+                $obj->porcentaje       = $request->porcentaje;
+                $obj->idelaborado        = $request->idelaborado;
+                $obj->idrevisado        = $request->idrevisado;
+                $obj->idaprobado        = $request->idaprobado;
+                $obj->save();
 
-            if(is_null($obj))
-                $obj = new SGCIndicador();
-            $obj->fill($request->all());
-            $obj->save();
+                for ($i=0; $i < count($request->iddocumento); $i++){ 
+                    $inf = new SGCIndicador_informacion();
+                    $inf->idpersona_solicita = $request->idpersona_solicita;
+                    $inf->idindicador = $obj->id;
+                    $inf->iddocumento = $request->iddocumento[$i];
+                    $inf->save();
+                }
             return response()->json($obj);
         });
         
     }
 
     public function edit($id){ 
-        $data  = SGCIndicador::withTrashed()->find($id);
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
     public function destroy(Request $request){
 
-        /*$obj = SGCIndicador::withTrashed()->where("id",$request->id)->with("proceso_uno")->first();
-        if($obj->modulo->isNotEmpty()){
+        $obj = SGCIndicador::withTrashed()->where("id",$request->id)->first();
+        /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
-        if ($request->accion == "eliminar") {
-            SGCIndicador::find($request->id)->delete();
-            return response()->json();
+        if($request->accion = "aprobar"){
+            $obj->idpersona_aprueba = auth()->user()->persona->id;
+            $obj->idestado = 2;
+            $obj->save();
+
+            return response()->json($obj);
+
         }
-        SGCIndicador::withTrashed()->find($request->id)->restore();
-        return response()->json();        
+        
+        if ($request->accion == "eliminar") {
+
+            if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
+                $data = array(
+                    "type" => "error",
+                    "text" => "No puedes eliminar un registro que está en estado Pendiente"
+                );
+                return response()->json($data);
+            }
+
+            $obj->idpersona_solicita = auth()->user()->persona->dni;
+            $obj->idtipo_accion = 3;
+            $obj->idestado = 1;
+            $obj->save();
+            return response()->json($obj);
+        }
+
+        //RESTAURAR
+        if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
+            $data = array(
+                "type" => "error",
+                "text" => "No puedes restaurar un registro que está en estado Pendiente"
+            );
+            return response()->json($data);
+        }
+        $obj->idpersona_solicita = auth()->user()->persona->dni;
+        $obj->idtipo_accion = 4;
+        $obj->idestado = 1;
+        $obj->save();
+        return response()->json($obj);
     }
 }

@@ -136,7 +136,14 @@ class Tipo_procesoController extends Controller
         /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
+        if($request->accion = "aprobar"){
+            $obj->idpersona_aprueba = auth()->user()->persona->id;
+            $obj->idestado = 2;
+            $obj->save();
 
+            return response()->json($obj);
+
+        }
         
         if ($request->accion == "eliminar") {
 

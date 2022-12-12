@@ -49,10 +49,12 @@ class Proceso_unoController extends Controller
         $datos["entidades"]         = SGCEntidad::get();
         $datos["tipo_proceso"]      = SGCTipo_proceso::get();
         $datos["data"]              = [];
+        $datos["indicadores"]       = [];
+
         if( $id != null )
-            $datos["data"]          = SGCProceso_uno::withTrashed()->find($id);
-            $datos["indicadores"]   = SGCIndicador::where('idproceso_uno', $id)->get();
-        
+            $datos["data"]          = SGCProceso_uno::withTrashed()->find($id);   
+        if($id != null)
+            $datos["indicadores"]   = SGCIndicador::where('idproceso_uno', $id)->where('version', $datos["data"]->version)->get();     
         return $datos;
     }
 
@@ -143,7 +145,20 @@ class Proceso_unoController extends Controller
                 $obj->idaprobado  = $request->idaprobado;
                 $obj->save();
             }else{
-
+                $obj->idpersona_solicita = $request->idpersona_solicita;
+                $obj->version = $request->version;
+                $obj->fecha_aprobado = $request->fecha_aprobado;
+                $obj->idproceso_cero = $request->idproceso_cero;
+                $obj->codigo = $request->codigo;
+                $obj->descripcion = $request->descripcion;
+                $obj->proveedores = $request->proveedores;
+                $obj->entradas = $request->entradas;
+                $obj->salidas  = $request->salidas;
+                $obj->clientes = $request->clientes;
+                $obj->idelaborado = $request->idelaborado;
+                $obj->idrevisado  = $request->idrevisado;
+                $obj->idaprobado  = $request->idaprobado;
+                $obj->save();
             }
                 
             //!INDICADORES
@@ -185,10 +200,19 @@ class Proceso_unoController extends Controller
 
     public function destroy(Request $request){
 
-        /*$obj = SGCProceso_uno::withTrashed()->where("id",$request->id)->with("sgc.indicador")->first();
-        if($obj->modulo->isNotEmpty()){
+        $obj = SGCProceso_uno::withTrashed()->where("id",$request->id)->first();
+        /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel 1 ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
+
+        if($request->accion = "aprobar"){
+            $obj->idpersona_aprueba = auth()->user()->persona->id;
+            $obj->idestado = 2;
+            $obj->save();
+
+            return response()->json($obj);
+
+        }
         if ($request->accion == "eliminar") {
             SGCProceso_uno::find($request->id)->delete();
             return response()->json();
