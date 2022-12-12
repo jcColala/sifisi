@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB; 
 
 use Yajra\DataTables\DataTables;
-use Illuminate\Validation\ValidationException; 
+use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 

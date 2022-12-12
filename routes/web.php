@@ -71,15 +71,17 @@ Route::group(["middleware"=>['auth']], function(){
     Route::resource('funcion', FuncionController::class)->only("index","create", "store","edit", "destroy");
     Route::get('funcion/grilla',[FuncionController::class, 'grilla'])->name('funcion.grilla');
 
-    //------------------------------------------------------------------------------------------------ Usuarios
+    //------------------------------------------------------------------------------------------------ Usuario
     Route::resource('usuario', UsuarioController::class)->only("index","create", "store","edit", "destroy");
     Route::get('usuario/grilla',[UsuarioController::class, 'grilla'])->name('usuario.grilla');
+    Route::get('usuario/{id}',[UsuarioController::class, 'reset'])->name('usuario.reset');
+    Route::post('usuario/store_reset',[UsuarioController::class, 'store_reset'])->name('usuario.store_reset');
 
-    //------------------------------------------------------------------------------------------------ Usuarios
+    //------------------------------------------------------------------------------------------------ Role
     Route::resource('role', RoleController::class)->only("index","create", "store","edit", "destroy");
     Route::get('role/grilla',[RoleController::class, 'grilla'])->name('role.grilla');
 
-    //------------------------------------------------------------------------------------------------ Usuarios
+    //------------------------------------------------------------------------------------------------ Persona
     Route::get('persona/buscar/{search}',[PersonaController::class, 'buscar'])->name('persona.buscar');
 
 
@@ -114,6 +116,6 @@ Route::group(["middleware"=>['auth']], function(){
     //----------------------------------------------------------------------------------------------- RESOLUCIONES
     Route::resource('resoluciones', ResolucionController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('resoluciones/grilla/',[ResolucionController::class, 'grilla'])->name('resoluciones.grilla');
-    Route::post('aprobar_resolucion', [ResolucionController::class, 'aprobar'])->name('aprobar_resolucion');
+    Route::post('resoluciones/aprobar', [ResolucionController::class, 'aprobar'])->name('resoluciones.aprobar');
 
 });

@@ -95,7 +95,7 @@
                 <i class="dropdown-icon  mdi mdi-settings"></i> Settings
             </a>-->
 
-            <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('logout-form').submit();" role="button" >
+            <a class="dropdown-item text-center" href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('logout-form').submit();" role="button" >
                 <i class="dropdown-icon ti-power-off"></i> Cerrar Session
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

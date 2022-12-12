@@ -125,7 +125,7 @@ class DatabaseSeeder extends Seeder
         $data->numero_documento_identidad   = 11111111;
         $data->idestado_civil               = 1;
         $data->idsexo                       = 1;
-        $data->nombres                      = "Juan carlos";
+        $data->nombres                      = "Juan Carlos";
         $data->apellido_paterno             = "Nose";
         $data->apellido_materno             = "Tampoco";
         $data->correo_institucional         = "arroba@alumno.unsm.edu.pe";

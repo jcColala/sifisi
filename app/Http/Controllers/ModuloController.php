@@ -6,12 +6,14 @@ use App\Models\Modulo_padre;
 use App\Models\User;
 use App\Models\Funcion;
 use App\Models\Funcion_modulo;
+use App\Models\Role_permisos;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 use Yajra\DataTables\DataTables;
+use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -106,10 +108,22 @@ class ModuloController extends Controller
                         $funcion_modulo->deleted_at     = null;
                         $funcion_modulo->save();
                     }
+
                 }else{
                     Funcion_modulo::where("idmodulo",$obj->id)->delete();
                     //throw ValidationException::withMessages(['required_funcion' => $value["index"]]);
                 }
+
+                if ($request->id != null) {
+                    $funcion_modulo = Funcion_modulo::with("funcion")->where("idmodulo",$obj->id)->whereNotNull("deleted_at")->withTrashed()->get();
+                    foreach ($funcion_modulo as $key => $value) {
+                        $name = $value["funcion"]["funcion"]."-".$obj->url;
+                        $verificar = Permission::join('seguridad.role_permisos as r_p','seguridad.permisos.id','=','r_p.permission_id')->where("name",$name)->count();
+                        if ($verificar >= 1)
+                            throw ValidationException::withMessages(['required_accesos' => $value["id"]]);
+                    }
+                }
+
             }
             return response()->json($obj);
         });

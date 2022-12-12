@@ -51,7 +51,20 @@ class UsuarioController extends Controller
         if( $id != null ){
             $datos["data"]                      = User::withTrashed()->with('persona')->find($id);
             $datos["data"]["rol"]               = User::withTrashed()->find($id)->roles->first()["id"];
-            $datos["data"]["persona_nombres"]   = $datos["data"]["persona"]["dni"]." - ".$datos["data"]["persona"]["apellido_paterno"]." ".$datos["data"]["persona"]["apellido_materno"]." ".$datos["data"]["persona"]["nombres"];
+            $datos["data"]["persona_nombres"]   = $datos["data"]["persona"]["apellido_paterno"]." ".$datos["data"]["persona"]["apellido_materno"]." ".$datos["data"]["persona"]["nombres"];
+        }
+        return $datos;
+    }
+
+    public function form_reset($id = null){
+        $datos["table_name"]        = $this->name_table;
+        $datos["pathController"]    = $this->path_controller;
+        $datos["modulo"]            = $this->modulo;
+        $datos["prefix"]            = "usuario";
+        $datos["data"]              = [];
+        if( $id != null ){
+            $datos["data"]                      = User::withTrashed()->with('persona')->find($id);
+            $datos["data"]["persona_nombres"]   = $datos["data"]["persona"]["apellido_paterno"]." ".$datos["data"]["persona"]["apellido_materno"]." ".$datos["data"]["persona"]["nombres"];
         }
         return $datos;
     }
@@ -77,6 +90,7 @@ class UsuarioController extends Controller
 
     public function store(Request $request){
         $this->validate($request,[
+            'idpersona' => 'required',
             'idperfil' => 'required',
             'rol' => 'required',
             'usuario' =>['required',
@@ -86,8 +100,11 @@ class UsuarioController extends Controller
                         ],
             'password' => ['required_without:id', 'confirmed',],
         ],[
+            "idpersona.required"=>"El campo persona es obligatorio.",
             "idperfil.required"=>"El campo perfil es obligatorio.",
-            "rol.required"=>"El campo rol es obligatorio."
+            "rol.required"=>"El campo rol es obligatorio.",
+            "password.required_without"=>"El campo password es obligatorio.",
+            "password.confirmed"=>"Las passwords no coinciden."
         ]);
 
         return DB::transaction(function() use ($request){
@@ -124,8 +141,32 @@ class UsuarioController extends Controller
         
     }
 
+    public function store_reset(Request $request){
+        $this->validate($request,[
+            'password' => ['required', 'confirmed']
+        ],[
+            "password.required"=>"El campo password es obligatorio.",
+            "password.confirmed"=>"Las passwords no coinciden."
+        ]);
+
+        $obj            = User::withTrashed()->find($request->id);
+        if(is_null($obj)){
+            throw ValidationException::withMessages(['usuario_required' => 'Usuario no existente.']);
+        }else{
+            $password   = Hash::make($request->password);
+            $obj->password = $password;
+            $obj->save();
+        }
+        return response()->json($obj);
+
+    }
+
     public function edit($id){
         return view("{$this->path_controller}.form",$this->form($id));
+    }
+
+    public function reset($id){
+        return view("{$this->path_controller}.reset",$this->form_reset($id));
     }
 
     public function destroy(Request $request){

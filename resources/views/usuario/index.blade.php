@@ -40,7 +40,7 @@
 		</div>
 	</div>
 </div>
-<div id="div_md-{{$pathController}}"></div>
+<div id="div_md-{{$pathController}}_reset"></div>
 @section('script')
 <script type="text/javascript">
 	let _name_tabla_{{$table_name}}         = "{{$table_name}}"

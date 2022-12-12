@@ -76,26 +76,12 @@ class PersonaController extends Controller
     }
 
     public function buscar($search, Request $request){
-        //$search    = Str::upper($search);
-        $consulta = Persona::where('dni','LIKE','%'.$search.'%')
-                           ->orWhere('nombres','LIKE','%'.$search.'%')
-                           ->orWhere('apellido_paterno','LIKE','%'.$search.'%')
-                           ->orWhere('apellido_materno','LIKE','%'.$search.'%')
+        $datos["search"]  = Persona::where('numero_documento_identidad','LIKE','%'.$search.'%')
+                           ->orWhere('nombres','ilike','%'.$search.'%')
+                           ->orWhere('apellido_paterno','ilike','%'.$search.'%')
+                           ->orWhere('apellido_materno','ilike','%'.$search.'%')
                            ->take(10)->get();
-
-        $array = [];
-        foreach ($consulta as $key) {
-            $array = [
-                      'label'           =>$key->id." - ".$key->nombres." ".$key->apellido_paterno." ".$key->apellido_materno,
-                      'id'              =>$key->id,
-                      'nombres'         =>$key->nombres." ".$key->apellido_paterno." ".$key->apellido_materno,
-                      'dni_ruc'         =>$key->id
-                    ];
-        }
-
-        $datos["search"] = [$array];
-
-      return $datos;
+        return $datos;
     }
     public function destroy(Request $request){
 

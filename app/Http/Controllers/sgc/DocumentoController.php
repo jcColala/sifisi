@@ -166,7 +166,7 @@ class DocumentoController extends Controller
     public function edit($id){ 
         return view("{$this->path_controller}.form",$this->form($id));
     }
-
+    
     public function destroy(Request $request){
 
         $obj = SGCDocumento::withTrashed()->where("id",$request->id)->first();
