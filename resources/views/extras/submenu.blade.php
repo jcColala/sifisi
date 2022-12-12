@@ -3,13 +3,13 @@
         @if(count($modulo["submenu"]) == 0)
             @if($id)
                 <li>
-                    <a @if($id > 1) class="sub-slide-item2" @else class="sub-slide-item" @endif @if($modulo["url"]) href="{{route($modulo["url"].'.index')}}" @else href="#" @endif>
+                    <a @if($id > 1) class="sub-slide-item2" @else class="sub-slide-item" @endif @if($modulo["url"] AND $modulo["url"] !="#") href="{{route($modulo["url"].'.index')}}" @else href="#" @endif>
                         <span>{{$modulo["text"]}}</span>
                     </a>
                 </li>
             @else
                 <li>
-                    <a class="slide-item" @if($modulo["url"]) href="{{route($modulo["url"].'.index')}}" @else href="#" @endif>
+                    <a class="slide-item" @if($modulo["url"] AND $modulo["url"] !="#") href="{{route($modulo["url"].'.index')}}" @else href="#" @endif>
                         <span>{{$modulo["text"]}}</span>
                     </a>
                 </li>
