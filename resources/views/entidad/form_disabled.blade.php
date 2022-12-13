@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel"> Entidad</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Ver Entidad</h5>
 				<span class="col-auto align-self-center"> | <span class="text_requiere">campos obligatorios </span>
 				<span class="form-help" data-toggle="popover" data-placement="top" data-content="Los campos que contengan un ' * ' son obligatorios y es necesario que se ingrese la información correspondiente." data-original-title="" title="">?</span>
 				</span>
@@ -17,7 +17,8 @@
    					<div class="form-group form-row">
 						<div class="col-md-8">
 							<div class="wrap-input100 mrginput100 validate-input">
-                                    <input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Descripción*">
+                                    <input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Descripción*"
+									disabled>
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
@@ -27,7 +28,8 @@
                         </div>
 						<div class="col-md-4">
 							<div class="wrap-input100 mrginput100 validate-input">
-                                    <input type="text" class="input100" id="cant_integrantes_{{$prefix}}" name="cant_integrantes" placeholder="Cantidad Integrantes*">
+                                    <input type="text" class="input100" id="cant_integrantes_{{$prefix}}" name="cant_integrantes" placeholder="Cantidad Integrantes*"
+									disabled>
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
@@ -40,8 +42,7 @@
 					</div>
 				</div>
 				<div class="modal-footer border-0">
-					<button type="submit" id="btn-save" onclick="md_guardar(event,'btn-save')" class="btn btn-primary" data-acciones="guardar-{{$pathController}}">Guardar</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 				</div>
    			</form>
 		</div>

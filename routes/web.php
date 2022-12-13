@@ -92,30 +92,44 @@ Route::group(["middleware"=>['auth']], function(){
     //------------------------------------------------------------------------------------------------- ENTIDAD
     Route::resource('entidad', EntidadController::class)->only('index', 'create', 'store', 'edit', 'destroy');
     Route::get('entidad/grilla',[EntidadController::class, 'grilla'])->name('entidad.grilla');
+    Route::post('entidad/aprobar ',[EntidadController::class, 'aprobar'])->name('entidad.aprobar');
+    Route::get('entidad/{id}',[EntidadController::class, 'ver'])->name('entidad.ver');
     
     //----------------------------------------------------------------------------------------------- TIPOS DE PROCESO
     Route::resource('tipo_proceso', Tipo_procesoController::class)->only('index', 'create', 'store', 'edit', 'destroy');
     Route::get('tipo_proceso/grilla',[Tipo_procesoController::class, 'grilla'])->name('tipo_proceso.grilla');
+    Route::post('tipo_proceso/aprobar',[Tipo_procesoController::class, 'aprobar'])->name('tipo_proceso.aprobar');
+    Route::get('tipo_proceso_ver/{id}',[Tipo_procesoController::class, 'ver'])->name('tipo_proceso.ver');
 
-    //----------------------------------------------------------------------------------------------- PROCESO NIVEL CERO
+
+    //-------------------------------------- PROCESO NIVEL CERO
     Route::resource('proceso_cero', Proceso_ceroController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('proceso_cero/grilla',[Proceso_ceroController::class, 'grilla'])->name('proceso_cero.grilla');
+    Route::post('proceso_cero/aprobar',[Proceso_ceroController::class, 'aprobar'])->name('proceso_cero.aprobar');
+    Route::get('proceso_cero_ver/{id}',[Proceso_ceroController::class, 'ver'])->name('proceso_cero.ver');
 
-    //-------------------------------------------------------------------------------------------- PROCESO NIVEL UNO
+    //----------------------------------------------- PROCESO NIVEL UNO
     Route::resource('proceso_uno', Proceso_unoController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('proceso_uno/grilla',[Proceso_unoController::class, 'grilla'])->name('proceso_uno.grilla');
+    Route::post('proceso_uno/aprobar',[Proceso_unoController::class, 'aprobar'])->name('proceso_uno.aprobar');
+    Route::get('proceso_uno_ver/{id}',[Proceso_unoController::class, 'ver'])->name('proceso_uno.ver');
 
     //----------------------------------------------------------------------------------------------- INDICADORES
     Route::resource('indicador', IndicadorController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('indicador/grilla/',[IndicadorController::class, 'grilla'])->name('indicador.grilla');
+    Route::post('indicador/aprobar',[IndicadorController::class, 'aprobar'])->name('indicador.aprobar');
+    Route::get('indicador_ver/{id}',[IndicadorController::class, 'ver'])->name('indicador.ver');
 
     //----------------------------------------------------------------------------------------------- DOCUMENTOS
     Route::resource('documentos', DocumentoController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('documentos/grilla/',[DocumentoController::class, 'grilla'])->name('documentos.grilla');
+    Route::post('documentos/aprobar',[DocumentoController::class, 'aprobar'])->name('documentos.aprobar');
+    Route::get('documentos/{id}',[DocumentoController::class, 'ver'])->name('documentos.ver');
 
     //----------------------------------------------------------------------------------------------- RESOLUCIONES
     Route::resource('resoluciones', ResolucionController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('resoluciones/grilla/',[ResolucionController::class, 'grilla'])->name('resoluciones.grilla');
     Route::post('resoluciones/aprobar', [ResolucionController::class, 'aprobar'])->name('resoluciones.aprobar');
+    Route::get('resoluciones_ver/{id}',[ResolucionController::class, 'ver'])->name('resoluciones.ver');
     
 });

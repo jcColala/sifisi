@@ -166,6 +166,18 @@ class DocumentoController extends Controller
     public function edit($id){ 
         return view("{$this->path_controller}.form",$this->form($id));
     }
+
+    public function ver($id){ 
+        return view("{$this->path_controller}.form_disabled",$this->form($id));
+    }
+
+    public function aprobar(request $request){
+        $obj = SGCDocumento::withTrashed()->where("id",$request->id)->first();
+        $obj->idpersona_aprueba = auth()->user()->persona->id;
+            $obj->idestado = 2;
+            $obj->save();
+            return response()->json($obj);
+    }
     
     public function destroy(Request $request){
 
@@ -173,14 +185,6 @@ class DocumentoController extends Controller
         /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
-        if($request->accion = "aprobar"){
-            $obj->idpersona_aprueba = auth()->user()->persona->id;
-            $obj->idestado = 2;
-            $obj->save();
-
-            return response()->json($obj);
-
-        }
         
         if ($request->accion == "eliminar") {
 

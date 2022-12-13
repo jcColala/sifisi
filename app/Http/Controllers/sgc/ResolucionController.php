@@ -135,6 +135,10 @@ class ResolucionController extends Controller
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
+    public function ver($id){ 
+        return view("{$this->path_controller}.form_disabled",$this->form($id));
+    }
+
     public function aprobar(request $request){
         $obj = SGCResolucion::withTrashed()->where("id",$request->id)->first();
         $obj->idpersona_aprueba = auth()->user()->persona->id;

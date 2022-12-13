@@ -198,21 +198,24 @@ class Proceso_unoController extends Controller
         return view("{$this->path_controller}.form",$this->form($id));
     }
 
+    public function ver($id){ 
+        return view("{$this->path_controller}.form_disabled",$this->form($id));
+    }
+
+    public function aprobar(request $request){
+        $obj = SGCProceso_uno::withTrashed()->where("id",$request->id)->first();
+        $obj->idpersona_aprueba = auth()->user()->persona->id;
+            $obj->idestado = 2;
+            $obj->save();
+            return response()->json($obj);
+    }
+
     public function destroy(Request $request){
 
         $obj = SGCProceso_uno::withTrashed()->where("id",$request->id)->first();
         /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel 1 ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
-
-        if($request->accion = "aprobar"){
-            $obj->idpersona_aprueba = auth()->user()->persona->id;
-            $obj->idestado = 2;
-            $obj->save();
-
-            return response()->json($obj);
-
-        }
         if ($request->accion == "eliminar") {
             SGCProceso_uno::find($request->id)->delete();
             return response()->json();
