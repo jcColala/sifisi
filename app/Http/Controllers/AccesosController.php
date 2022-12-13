@@ -91,6 +91,11 @@ class AccesosController extends Controller
                         $ids = explode("-", $value["id"]);
                         $idmodulo = $ids[1];
                         $funcion  = $ids[2];
+                        $idpadre  = $ids[3];
+
+                        if ($idpadre != "")
+                            Accesos::where("idperfil",$request->idperfil)->where("idmodulo",$idpadre)->where("idrol",$request->idrol)->delete();
+
                         Accesos::where("idperfil",$request->idperfil)->where("idmodulo",$idmodulo)->where("idrol",$request->idrol)->delete();
 
                         if (array_key_exists($idmodulo, $array_mdpermisos)){
@@ -110,6 +115,18 @@ class AccesosController extends Controller
                         $ids = explode("-", $value["id"]);
                         $idmodulo = $ids[1];
                         $funcion  = $ids[2];
+                        $idpadre  = $ids[3];
+
+                         if ($idpadre != ""){
+                            $obj = Accesos::withTrashed()->where("idperfil",$request->idperfil)->where('idmodulo',$idpadre)->where("idrol",$request->idrol)->first();
+                            if(is_null($obj))
+                                $obj    = new Accesos();
+                            $obj->idmodulo                          = $idpadre;
+                            $obj->idperfil                          = $request->idperfil;
+                            $obj->idrol                             = $request->idrol;
+                            $obj->deleted_at                        = null;
+                            $obj->save();
+                        }
 
                         $obj = Accesos::withTrashed()->where("idperfil",$request->idperfil)->where('idmodulo',$idmodulo)->where("idrol",$request->idrol)->first();
                         if(is_null($obj))
