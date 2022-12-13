@@ -361,7 +361,7 @@ class DatabaseSeeder extends Seeder
 
         //------------------------------------------------------- Funcion
         $data = new Funcion();
-        $data->nombre   = 'Ver';
+        $data->nombre   = 'Listar';
         $data->funcion  = 'index';
         $data->orden    = 1;
         $data->editable = false;
