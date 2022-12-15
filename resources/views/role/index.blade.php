@@ -24,7 +24,8 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="90%">Nombre</th>
+								<th width="70%">Nombre</th>
+								<th width="20%">Abreviatura</th>
 								<th width="05%">Estado</th>
 							</tr>
 						</thead>

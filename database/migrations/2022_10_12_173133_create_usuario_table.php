@@ -17,8 +17,8 @@ class CreateUsuarioTable extends Migration
             $table->id();
             $table->unsignedBigInteger("idpersona");
             $table->foreign('idpersona')->references('id')->on('general.persona');
-            $table->unsignedBigInteger("idperfil")->nullable();
-            $table->foreign('idperfil')->references('id')->on('seguridad.perfil');
+            $table->unsignedBigInteger("idrol")->nullable();
+            $table->foreign('idrol')->references('id')->on('seguridad.role');
             $table->string("usuario", 60);
             $table->string('email')->nullable()->unique();
             $table->string('password');

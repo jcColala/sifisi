@@ -16,7 +16,7 @@
             </div>
             <div class="user-info">
                 <h6 class=" mb-0 text-dark">{{auth()->user()->persona->nombres}}</h6>
-                <span class="text-muted app-sidebar__user-name text-sm">{{auth()->user()->perfil->perfil}}</span>
+                <span class="text-muted app-sidebar__user-name text-sm">{{auth()->user()->rol->name}}</span>
             </div>
         </div>
     </div>

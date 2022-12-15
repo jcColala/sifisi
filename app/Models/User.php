@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
 
 use Spatie\Permission\Traits\HasRoles;
 
@@ -21,7 +22,7 @@ class User extends Authenticatable
     protected $primaryKey   = "id";
 
     protected $fillable = [
-        'idpersona','idperfil','usuario', 'password', 'avatar', 'es_superusuario', 'tema', 'deleted_at'
+        'idpersona', 'idrol', 'usuario', 'password', 'avatar', 'es_superusuario', 'tema', 'deleted_at'
     ];
 
     const PATH_FILE         = 'images/users/';
@@ -53,7 +54,7 @@ class User extends Authenticatable
     public function persona(){
         return $this->belongsTo(Persona::class,'idpersona');
     }
-    public function perfil(){
-        return $this->belongsTo(Perfil::class,'idperfil');
+    public function rol(){
+        return $this->belongsTo(Role::class,'idrol');
     }
 }

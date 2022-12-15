@@ -15,7 +15,7 @@
    					<input type="hidden" name="id" id="id_{{$prefix}}" >
    					<input type="hidden" name="guard_name" id="guard_name_{{$prefix}}" value="web">
    					<div class="form-group form-row">
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="name_{{$prefix}}" name="name" placeholder="Nombre*">
                                     <span class="focus-input100"></span>
@@ -23,6 +23,16 @@
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
                                     </span>
                                     <span class="name_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="wrap-input100 mrginput100 validate-input">
+                                    <input type="text" class="input100" id="abreviatura_{{$prefix}}" name="abreviatura" placeholder="Abreviatura*">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <i class="zmdi zmdi-file-text" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="abreviatura_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
                         </div>
 					</div>

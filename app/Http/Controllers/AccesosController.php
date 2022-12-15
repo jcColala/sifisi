@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Accesos;
 use App\Models\Modulo;
 use App\Models\Modulo_padre;
-use App\Models\Perfil;
 use App\Models\Funcion;
 
 use Illuminate\Http\Request;
@@ -44,7 +43,6 @@ class AccesosController extends Controller
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "accesos";
         $datos["modulo_padre"]      = Modulo_padre::get();
-        $datos["perfil"]            = Perfil::get();
         $datos["role"]              = Role::get();
         return $datos;
     }
@@ -54,18 +52,16 @@ class AccesosController extends Controller
     }
 
     public function acceso(Request $request){
-        return response()->json((new Modulo_padre)->acceso_modulos($request->idmodulo_padre, $request->idperfil, $request->idrol));
+        return response()->json((new Modulo_padre)->acceso_modulos($request->idmodulo_padre, $request->idrol));
     }
 
     public function store(Request $request){
         
         $this->validate($request,[
             "idmodulo_padre"=>"required",
-            "idperfil"=>"required",
             "idrol"=>"required"
         ],[
             "idmodulo_padre.required"=>"El campo modulo padre es obligatorio.",
-            "idperfil.required"=>"El campo perfil es obligatorio.",
             "idrol.required"=>"El campo rol es obligatorio."
         ]);
 
@@ -94,9 +90,9 @@ class AccesosController extends Controller
                         $idpadre  = $ids[3];
 
                         if ($idpadre != "")
-                            Accesos::where("idperfil",$request->idperfil)->where("idmodulo",$idpadre)->where("idrol",$request->idrol)->delete();
+                            Accesos::where("idmodulo",$idpadre)->where("idrol",$request->idrol)->delete();
 
-                        Accesos::where("idperfil",$request->idperfil)->where("idmodulo",$idmodulo)->where("idrol",$request->idrol)->delete();
+                        Accesos::where("idmodulo",$idmodulo)->where("idrol",$request->idrol)->delete();
 
                         if (array_key_exists($idmodulo, $array_mdpermisos)){
                             if ($idmodulo != $idmodulo_ant) {
@@ -118,21 +114,19 @@ class AccesosController extends Controller
                         $idpadre  = $ids[3];
 
                          if ($idpadre != ""){
-                            $obj = Accesos::withTrashed()->where("idperfil",$request->idperfil)->where('idmodulo',$idpadre)->where("idrol",$request->idrol)->first();
+                            $obj = Accesos::withTrashed()->where('idmodulo',$idpadre)->where("idrol",$request->idrol)->first();
                             if(is_null($obj))
                                 $obj    = new Accesos();
                             $obj->idmodulo                          = $idpadre;
-                            $obj->idperfil                          = $request->idperfil;
                             $obj->idrol                             = $request->idrol;
                             $obj->deleted_at                        = null;
                             $obj->save();
                         }
 
-                        $obj = Accesos::withTrashed()->where("idperfil",$request->idperfil)->where('idmodulo',$idmodulo)->where("idrol",$request->idrol)->first();
+                        $obj = Accesos::withTrashed()->where('idmodulo',$idmodulo)->where("idrol",$request->idrol)->first();
                         if(is_null($obj))
                             $obj    = new Accesos();
                         $obj->idmodulo                          = $idmodulo;
-                        $obj->idperfil                          = $request->idperfil;
                         $obj->idrol                             = $request->idrol;
                         $obj->deleted_at                        = null;
                         if ($obj->save()){

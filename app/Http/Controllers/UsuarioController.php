@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Funcion;
-use App\Models\Perfil;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -45,7 +44,6 @@ class UsuarioController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "usuario";
-        $datos["perfil"]            = Perfil::get();
         $datos["role"]              = Role::get();
         $datos["data"]              = [];
         if( $id != null ){
@@ -91,8 +89,7 @@ class UsuarioController extends Controller
     public function store(Request $request){
         $this->validate($request,[
             'idpersona' => 'required',
-            'idperfil' => 'required',
-            'rol' => 'required',
+            'idrol' => 'required',
             'usuario' =>['required',
                           'max:60',
                           Rule::unique("{$this->driver_current}.{$this->model->getTable()}", "usuario")
@@ -101,8 +98,7 @@ class UsuarioController extends Controller
             'password' => ['required_without:id', 'confirmed',],
         ],[
             "idpersona.required"=>"El campo persona es obligatorio.",
-            "idperfil.required"=>"El campo perfil es obligatorio.",
-            "rol.required"=>"El campo rol es obligatorio.",
+            "idrol.required"=>"El campo rol es obligatorio.",
             "password.required_without"=>"El campo password es obligatorio.",
             "password.confirmed"=>"Las passwords no coinciden."
         ]);
@@ -134,7 +130,7 @@ class UsuarioController extends Controller
                 $obj->password = $password;
             $obj->avatar = $file_name;
             $obj->save();
-            $obj->assignRole($request->rol);
+            $obj->assignRole($request->idrol);
 
             return response()->json($obj);
         });
