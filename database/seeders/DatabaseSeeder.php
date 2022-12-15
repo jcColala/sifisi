@@ -11,7 +11,6 @@ use App\Models\Tipo_documento_identidad;
 use App\Models\Estado_civil;
 use App\Models\Sexo;
 use App\Models\Persona;
-use App\Models\Perfil;
 use App\Models\User;
 use App\Models\Modulo_padre;
 use App\Models\Modulo;
@@ -136,17 +135,13 @@ class DatabaseSeeder extends Seeder
         $data->nacionalidad                 = "Peruano";
         $data->save();
 
-        //------------------------------------------------------- Perfil
-        $data = new Perfil();
-        $data->perfil       = 'Administrador';
-        $data->abreviatura  = "ADMIN";
-        $data->editable     = false;
-        $data->save();
+        //------------------------------------------------------- Role
+        $rol = Role::create(['name' => 'Super administrador', 'abreviatura' => 'Sadm','editable' => false]);
 
         //------------------------------------------------------- Usuario
         $user = new User();
         $user->idpersona    = 1;
-        $user->idperfil     = 1;
+        $user->idrol        = 1;
         $user->usuario      = "ADMIN";
         $user->password     = Hash::make("12tres");
         $user->save();
@@ -286,76 +281,61 @@ class DatabaseSeeder extends Seeder
         $data->orden            = 7;
         $data->save();
 
-
         //}
-
-        //------------------------------------------------------- Role
-        $rol = Role::create(['name' => 'SuperAdmin','editable' => false]);
 
         //------------------------------------------------------- Accesos
         $data = new Accesos();
         $data->idmodulo   = 1;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 2;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 3;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 4;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 5;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 6;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 7;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 8;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 9;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 10;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 
         $data = new Accesos();
         $data->idmodulo   = 11;
-        $data->idperfil   = 1;
         $data->idrol      = 1;
         $data->save();
 

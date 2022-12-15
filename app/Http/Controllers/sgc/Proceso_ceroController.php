@@ -42,8 +42,8 @@ class Proceso_ceroController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
-        $datos["tipo_proceso"]      = SGCTipo_proceso::get();
-        $datos["responsable"]       = SGCEntidad::get();
+        $datos["tipo_proceso"]      = SGCTipo_proceso::where('idestado', 2)->with('procesos_cero')->get();
+        $datos["entidades"]         = SGCEntidad::where('idestado', 2)->get();
         $datos["data"]              = [];
         if( $id != null )
             $datos["data"]          = SGCProceso_cero::withTrashed()->find($id);
@@ -80,14 +80,12 @@ class Proceso_ceroController extends Controller
         
         $this->validate($request,[
             'idtipo_proceso'=>'required',
-            'codigo'=> 'required',
             'descripcion' => 'required',
             'idresponsable'=>'required',
             'objetivo'=>'required',
             'alcance'=>'required',
             ],[
             'idtipo_proceso.required' => 'Seleccione el tipo de proceso',
-            'codigo.required'=> 'Escriba el código del proceso',
             'descripcion.required' => 'Escriba el Nombre del Proceso',
             'idresponsable.required' => 'Seleccione el responsable del proceso',
             'objetivo.required' => 'Escriba el objetivo del proceso',
@@ -103,10 +101,13 @@ class Proceso_ceroController extends Controller
                 $obj->idtipo_accion = 1;
                 $obj->idtipo_proceso = $request->idtipo_proceso;
                 $obj->idresponsable = $request->idresponsable;
-                $obj->codigo = $request->codigo;
+                $obj->codigo = $request->codigo_hidde;
                 $obj->descripcion = $request->descripcion;
                 $obj->objetivo = $request->objetivo;
                 $obj->alcance = $request->alcance;
+                $obj->idelaborado = $request->idelaborado;
+                $obj->idrevisado = $request->idrevisado;
+                $obj->idaprobado = $request->idrevisado;
                 $obj->save();
 
                 //REGISTRO MOVIMIENTOS
@@ -116,10 +117,13 @@ class Proceso_ceroController extends Controller
                 $obj_mov->idsgc = $obj->id;
                 $obj_mov->idtipo_proceso = $request->idtipo_proceso;
                 $obj_mov->idresponsable = $request->idresponsable;
-                $obj_mov->codigo = $request->codigo;
+                $obj_mov->codigo = $request->codigo_hidde;
                 $obj_mov->descripcion = $request->descripcion;
                 $obj_mov->objetivo = $request->objetivo;
                 $obj_mov->alcance = $request->alcance;
+                $obj->idelaborado = $request->idelaborado;
+                $obj->idrevisado = $request->idrevisado;
+                $obj->idaprobado = $request->idrevisado;
                 $obj_mov->save();
             }else{
                 if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE

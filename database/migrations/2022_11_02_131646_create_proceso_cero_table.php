@@ -30,6 +30,15 @@ class CreateProcesoceroTable extends Migration
             $table->unsignedBigInteger('idresponsable');
             $table->foreign('idresponsable')->references('id')->on('sgc.entidad');
 
+            $table->unsignedBigInteger('idelaborado');
+            $table->foreign('idelaborado')->references('id')->on('sgc.entidad');
+
+            $table->unsignedBigInteger('idrevisado');
+            $table->foreign('idrevisado')->references('id')->on('sgc.entidad');
+
+            $table->unsignedBigInteger('idaprobado');
+            $table->foreign('idaprobado')->references('id')->on('sgc.entidad');
+
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
             

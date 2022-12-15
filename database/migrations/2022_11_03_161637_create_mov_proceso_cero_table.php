@@ -35,6 +35,15 @@ class CreateMovProcesoceroTable extends Migration
 
             $table->unsignedBigInteger('idsgc');
             $table->foreign('idsgc')->references('id')->on('sgc.proceso_cero');
+
+            $table->unsignedBigInteger('idelaborado');
+            $table->foreign('idelaborado')->references('id')->on('sgc.entidad');
+
+            $table->unsignedBigInteger('idrevisado');
+            $table->foreign('idrevisado')->references('id')->on('sgc.entidad');
+
+            $table->unsignedBigInteger('idaprobado');
+            $table->foreign('idaprobado')->references('id')->on('sgc.entidad');
             
             $table->string('codigo', 20);
             $table->text('descripcion');

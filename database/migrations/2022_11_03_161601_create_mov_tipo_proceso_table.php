@@ -13,7 +13,7 @@ class CreateMovtipoprocesoTable extends Migration
      */
     public function up()
     {
-        Schema::create('movsgc.tipo_proceso', function (Blueprint $table) {
+        Schema::create('movsgc.mov_tipo_proceso', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion', 120);
             $table->string('codigo', 20);
@@ -45,6 +45,6 @@ class CreateMovtipoprocesoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movsgc.tipo_proceso');
+        Schema::dropIfExists('movsgc.mov_tipo_proceso');
     }
 }

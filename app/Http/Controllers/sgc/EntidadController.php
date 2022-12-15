@@ -116,7 +116,7 @@ class EntidadController extends Controller
                 $obj->idtipo_accion = 2;
                 $obj->idestado = 1;
                 $obj->save();
-
+                
                 //EDICIÓN EN MOVIMIENTO
                 $obj_mov = new MOVSGCMov_entidad();
                 $obj_mov->idpersona_solicita = $request->idpersona_solicita;
@@ -141,11 +141,21 @@ class EntidadController extends Controller
     }
 
     public function aprobar(request $request){
-        $obj = SGCEntidad::withTrashed()->where("id",$request->id)->first();
-        $obj->idpersona_aprueba = auth()->user()->persona->id;
+        return DB::transaction(function () use($request){
+            $mov = MOVSGCMov_entidad::where('idsgc', $request->id)->latest('created_at')->first();
+            $mov->idpersona_aprueba = auth()->user()->persona->id;
+            $mov->idestado = 2;
+            $mov->save();
+    
+            $obj = SGCEntidad::withTrashed()->where("id",$request->id)->first();
             $obj->idestado = 2;
+            $obj->idpersona_solicita = $mov->idpersona_solicita;
+            $obj->idpersona_aprueba = auth()->user()->persona->id;
+            $obj->descripcion = $mov->descripcion;
+            $obj->cant_integrantes = $mov->cant_integrantes;
             $obj->save();
             return response()->json($obj);
+        });
     }
 
 

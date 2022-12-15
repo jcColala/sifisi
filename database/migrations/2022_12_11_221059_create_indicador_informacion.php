@@ -34,6 +34,8 @@ class CreateIndicadorInformacion extends Migration
             $table->unsignedBigInteger('iddocumento');
             $table->foreign('iddocumento')->references('id')->on('sgc.documentos');
 
+            $table->boolean('editable')->default(true);
+
             $table->timestamps();
             $table->softDeletes();
         });

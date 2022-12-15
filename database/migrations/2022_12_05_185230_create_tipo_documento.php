@@ -29,6 +29,7 @@ class CreateTipoDocumento extends Migration
 
             $table->string('descripcion', 120);
             $table->string('abreviatura', 10);
+            $table->boolean('editable')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

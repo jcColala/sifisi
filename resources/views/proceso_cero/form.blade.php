@@ -29,10 +29,11 @@
 
 						<div class="col-md-6">
 							<div class="wrap-input100 mrginput100 validate-input">
-								<input type="text" class="input100" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*">
+								<input type="hidden" class="input100" id="codigo_hidde_{{$prefix}}" name="codigo_hidde">
+								<input type="text" class="input100" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*"
+								disabled>
 								<span class="focus-input100"></span>
 								<span class="symbol-input100">
-									<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
 								</span>
 								<span class="codigo_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 							</div>
@@ -50,10 +51,10 @@
 						</div>
 
 						<div class="col-md-4">
-							<div class="select2-idresponsable{{$prefix}} div-select2 input-group mt-10px">
+							<div class="select2-idresponsable_{{$prefix}} div-select2 input-group mt-10px">
 								<select class="form-control select2-show-search" id="idresponsable_{{$prefix}}" name="idresponsable" data-placeholder="Responsable del Proceso*" style="width:100%;">
-									<option label="Selecciona el Tipo de Proceso"></option>
-									@foreach($responsable as $value)
+									<option label="Selecciona el responsable"></option>
+									@foreach($entidades as $value)
 									<option value="{{$value->id}}">{{$value->descripcion}}</option>
 									@endforeach
 								</select>
@@ -83,6 +84,45 @@
 								<span class="alcance_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 							</div>
 						</div>
+
+						<div class="col-md-4">
+   							<div class="select2-idelaborado_{{$prefix}} div-select2 input-group mt-10px">
+							    <span><b>ELABORADO POR:</b></span>
+								<select class="form-control select2-show-search" id="idelaborado_{{$prefix}}" name="idelaborado" data-placeholder="Selecciona el que elaboró el proceso*" style="width:100%;" >
+									<option label="Selecciona el que elaboró el proceso"></option>
+									@foreach($entidades as $value)
+		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
+		                        	@endforeach
+								</select>
+								<span class="idelaborado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+							</div>
+                        </div>
+
+						<div class="col-md-4">
+   							<div class="select2-idrevisado_{{$prefix}} div-select2 input-group mt-10px">
+								<span><b>REVISADO POR:</b></span>
+								<select class="form-control select2-show-search" id="idrevisado_{{$prefix}}" name="idrevisado" data-placeholder="Selecciona el que revisó el proceso*" style="width:100%;" >
+									<option label="Selecciona el que revisó el proceso"></option>
+									@foreach($entidades as $value)
+		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
+		                        	@endforeach
+								</select>
+								<span class="idrevisado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+							</div>
+                        </div>
+
+						<div class="col-md-4">
+   							<div class="select2-idaprobado_{{$prefix}} div-select2 input-group mt-10px">
+							   <span><b>APROBADO POR:</b></span>
+								<select class="form-control select2-show-search" id="idaprobado_{{$prefix}}" name="idaprobado" data-placeholder="Selecciona el que aprobó el proceso*" style="width:100%;" >
+									<option label="Selecciona el que aprobó el proceso"></option>
+									@foreach($entidades as $value)
+		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
+		                        	@endforeach
+								</select>
+								<span class="idaprobado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+							</div>
+                        </div>
 					</div>
 				</div>
 				<div class="modal-footer border-0">
@@ -102,7 +142,10 @@
 			let tipo_proceso = @json($tipo_proceso);
 			tipo_proceso.map((e) => {
 				if (e.id == $(this).val()) {
-					$('#codigo_').val(e.codigo+'.');
+					let codigo = e.codigo;
+					let numero = parseInt(e.procesos_cero.length+1);
+					$('#codigo_').val(codigo+'.0'+numero);
+					$('#codigo_hidde_').val(codigo+'.0'+numero);
 				}
 			});
 		});

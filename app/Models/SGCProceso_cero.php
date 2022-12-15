@@ -20,6 +20,9 @@ class SGCProceso_cero extends Model
         'idtipo_proceso',
         'idresponsable',
         'idtipo_accion',
+        'idelaborado',
+        'idrevisado',
+        'idaprobado',
         'editable',
         'codigo',
         'descripcion',
@@ -27,6 +30,14 @@ class SGCProceso_cero extends Model
         'alcance',
         'deleted_at'
     ];
+
+    public function procesos_uno(){
+        return $this->hasMany(SGCProceso_uno::class);
+    }
+
+    public function tipo_proceso(){
+        return $this->belongsTo(SGCTipo_proceso::class, 'idtipo_proceso');
+    }
 
     public function persona_solicita(){
         return $this->belongsTo(Persona::class, 'idpersona_solicita');
@@ -42,6 +53,18 @@ class SGCProceso_cero extends Model
 
     public function tipo_accion(){
         return $this->belongsTo(SGCTipo_accion::class, 'idtipo_accion');
+    }
+
+    public function elaborado(){
+        return $this->belongsTo(Persona::class, 'idelaborado');
+    }
+    
+    public function revisado(){
+        return $this->belongsTo(Persona::class, 'idrevisado');
+    }
+
+    public function aprobado(){
+        return $this->belongsTo(Persona::class, 'idaprobado');
     }
 
     public function getTableName(){

@@ -31,6 +31,7 @@ class CreateResolucion extends Migration
             $table->string('codigo', 120);
             $table->string('descripcion', 255);
             $table->text('documento');
+            $table->boolean('editable')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

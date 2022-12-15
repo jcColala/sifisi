@@ -136,11 +136,21 @@ class Tipo_procesoController extends Controller
     }
 
     public function aprobar(request $request){
-        $obj = SGCTipo_proceso::withTrashed()->where("id",$request->id)->first();
-        $obj->idpersona_aprueba = auth()->user()->persona->id;
+        return DB::transaction(function () use($request){
+            $mov = MOVSGCMov_tipo_proceso::where('idsgc', $request->id)->latest('created_at')->first();
+            $mov->idpersona_aprueba = auth()->user()->persona->id;
+            $mov->idestado = 2;
+            $mov->save();
+    
+            $obj = SGCTipo_proceso::withTrashed()->where("id",$request->id)->first();
             $obj->idestado = 2;
+            $obj->idpersona_solicita = $mov->idpersona_solicita;
+            $obj->idpersona_aprueba = auth()->user()->persona->id;
+            $obj->descripcion = $mov->descripcion;
+            $obj->codigo = $mov->codigo;
             $obj->save();
             return response()->json($obj);
+        });
     }
 
     public function destroy(Request $request){

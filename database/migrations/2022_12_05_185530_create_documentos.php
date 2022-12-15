@@ -47,6 +47,7 @@ class CreateDocumentos extends Migration
             $table->float('version');
             $table->text('documento');
             $table->integer('porcentaje');
+            $table->boolean('editable')->default(true);
 
             $table->timestamps();
             $table->softDeletes();

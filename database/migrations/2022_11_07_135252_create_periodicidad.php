@@ -29,6 +29,7 @@ class CreatePeriodicidad extends Migration
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
 
             $table->string('descripcion', 120);
+            $table->boolean('editable')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

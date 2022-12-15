@@ -14,9 +14,9 @@ class SGCTipo_proceso extends Model
     protected $primaryKey   = "id";
 
     protected $fillable = [
+        'idestado',
         'idpersona_solicita',
         'idpersona_aprueba',
-        'idestado',
         'idtipo_accion',
         'descripcion',
         'codigo',
@@ -41,7 +41,7 @@ class SGCTipo_proceso extends Model
     }
 
     public function procesos_cero(){
-        return $this->hasMany(SGCProceso_cero::class);
+        return $this->hasMany(SGCProceso_cero::class, 'idtipo_proceso');
     }
 
     public function getTableName(){

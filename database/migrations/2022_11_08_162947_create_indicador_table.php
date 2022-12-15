@@ -57,6 +57,7 @@ class CreateIndicadorTable extends Migration
             $table->text('informacion')->nullable();
             $table->text('periodicidad')->nullable();
             $table->text('porcentaje')->nullable();
+            $table->boolean('editable')->default(true);
             $table->softDeletes();
             $table->timestamps();
 

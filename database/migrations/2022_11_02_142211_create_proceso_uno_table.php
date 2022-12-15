@@ -49,7 +49,6 @@ class CreateProcesounoTable extends Migration
             $table->text('salidas');
             $table->text('clientes');
             $table->text('diagrama')->default('hola buenas tardes');
-            
             $table->softDeletes();
             $table->timestamps();
 
