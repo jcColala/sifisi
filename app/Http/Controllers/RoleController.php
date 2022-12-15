@@ -69,7 +69,8 @@ class RoleController extends Controller
         $this->validate($request,[
             'name'=>['required',
                     Rule::unique("{$this->driver_current}.{$this->model->getTable()}", "name")
-                          ->ignore($request->id, "id")]
+                          ->ignore($request->id, "id")],
+            'abreviatura'=>'required'
             ],[
             "name.required"=>"El campo nombre es obligatorio.",
             "name.unique"=>"El valor del campo nombre ya está en uso."

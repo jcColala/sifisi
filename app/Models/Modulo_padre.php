@@ -56,12 +56,10 @@ class Modulo_padre extends Model
     }
 
     public function scopeAccesoModulos($query){
-        $idperfil   = auth()->user()->perfil->id;
         $idrol      = DB::table("seguridad.usuario_role")->where('model_id',auth()->user()->id)->first()->role_id;
         
-        return $query->with(['modulo'=>function($q) use ($idperfil, $idrol){
+        return $query->with(['modulo'=>function($q) use ($idrol){
             $q->join('seguridad.accesos','accesos.idmodulo','=','modulo.id');
-            $q->where('accesos.idperfil',$idperfil);
             $q->where('accesos.idrol',$idrol);
             $q->whereNull('accesos.deleted_at');
             $q->orderBy("modulo.idpadre");
@@ -85,8 +83,8 @@ class Modulo_padre extends Model
         return $menus;
     }
 
-    public function getComprobarAcesoModulo($idmodulo = null, $idperfil = null){
-        $query  = Accesos::where('idmodulo',$idmodulo)->where('idperfil',$idperfil)->first();
+    public function getComprobarAcesoModulo($idmodulo = null){
+        $query  = Accesos::where('idmodulo',$idmodulo)->first();
         if ($query)
             return true;
         return false;
@@ -102,7 +100,7 @@ class Modulo_padre extends Model
         return false;
     }
 
-    public function getTraerFunciones($idmodulo = null,$url = null, $idrol = null, $idperfil = null, $idpadre = null){
+    public function getTraerFunciones($idmodulo = null,$url = null, $idrol = null, $idpadre = null){
         $children = [];
         $funcion = Funcion_modulo::with('funcion')->where("idmodulo",$idmodulo)->get();
         foreach ($funcion as $key => $item) {
@@ -123,23 +121,21 @@ class Modulo_padre extends Model
         return $children;
     }
 
-    public function getTraerModulos($modulo, $idpadre = null, $idperfil = null, $idrol = null){
+    public function getTraerModulos($modulo, $idpadre = null, $idrol = null){
         return collect($modulo)
             ->where('idpadre',$idpadre)
             ->whereNotIn('id',[1])
-            ->map(function($item) use ($modulo,$idpadre,$idperfil,$idrol){
+            ->map(function($item) use ($modulo,$idpadre ,$idrol){
                 $value                          = [];
                 $value['id']                    = "m-".$item->id;
                 $value['text']                  = $item->modulo;
                 if ($idrol != null){
-                    //$value['state']['selected'] = $this->getComprobarAcesoModulo($item->id,$idperfil);
-                    //$value['state']['opened']   = $this->getComprobarAcesoModulo($item->id,$idperfil);
                     $value['state']['opened']   = true;
                 }
-                if($this->getTraerModulos($modulo,$item->id,$idperfil) == null){
-                    $value['children']          = $this->getTraerFunciones($item->id,$item->url,$idrol,$idperfil,$idpadre);
+                if($this->getTraerModulos($modulo,$item->id, $idrol) == null){
+                    $value['children']          = $this->getTraerFunciones($item->id,$item->url,$idrol,$idpadre);
                 }else{
-                    $value['children']          = $this->getTraerModulos($modulo,$item->id,$idperfil,$idrol);
+                    $value['children']          = $this->getTraerModulos($modulo,$item->id,$idrol);
                 }
 
                 return $value;
@@ -147,7 +143,7 @@ class Modulo_padre extends Model
 
     }
 
-    public static function acceso_modulos($idmodulo_padre, $idperfil, $idrol){
+    public static function acceso_modulos($idmodulo_padre, $idrol){
         $query  = static::with('modulo')->where('id',$idmodulo_padre)->orderBy('orden')->get();
         $data   = [];
 
@@ -157,7 +153,7 @@ class Modulo_padre extends Model
                 $value['text']              = $item->descripcion;
                 $value['icon']              = $item->icono;
                 $value['state']['opened']   = true;
-                $value['children']          = $item->getTraerModulos($item->modulo,null,$idperfil,$idrol);
+                $value['children']          = $item->getTraerModulos($item->modulo,null,$idrol);
                 $data[]                     = $value;
         }
 

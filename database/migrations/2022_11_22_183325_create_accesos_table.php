@@ -17,8 +17,6 @@ class CreateAccesosTable extends Migration
             $table->id();
             $table->unsignedBigInteger("idmodulo");
             $table->foreign('idmodulo')->references('id')->on('seguridad.modulo');
-            $table->unsignedBigInteger("idperfil");
-            $table->foreign('idperfil')->references('id')->on('seguridad.perfil');
             $table->unsignedBigInteger("idrol");
             $table->foreign('idrol')->references('id')->on('seguridad.role');
             $table->softDeletes();

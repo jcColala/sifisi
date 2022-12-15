@@ -34,26 +34,15 @@
 		                                    <span class="idpersona_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 		                            </div>
 		                        </div>
-		                        <div class="col-md-6"> 
-			   						<div class="select2-idperfil_{{$prefix}} div-select2 input-group mt-10px">
-										<select class="form-control select2-show-search" id="idperfil_{{$prefix}}" name="idperfil" data-placeholder="Selecciona el perfil*" style="width:100%;" >
-											<option label="Selecciona el perfil"></option>
-											@foreach($perfil as $value)
-					                            <option value="{{$value->id}}">{{$value->perfil}}</option>
-					                        @endforeach
-										</select>
-										<span class="idperfil_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-									</div>
-			                    </div>
-			                    <div class="col-md-6"> 
-			   						<div class="select2-rol_{{$prefix}} div-select2 input-group mt-10px">
-										<select class="form-control select2-show-search" id="rol_{{$prefix}}" name="rol" data-placeholder="Selecciona el rol*" style="width:100%;" >
+			                    <div class="col-md-12"> 
+			   						<div class="select2-idrol_{{$prefix}} div-select2 input-group mt-10px">
+										<select class="form-control select2-show-search" id="idrol_{{$prefix}}" name="idrol" data-placeholder="Selecciona el rol*" style="width:100%;" >
 											<option label="Selecciona el rol"></option>
 											@foreach($role as $value)
 					                            <option value="{{$value->id}}">{{$value->name}}</option>
 					                        @endforeach
 										</select>
-										<span class="rol_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+										<span class="idrol_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 									</div>
 			                    </div>
 		                        <div class="col-md-12">

@@ -28,18 +28,6 @@
                 	</div>
 
                 	<div class="col-md-12">
-   						<div class="select2-idperfil_{{$prefix}} div-select2 input-group mt-10px">
-							<select class="form-control select2-show-search" id="idperfil_{{$prefix}}" name="idperfil" data-placeholder="Selecciona el perfil*" style="width:100%;" onchange="armar_jstree(event)" >
-								<option label="Selecciona el perfil"></option>
-								@foreach($perfil as $value)
-		                            <option value="{{$value->id}}">{{$value->perfil}}</option>
-		                        @endforeach
-							</select>
-							<span class="idperfil_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-						</div>
-                	</div>
-
-                	<div class="col-md-12">
    						<div class="select2-idrol_{{$prefix}} div-select2 input-group mt-10px">
 							<select class="form-control select2-show-search" id="idrol_{{$prefix}}" name="idrol" data-placeholder="Selecciona el rol*" style="width:100%;" onchange="armar_jstree(event)" >
 								<option label="Selecciona el rol"></option>
