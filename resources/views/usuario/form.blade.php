@@ -25,7 +25,7 @@
 											<input type="hidden" id="idpersona_{{$prefix}}" name="idpersona">
 											<div id="autocomplete" class="autocomplete">
 												<input type="text" class="input100" id="persona_nombres_{{$prefix}}" name="persona_nombres" placeholder="Buscar persona*">
-			                                    <span class="focus-input100"></span>
+			                                    <span class="focus-input100">Buscar persona*</span>
 			                                    <span class="symbol-input100">
 			                                        <i class="mdi mdi-account-search" aria-hidden="true"></i>
 			                                    </span>
@@ -35,20 +35,21 @@
 		                            </div>
 		                        </div>
 			                    <div class="col-md-12"> 
-			   						<div class="select2-idrol_{{$prefix}} div-select2 input-group mt-10px">
-										<select class="form-control select2-show-search" id="idrol_{{$prefix}}" name="idrol" data-placeholder="Selecciona el rol*" style="width:100%;" >
+			   						<div class="select2-idrol_{{$prefix}} div-select2 mrginput100_form input-group mt-10px">
+										<select class="form-control select2-show-search" id="idrol_{{$prefix}}" name="idrol" data-placeholder="Selecciona el rol*" style="width:100%;" required>
 											<option label="Selecciona el rol"></option>
 											@foreach($role as $value)
 					                            <option value="{{$value->id}}">{{$value->name}}</option>
 					                        @endforeach
 										</select>
+                                    	<span class="focus-input100">Selecciona el modulo padre*</span>
 										<span class="idrol_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 									</div>
 			                    </div>
 		                        <div class="col-md-12">
 		                            <div class="wrap-input100 mrginput100 validate-input">
 		                                    <input type="text" class="input100" id="usuario_{{$prefix}}" name="usuario" placeholder="Usuario*">
-		                                    <span class="focus-input100"></span>
+		                                    <span class="focus-input100">Usuario*</span>
 		                                    <span class="symbol-input100">
 		                                        <i class="fa fa-user" aria-hidden="true"></i>
 		                                    </span>
@@ -58,7 +59,7 @@
 		                        <div class="col-md-6">
 		                            <div class="wrap-input100 mrginput100 validate-input">
 		                                    <input type="password" class="input100" id="password_{{$prefix}}" name="password" placeholder="Contraseña*" autocomplete="new-password">
-		                                    <span class="focus-input100"></span>
+		                                    <span class="focus-input100">Contraseña*</span>
 		                                    <span class="symbol-input100">
 		                                        <i class="zmdi zmdi-key" aria-hidden="true"></i>
 		                                    </span>
@@ -68,7 +69,7 @@
 		                        <div class="col-md-6">
 		                            <div class="wrap-input100 mrginput100 validate-input">
 		                                    <input type="password" class="input100" id="password_confirmation_{{$prefix}}" name="password_confirmation" placeholder="Confirmar contraseña*">
-		                                    <span class="focus-input100"></span>
+		                                    <span class="focus-input100">Confirmar contraseña*</span>
 		                                    <span class="symbol-input100">
 		                                        <i class="zmdi zmdi-key" aria-hidden="true"></i>
 		                                    </span>

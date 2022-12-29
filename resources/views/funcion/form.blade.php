@@ -75,7 +75,7 @@
 		                       	<label class="custom-switch mt-10px pl-2px">
 									<input type="checkbox" class="custom-switch-input" id="mostrar_{{$prefix}}">
 									<span id="formostrar_{{$prefix}}" class="custom-switch-indicator">si</span>
-									<span class="custom-switch-description"> ¿Mostrar es accesos?</span>
+									<span class="custom-switch-description"> ¿Mostrar en accesos?</span>
 								</label>
 		                    </div>
 		                </div>

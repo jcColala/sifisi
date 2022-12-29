@@ -69,12 +69,14 @@
 
 <!-- SELECT2 -->
 <script src="{{asset('plugins/select2/select2.full.min.js')}}"></script>
+<script src="{{asset('plugins/bootstrap-daterangepicker/moment.min.js')}}"></script>
 <script src="{{asset('plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('plugins/date-picker/spectrum.js')}}"></script>
 <script src="{{asset('plugins/date-picker/jquery-ui.js')}}"></script>
 <script src="{{asset('plugins/time-picker/jquery.timepicker.js')}}"></script>
 <script src="{{asset('plugins/time-picker/toggles.min.js')}}"></script>
-
+<script src="{{asset('plugins/time-picker/jquery.timepicker.js')}}"></script>
+<script src="{{asset('plugins/time-picker/toggles.min.js')}}"></script>
 <!-- JSTREE -->
 <script src="{{asset('plugins/jstree/jstree.min.js')}}"></script>
 

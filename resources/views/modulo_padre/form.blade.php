@@ -7,17 +7,17 @@
 				<span class="form-help" data-toggle="popover" data-placement="top" data-content="Los campos que contengan un ' * ' son obligatorios y es necesario que se ingrese la información correspondiente." data-original-title="" title="">?</span>
 				</span>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">×</span>
+					<span aria-hidden="true">×</span> 
 				</button>
 			</div>
-			<form id="form-{{$pathController}}" onsubmit="md_guardar(event,'btn-save')" >
+			<form name="input100" id="form-{{$pathController}}" onsubmit="md_guardar(event,'btn-save')" >
 				<div class="modal-body modal_body">
    					<input type="hidden" name="id" id="id_{{$prefix}}" >
    					<div class="form-group form-row">
 						<div class="col-md-6">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Modulo padre*">
-                                    <span class="focus-input100"></span>
+                                    <span class="focus-input100">Modulo padre*</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
                                     </span>
@@ -27,7 +27,7 @@
 						<div class="col-md-6">
                             <div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="abreviatura_{{$prefix}}" name="abreviatura" placeholder="Abreviatura*">
-                                    <span class="focus-input100"></span>
+                                    <span class="focus-input100">Abreviatura*</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-file-text" aria-hidden="true"></i>
                                     </span>
@@ -37,7 +37,7 @@
 						<div class="col-md-4">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="url_{{$prefix}}" name="url" placeholder="Url">
-                                    <span class="focus-input100"></span>
+                                    <span class="focus-input100">Url</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-link" aria-hidden="true"></i>
                                     </span>
@@ -45,11 +45,12 @@
                             </div>
                         </div>
                         <div class="col-md-5">
-                        	<div class="input-group mt-10px">
+                        	<div class="input-group mrginput100_form mt-10px">
 								<div class="input-group-text mticono_form">
 									<i id="form-icono-{{$pathController}}"></i>
 								</div>
 								<input type="text" class="form-control pull-right" id="icono_{{$prefix}}" name="icono" placeholder="Icono*" onkeyup="text_icono(event,this,'icono','{{$pathController}}')">
+                                <span class="focus-input100">Icono*</span>
 								<div class="input-group-append">
 									<button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle borderrad_tb"> Buscar</button>
 									<div class="dropdown-menu dropdown-menu-right search_icono">
@@ -62,7 +63,7 @@
                         <div class="col-md-3">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="orden_{{$prefix}}" name="orden" placeholder="Orden*">
-                                    <span class="focus-input100"></span>
+                                    <span class="focus-input100">Orden</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-arrow-merge" aria-hidden="true"></i>
                                     </span>
@@ -84,5 +85,7 @@
 </script>
 <script src='{{asset("js/form/$pathController/script.js")}}'></script>
 <script src='{{asset("js/custom.js")}}'></script>
+<script src='{{asset("js/form-elements.js")}}'></script>
+
 
 
