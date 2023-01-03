@@ -17,7 +17,7 @@
 						<div class="col-md-7">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="nombre_{{$prefix}}" name="nombre" placeholder="Nombre*">
-                                    <span class="focus-input100"></span>
+                                    <span class="focus-input100">Nombre*</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
                                     </span>
@@ -27,7 +27,7 @@
                         <div class="col-md-5">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="funcion_{{$prefix}}" name="funcion" placeholder="Funcion*">
-                                    <span class="focus-input100"></span>
+                                    <span class="focus-input100">Funcion*</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-file-text" aria-hidden="true"></i>
                                     </span>
@@ -37,7 +37,7 @@
                         <div class="col-md-7">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="clase_{{$prefix}}" name="clase" placeholder="Clase">
-                                    <span class="focus-input100"></span>
+                                    <span class="focus-input100">Clase</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-code" aria-hidden="true"></i>
                                     </span>
@@ -45,11 +45,12 @@
                             </div>
                         </div>
                         <div class="col-md-5">
-		                    <div class="input-group mt-10px">
+		                    <div class="input-group mrginput100_form mt-10px">
 								<div class="input-group-text mticono_form">
 									<i id="form-icono-{{$pathController}}"></i>
 								</div>
 								<input type="text" class="form-control pull-right" id="icono_{{$prefix}}" name="icono" placeholder="Icono" onkeyup="text_icono(event,this,'icono','{{$pathController}}')">
+                                <span class="focus-input100">Icono</span>
 								<div class="input-group-append">
 									<button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle borderrad_tb"> Buscar</button>
 									<div class="dropdown-menu dropdown-menu-right search_icono">
@@ -62,7 +63,7 @@
                         <div class="col-md-2">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="orden_{{$prefix}}" name="orden" placeholder="Orden*">
-                                    <span class="focus-input100"></span>
+                                    <span class="focus-input100">Orden*</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-arrow-merge" aria-hidden="true"></i>
                                     </span>

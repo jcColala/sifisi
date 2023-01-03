@@ -11,6 +11,9 @@
 		<div class="card">
 			<div class="card-header">
 				<h3 class="card-title">Filtrar</h3>
+				<span class="col-auto align-self-center"> | <span class="text_requiere">campos obligatorios </span>
+				<span class="form-help" data-toggle="popover" data-placement="top" data-content="Los campos que contengan un ' * ' son obligatorios y es necesario que se ingrese la información correspondiente." data-original-title="" title="">?</span>
+				</span>
 			</div>
 			<form id="form-{{$pathController}}" onsubmit="guardar_accesos(event)">
 			<div class="card-body">
