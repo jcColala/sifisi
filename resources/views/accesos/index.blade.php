@@ -16,25 +16,27 @@
 			<div class="card-body">
 				<div class="form-group form-row">
    					<div class="col-md-12">
-   						<div class="select2-idmodulo_padre_{{$prefix}} div-select2 input-group mt-10px">
-							<select class="form-control select2-show-search" id="idmodulo_padre_{{$prefix}}" name="idmodulo_padre" data-placeholder="Selecciona el modulo padre*" style="width:100%;" onchange="armar_jstree(event)" >
+   						<div class="select2-idmodulo_padre_{{$prefix}} div-select2 mrginput100_form input-group mt-10px">
+							<select class="form-control select2-show-search" id="idmodulo_padre_{{$prefix}}" name="idmodulo_padre" data-placeholder="Selecciona el modulo padre*" style="width:100%;" onchange="armar_jstree(event)" required >
 								<option label="Selecciona el modulo padre"></option>
 								@foreach($modulo_padre as $value)
 		                            <option value="{{$value->id}}">{{$value->descripcion}}</option>
 		                        @endforeach
 							</select>
+                            <span class="focus-input100">Selecciona el modulo padre*</span>
 							<span class="idmodulo_padre_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 						</div>
                 	</div>
 
                 	<div class="col-md-12">
-   						<div class="select2-idrol_{{$prefix}} div-select2 input-group mt-10px">
-							<select class="form-control select2-show-search" id="idrol_{{$prefix}}" name="idrol" data-placeholder="Selecciona el rol*" style="width:100%;" onchange="armar_jstree(event)" >
+   						<div class="select2-idrol_{{$prefix}} div-select2 mrginput100_form input-group mt-10px">
+							<select class="form-control select2-show-search" id="idrol_{{$prefix}}" name="idrol" data-placeholder="Selecciona el rol*" style="width:100%;" onchange="armar_jstree(event)" required>
 								<option label="Selecciona el rol"></option>
 								@foreach($role as $value)
 		                            <option value="{{$value->id}}">{{$value->name}}</option>
 		                        @endforeach
 							</select>
+                            <span class="focus-input100">Selecciona el rol*</span>
 							<span class="idrol_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 						</div>
                 	</div>

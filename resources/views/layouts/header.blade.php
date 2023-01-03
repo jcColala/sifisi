@@ -21,6 +21,9 @@
         <link href="{{asset('css/style.css')}}" rel="stylesheet"/>
         <link href="{{asset('css/skin-modes.css')}}" rel="stylesheet"/>
         <link href="{{asset('css/dark-style.css')}}" rel="stylesheet"/>
+        <link href="{{asset('plugins/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet" />
+        <link href="{{asset('plugins/date-picker/spectrum.css')}}" rel="stylesheet" />
+        <link href="{{asset('plugins/time-picker/jquery.timepicker.css')}}" rel="stylesheet" />
 
         <!--C3 CHARTS CSS -->
         <link href="{{asset('plugins/charts-c3/c3-chart.css')}}" rel="stylesheet"/>
@@ -76,5 +79,8 @@
 
         <!-- autocomplete -->
         <link rel="stylesheet" href="{{asset('plugins/autocompletejs_2.3/style.css')}}">
+
+         <!-- iput material -->
+        <link rel="stylesheet" href="{{asset('css/input_material.css')}}">
 </head>
 @routes

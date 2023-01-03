@@ -17,27 +17,29 @@
    						<div class="col-md-8">
    							<div class="form-group form-row">
 		   						<div class="col-md-6"> 
-		   							<div class="select2-idmodulo_padre_{{$prefix}} div-select2 input-group mt-10px">
-										<select class="form-control select2-show-search" id="idmodulo_padre_{{$prefix}}" name="idmodulo_padre" data-placeholder="Selecciona el modulo padre*" style="width:100%;" >
+		   							<div class="select2-idmodulo_padre_{{$prefix}} div-select2 mrginput100_form input-group mt-10px">
+										<select class="form-control select2-show-search" id="idmodulo_padre_{{$prefix}}" name="idmodulo_padre" data-placeholder="Selecciona el modulo padre*" style="width:100%;" required >
 											<option label="Selecciona el modulo padre"></option>
 											@foreach($modulo_padre as $value)
 				                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
 				                        	@endforeach
 										</select>
+                                    	<span class="focus-input100">Selecciona el modulo padre*</span>
 										<span class="idmodulo_padre_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 									</div>
 		                        </div>
 		                        <div class="col-md-6">
-		   							<div class="div-select2 input-group mt-10px">
-										<select class="form-control select2-show-search" id="idpadre_{{$prefix}}" name="idpadre" data-placeholder="Selecciona el padre" style="width:100%;" >
+		   							<div class="div-select2 mrginput100_form input-group mt-10px">
+										<select class="form-control select2-show-search" id="idpadre_{{$prefix}}" name="idpadre" data-placeholder="Selecciona el padre" style="width:100%;" required>
 											<option label="Selecciona el padre"></option>
 										</select>
+                                    	<span class="focus-input100">Selecciona el padre</span>
 									</div>
 		                        </div>
 								<div class="col-md-6">
 									<div class="wrap-input100 mrginput100 validate-input">
 		                                    <input type="text" class="input100" id="modulo_{{$prefix}}" name="modulo" placeholder="Modulo*">
-		                                    <span class="focus-input100"></span>
+		                                    <span class="focus-input100">Modulo*</span>
 		                                    <span class="symbol-input100">
 		                                        <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
 		                                    </span>
@@ -47,7 +49,7 @@
 								<div class="col-md-6">
 		                            <div class="wrap-input100 mrginput100 validate-input">
 		                                    <input type="text" class="input100" id="abreviatura_{{$prefix}}" name="abreviatura" placeholder="Abreviatura">
-		                                    <span class="focus-input100"></span>
+		                                    <span class="focus-input100">Abreviatura</span>
 		                                    <span class="symbol-input100">
 		                                        <i class="zmdi zmdi-file-text" aria-hidden="true"></i>
 		                                    </span>
@@ -57,7 +59,7 @@
 								<div class="col-md-6">
 									<div class="wrap-input100 mrginput100 validate-input">
 		                                    <input type="text" class="input100" id="url_{{$prefix}}" name="url" placeholder="Url">
-		                                    <span class="focus-input100"></span>
+		                                    <span class="focus-input100">Url</span>
 		                                    <span class="symbol-input100">
 		                                        <i class="zmdi zmdi-link" aria-hidden="true"></i>
 		                                    </span>
@@ -65,11 +67,12 @@
 		                            </div>
 		                        </div>
 		                        <div class="col-md-6">
-		                        	<div class="input-group mt-10px">
+		                        	<div class="input-group mrginput100_form mt-10px">
 										<div class="input-group-text mticono_form">
 											<i id="form-icono-{{$pathController}}"></i>
 										</div>
 										<input type="text" class="form-control pull-right" id="icono_{{$prefix}}" name="icono" placeholder="Icono" onkeyup="text_icono(event,this,'icono','{{$pathController}}')">
+                                		<span class="focus-input100">Icono</span>
 										<div class="input-group-append">
 											<button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle borderrad_tb"> Buscar</button>
 											<div class="dropdown-menu dropdown-menu-right search_icono">
@@ -82,7 +85,7 @@
 		                        <div class="col-md-4">
 									<div class="wrap-input100 mrginput100 validate-input">
 		                                    <input type="text" class="input100" id="orden_{{$prefix}}" name="orden" placeholder="Orden*">
-		                                    <span class="focus-input100"></span>
+		                                    <span class="focus-input100">Orden*</span>
 		                                    <span class="symbol-input100">
 		                                        <i class="zmdi zmdi-arrow-merge" aria-hidden="true"></i>
 		                                    </span>
@@ -103,13 +106,14 @@
 						<div class="col-md-4">
 							<div class="form-group form-row">
 		   						<div class="col-md-12">
-		   							<div class="div-select2 input-group mt-10px">
-										<select class="form-control select2-show-search" id="idfuncion_{{$prefix}}" name="idfuncion" onchange="select_funcion(event,this)" data-placeholder="Agreagar función" style="width:100%;" >
+		   							<div class="div-select2 mrginput100_form input-group mt-10px">
+										<select class="form-control select2-show-search" id="idfuncion_{{$prefix}}" name="idfuncion" onchange="select_funcion(event,this)" data-placeholder="Agreagar función" style="width:100%;" required>
 											<option label="Agreagar función"></option>
 											@foreach($funcion as $value)
 				                            	<option value="{{$value->id}}" data-nombre="{{$value->nombre}}"  data-icono="{{$value->icono}}" >{{$value->nombre}}</option>
 				                        	@endforeach 
 										</select>
+                                    	<span class="focus-input100">Agreagar función</span>
 									</div>
 		                        </div>
 		                        <div class="col-md-12">
@@ -165,7 +169,6 @@
 <script src='{{asset("js/form/$pathController/script.js")}}'></script>
 <script src='{{asset("js/custom.js")}}'></script>
 <script src="{{asset('js/form-elements.js')}}"></script>
-
 
 
 

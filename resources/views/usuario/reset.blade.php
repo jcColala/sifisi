@@ -15,38 +15,52 @@
    					<input type="hidden" name="id" id="id_{{$prefix}}" >
    					<div class="form-group form-row">
 						<div class="col-md-6">
-							<div class="wrap-input100 mrginput100 validate-input mt-0">
+							<div class="wrap-input100 mrginput100 validate-input">
+		                    	<input type="text" class="input100" id="persona_nombres_{{$prefix}}" name="persona_nombres" placeholder="Nombre completo" disabled="true">
+		                    	<span class="focus-input100">Nombre completo</span>
+		                    	<span class="symbol-input100">
+		                        	<i class="fa fa-user" aria-hidden="true"></i>
+		                    	</span>
+		                    </div>
+							<!--<div class="wrap-input100 mrginput100 validate-input mt-0">
 									<strong class="form_strong">Nombre completo</strong>
                                     <input type="text" class="input100 pdd_0" id="persona_nombres_{{$prefix}}" name="persona_nombres" disabled="true">
                           
-                            </div>
+                            </div>-->
                         </div>
                         <div class="col-md-6">
-							<div class="wrap-input100 mrginput100 validate-input mt-0">
+                        	<div class="wrap-input100 mrginput100 validate-input">
+		                    	<input type="text" class="input100" id="usuario_{{$prefix}}" name="usuario" placeholder="Usuario" disabled="true">
+		                    	<span class="focus-input100">Usuario</span>
+		                    	<span class="symbol-input100">
+		                        	<i class="fa fa-user" aria-hidden="true"></i>
+		                    	</span>
+		                    </div>
+							<!--<div class="wrap-input100 mrginput100 validate-input mt-0">
 									<strong class="form_strong">Usuario</strong>
                                     <input type="text" class="input100 pdd_0" id="usuario_{{$prefix}}" name="usuario" disabled="true">
                           
-                            </div>
+                            </div>-->
                         </div>
                         <div class="col-md-6">
-		                            <div class="wrap-input100 mrginput100 validate-input">
-		                                    <input type="password" class="input100" id="password_{{$prefix}}" name="password" placeholder="Contraseña*" autocomplete="new-password">
-		                                    <span class="focus-input100"></span>
-		                                    <span class="symbol-input100">
-		                                        <i class="zmdi zmdi-key" aria-hidden="true"></i>
-		                                    </span>
-		                                    <span class="password_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-		                            </div>
-		                        </div>
-		                        <div class="col-md-6">
-		                            <div class="wrap-input100 mrginput100 validate-input">
-		                                    <input type="password" class="input100" id="password_confirmation_{{$prefix}}" name="password_confirmation" placeholder="Confirmar contraseña*">
-		                                    <span class="focus-input100"></span>
-		                                    <span class="symbol-input100">
-		                                        <i class="zmdi zmdi-key" aria-hidden="true"></i>
-		                                    </span>
-		                            </div>
-		                        </div>
+		                    <div class="wrap-input100 mrginput100 validate-input">
+		                        <input type="password" class="input100" id="password_{{$prefix}}" name="password" placeholder="Contraseña*" autocomplete="new-password">
+		                        <span class="focus-input100">Contraseña*</span>
+		                        <span class="symbol-input100">
+		                            <i class="zmdi zmdi-key" aria-hidden="true"></i>
+		                        </span>
+		                        <span class="password_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+		                    </div>
+		                </div>
+		                <div class="col-md-6">
+		                     <div class="wrap-input100 mrginput100 validate-input">
+		                            <input type="password" class="input100" id="password_confirmation_{{$prefix}}" name="password_confirmation" placeholder="Confirmar contraseña*">
+		                            <span class="focus-input100">Confirmar contraseña*</span>
+		                            <span class="symbol-input100">
+		                                <i class="zmdi zmdi-key" aria-hidden="true"></i>
+		                            </span>
+		                     </div>
+		                </div>
 					</div>
 				</div>
 				<div class="modal-footer border-0">

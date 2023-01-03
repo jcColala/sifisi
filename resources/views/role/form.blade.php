@@ -18,7 +18,7 @@
 						<div class="col-md-6">
 							<div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="name_{{$prefix}}" name="name" placeholder="Nombre*">
-                                    <span class="focus-input100"></span>
+                                    <span class="focus-input100">Nombre*</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
                                     </span>
@@ -28,7 +28,7 @@
                         <div class="col-md-6">
                             <div class="wrap-input100 mrginput100 validate-input">
                                     <input type="text" class="input100" id="abreviatura_{{$prefix}}" name="abreviatura" placeholder="Abreviatura*">
-                                    <span class="focus-input100"></span>
+                                    <span class="focus-input100">Abreviatura*</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-file-text" aria-hidden="true"></i>
                                     </span>
