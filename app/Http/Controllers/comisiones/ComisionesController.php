@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\sgc;
+namespace App\Http\Controllers\comisiones;
 use App\Http\Controllers\Controller;
-
-use App\Models\SGCProceso_cero;
-use App\Models\MOVSGCMov_proceso_cero;
-use App\Models\SGCEntidad;
-use App\Models\SGCTipo_proceso;
+use App\Models\COMCargo;
+use App\Models\COMComisiones;
 use App\Models\Funcion;
-
+use App\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class Proceso_ceroController extends Controller
+class ComisionesController extends Controller
 {
-    public $modulo                  = "Procesos de Nivel Cero";
-    public $path_controller         = "proceso_cero";
+    public $modulo                  = "Comisiones";
+    public $path_controller         = "comision";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -31,7 +29,8 @@ class Proceso_ceroController extends Controller
         foreach (Funcion::get() as $key => $value) {
             $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
         }
-        $this->model                = new SGCProceso_cero();
+
+        $this->model                = new COMComisiones();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
 
@@ -42,10 +41,9 @@ class Proceso_ceroController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
-        $datos["tipo_proceso"]      = SGCTipo_proceso::where('idestado', 2)->with('procesos_cero')->get();
         $datos["data"]              = [];
         if( $id != null )
-            $datos["data"]          = SGCProceso_cero::withTrashed()->find($id);
+            $datos["data"]          = COMComisiones::withTrashed()->find($id);
 
         return $datos;
     }
@@ -54,10 +52,11 @@ class Proceso_ceroController extends Controller
         return view("{$this->path_controller}.index", $this->form());
     }
 
-    public function grilla(){
-        //withTrashed
-        $objeto = SGCProceso_cero::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'ASC')->get();
 
+    public function grilla(){
+
+        $objeto = COMComisiones::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->withTrashed();
+        
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -69,43 +68,37 @@ class Proceso_ceroController extends Controller
                 ->rawColumns(['icono', "activo"])
                 ->make(true);
     }
-    
+
     public function create(){
-        
         return view("{$this->path_controller}.form",$this->form());
     }
 
     public function store(Request $request){
-        
         $this->validate($request,[
-            'idtipo_proceso'=>'required',
-            'descripcion' => 'required',
+            'descripcion'=>'required|max:120',
             ],[
-            'idtipo_proceso.required' => 'Seleccione el tipo de proceso',
-            'descripcion.required' => 'Escriba el Nombre del Proceso',
+            'descripcion.required'=>'Ingresar el nombre del cargo',
         ]);
-        return DB::transaction(function() use ($request){
-            $obj        = SGCProceso_cero::withTrashed()->find($request->id);
+
+        return DB::transaction(function() use ($request){            
+            $obj = COMComisiones::withTrashed()->find($request->id);
 
             if(empty($obj)){
                 //REGISTRO EN TABLA
-                $obj = new SGCProceso_cero();
+                $obj = new COMComisiones();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
                 $obj->idtipo_accion = 1;
-                $obj->idtipo_proceso = $request->idtipo_proceso;
-                $obj->codigo = $request->codigo_hidde;
                 $obj->descripcion = $request->descripcion;
                 $obj->save();
 
                 //REGISTRO MOVIMIENTOS
-                $obj_mov = new MOVSGCMov_proceso_cero();
+                /*$obj_mov = new MOVSGCMov_entidad();
                 $obj_mov->idpersona_solicita = $request->idpersona_solicita;
                 $obj_mov->idtipo_accion = 1;
                 $obj_mov->idsgc = $obj->id;
-                $obj_mov->idtipo_proceso = $request->idtipo_proceso;
-                $obj_mov->codigo = $request->codigo_hidde;
+                $obj_mov->cant_integrantes = $request->cant_integrantes;
                 $obj_mov->descripcion = $request->descripcion;
-                $obj_mov->save();
+                $obj_mov->save();*/
             }else{
                 if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
                     $data = array(
@@ -119,17 +112,17 @@ class Proceso_ceroController extends Controller
                 $obj->idtipo_accion = 2;
                 $obj->idestado = 1;
                 $obj->save();
-
+                
                 //EDICIÓN EN MOVIMIENTO
-                $obj_mov = new MOVSGCMov_proceso_cero();
+                /*$obj_mov = new MOVSGCMov_entidad();
                 $obj_mov->idpersona_solicita = $request->idpersona_solicita;
                 $obj_mov->idtipo_accion = 2;
                 $obj_mov->idsgc = $obj->id;
-                $obj_mov->idtipo_proceso = $request->idtipo_proceso;
-                $obj_mov->codigo = $request->codigo_hidde;
+                $obj_mov->cant_integrantes = $request->cant_integrantes;
                 $obj_mov->descripcion = $request->descripcion;
-                $obj_mov->save();
+                $obj_mov->save();*/
             }
+
             return response()->json($obj);
         });
         
@@ -145,27 +138,26 @@ class Proceso_ceroController extends Controller
 
     public function aprobar(request $request){
         return DB::transaction(function () use($request){
-            $mov = MOVSGCMov_proceso_cero::where('idsgc', $request->id)->latest('created_at')->first();
+            $mov = MOVSGCMov_entidad::where('idsgc', $request->id)->latest('created_at')->first();
             $mov->idpersona_aprueba = auth()->user()->persona->id;
             $mov->idestado = 2;
             $mov->save();
-
-            $obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->first();
+    
+            $obj = COMCargo::withTrashed()->where("id",$request->id)->first();
             $obj->idestado = 2;
             $obj->idpersona_solicita = $mov->idpersona_solicita;
             $obj->idpersona_aprueba = auth()->user()->persona->id;
-            $obj->idtipo_proceso    = $mov->idtipo_proceso;
-            $obj->idtipo_accion = $mov->idtipo_accion;
             $obj->descripcion = $mov->descripcion;
-            $obj->codigo = $mov->codigo;
+            $obj->cant_integrantes = $mov->cant_integrantes;
             $obj->save();
             return response()->json($obj);
         });
     }
 
+
     public function destroy(Request $request){
 
-        $obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->first();
+        $obj = COMCargo::withTrashed()->where("id",$request->id)->first();
         /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
@@ -180,10 +172,17 @@ class Proceso_ceroController extends Controller
                 return response()->json($data);
             }
 
-            $obj->idpersona_solicita = auth()->user()->persona->dni;
+            $obj->idpersona_solicita = auth()->user()->persona->id;
             $obj->idtipo_accion = 3;
             $obj->idestado = 1;
             $obj->save();
+
+            //EDICIÓN EN MOVIMIENTO
+            $obj_mov = new MOVSGCMov_entidad();
+            $obj_mov->idpersona_solicita = auth()->user()->persona->dni;
+            $obj_mov->idtipo_accion = 3;
+            $obj_mov->idsgc = $obj->id;
+            $obj_mov->save();
             return response()->json($obj);
         }
 

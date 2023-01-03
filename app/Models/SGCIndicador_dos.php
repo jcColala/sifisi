@@ -6,32 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SGCProceso_cero extends Model
+class SGCIndicador_dos extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "sgc.proceso_cero";
+    protected $table        = "sgc.indicador_dos";
     protected $primaryKey   = "id";
 
     protected $fillable = [
         'idestado',
         'idpersona_solicita',
         'idpersona_aprueba',
-        'idtipo_proceso',
         'idtipo_accion',
-        'editable',
+        'idproceso_dos',
         'codigo',
         'descripcion',
         'deleted_at'
     ];
-
-    public function procesos_uno(){
-        return $this->hasMany(SGCProceso_uno::class, 'idproceso_cero');
-    }
-
-    public function tipo_proceso(){
-        return $this->belongsTo(SGCTipo_proceso::class, 'idtipo_proceso');
-    }
 
     public function persona_solicita(){
         return $this->belongsTo(Persona::class, 'idpersona_solicita');
@@ -47,6 +38,10 @@ class SGCProceso_cero extends Model
 
     public function tipo_accion(){
         return $this->belongsTo(SGCTipo_accion::class, 'idtipo_accion');
+    }
+
+    public function proceso_dos(){
+        return $this->belongsTo(SGCProceso_dos::class, 'idproceso_dos');
     }
 
     public function getTableName(){

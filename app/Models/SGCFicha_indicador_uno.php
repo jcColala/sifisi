@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SGCEntidad extends Model
+class SGCFicha_indicador_uno extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "sgc.entidad";
+    protected $table        = "sgc.ficha_indicador_uno";
     protected $primaryKey   = "id";
 
     protected $fillable = [
@@ -18,9 +18,17 @@ class SGCEntidad extends Model
         'idpersona_solicita',
         'idpersona_aprueba',
         'idtipo_accion',
+        'idindicador_uno',
+        'idresponsable',
+        'codigo',
         'descripcion',
-        'cant_integrantes',
-        'editable',
+        'version',
+        'fecha_aprobado',
+        'objetivo',
+        'descripcion_variables',
+        'forma_calculo',
+        'idperiodicidad',
+        'porcentaje',
         'deleted_at'
     ];
 
@@ -39,7 +47,11 @@ class SGCEntidad extends Model
     public function tipo_accion(){
         return $this->belongsTo(SGCTipo_accion::class, 'idtipo_accion');
     }
-    
+
+    public function indicador_uno(){
+        return $this->belongsTo(SGCIndicador_uno::class, 'idindicador_uno');
+    }
+
     public function getTableName(){
         return (explode(".", $this->table))[1];
     }

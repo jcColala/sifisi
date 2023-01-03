@@ -254,12 +254,33 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
-        $data->modulo           = "Indicadores";
-        $data->abreviatura      = "SGC_IND";
-        $data->url              = "indicador";
+        $data->modulo           = "Procesos Nivel 2";
+        $data->abreviatura      = "SGC_PR2";
+        $data->url              = "proceso_dos";
         $data->icono            = null;
         $data->orden            = 5;
         $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Indicadores Nivel 1";
+        $data->abreviatura      = "SGC_IND1";
+        $data->url              = "indicador";
+        $data->icono            = null;
+        $data->orden            = 6;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Indicadores Nivel 2";
+        $data->abreviatura      = "SGC_IND1";
+        $data->url              = "indicador";
+        $data->icono            = null;
+        $data->orden            = 6;
+        $data->save();
+
 
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
@@ -268,7 +289,7 @@ class DatabaseSeeder extends Seeder
         $data->abreviatura      = "SGC_DOC";
         $data->url              = "documentos";
         $data->icono            = null;
-        $data->orden            = 6;
+        $data->orden            = 7;
         $data->save();
 
         $data = new Modulo();
@@ -278,7 +299,7 @@ class DatabaseSeeder extends Seeder
         $data->abreviatura      = "SGC_RES";
         $data->url              = "resoluciones";
         $data->icono            = null;
-        $data->orden            = 7;
+        $data->orden            = 8;
         $data->save();
 
         //}
@@ -363,6 +384,28 @@ class DatabaseSeeder extends Seeder
         $data->funcion  = 'edit';
         $data->clase    = 'btn btn-outline-info';
         $data->icono    = 'fe fe-edit';
+        $data->orden    = 3;
+        $data->mostrar  = "S";
+        $data->boton    = "S";
+        $data->editable = true;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Aprobar';
+        $data->funcion  = 'aprobar';
+        $data->clase    = 'btn btn-outline-warning';
+        $data->icono    = 'fe fe-check';
+        $data->orden    = 3;
+        $data->mostrar  = "S";
+        $data->boton    = "S";
+        $data->editable = true;
+        $data->save();
+
+        $data = new Funcion();
+        $data->nombre   = 'Ver';
+        $data->funcion  = 'ver';
+        $data->clase    = 'btn btn-outline-secondary';
+        $data->icono    = 'fe fe-eye';
         $data->orden    = 3;
         $data->mostrar  = "S";
         $data->boton    = "S";
@@ -477,29 +520,37 @@ class DatabaseSeeder extends Seeder
 
         //ENTIDADES
         $data = new SGCEntidad();
+        $data->idestado = 2;
         $data->idpersona_solicita = '1';
+        $data->idpersona_aprueba = '1';
         $data->descripcion = 'Decano';
         $data->cant_integrantes = 1;
         $data->editable = false;
         $data->save();
 
         $data = new SGCEntidad();
+        $data->idestado = 2;
         $data->idpersona_solicita = '1';
-        $data->descripcion = 'Director de escuela';
+        $data->idpersona_aprueba = '1';
+        $data->descripcion = 'Decano Director de Escuela';
         $data->cant_integrantes = 1;
         $data->editable = false;
         $data->save();
 
         //TIPOS DE PROCESO
         $data = new SGCTipo_proceso();
+        $data->idestado = '2';
         $data->idpersona_solicita = '1';
+        $data->idpersona_aprueba = '1';
         $data->descripcion = 'Procesos Estratégicos';
         $data->codigo = 'PE';
         $data->editable = false;
         $data->save();
 
         $data = new SGCTipo_proceso();
+        $data->idestado = '2';
         $data->idpersona_solicita = '1';
+        $data->idpersona_aprueba = '1';
         $data->descripcion = 'Procesos Misionales';
         $data->codigo = 'PM';
         $data->editable = false;

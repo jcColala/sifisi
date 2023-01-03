@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
-use App\Models\SGCEntidad;
+use App\Models\COMCargo;
 use App\Models\MOVSGCMov_entidad;
 use App\Models\Funcion;
 use App\Models\SGCDocumento;
@@ -46,7 +46,7 @@ class DocumentoController extends Controller
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
         $datos["data"]              = [];
-        $datos["entidades"]         = SGCEntidad::get();
+        $datos["entidades"]         = COMCargo::get();
         $datos["tipo_documentos"]   = SGCTipo_documento::get();
         $datos["resoluciones"]      = SGCResolucion::get();
         if( $id != null )

@@ -11,31 +11,21 @@
 				</button>
 			</div>
 			<form id="form-{{$pathController}}" onsubmit="md_guardar(event,'btn-save')">
-				<input type="hidden" name="idpersona_solicita" value=" {{auth()->user()->persona->dni}}" id="idpersona_solicita_{{$prefix}}">
+				<input type="hidden" name="idpersona_solicita" value="{{auth()->user()->persona->id}}" id="idpersona_solicita_{{$prefix}}">
 				<div class="modal-body modal_body">
 					<input type="hidden" name="id" id="id_{{$prefix}}">
 					<div class="form-group form-row">
-						<div class="col-md-3">
-							<div class="wrap-input100 mrginput100 validate-input">
-								<input type="text" class="input100" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*" disabled>
-								<span class="focus-input100"></span>
-								<span class="symbol-input100">
-									<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
-								</span>
-								<span class="codigo_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+						<div class="col-md-6">
+   							<div class="select2-idindicador_uno_{{$prefix}} div-select2 input-group mt-10px">
+								<select class="form-control select2-show-search" id="idindicador_uno_{{$prefix}}" name="idindicador_uno" data-placeholder="Selecciona el que elaboró el proceso*" style="width:100%;" >
+									<option label="Selecciona el que elaboró el proceso"></option>
+									@foreach($indicadores as $value)
+		                            	<option value="{{$value->id}}">{{$value->codigo." - ".$value->descripcion}}</option>
+		                        	@endforeach
+								</select>
+								<span class="idindicador_uno_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 							</div>
-						</div>
-
-						<div class="col-md-7">
-							<div class="wrap-input100 mrginput100 validate-input">
-								<input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Nombre del Indicador*" disabled>
-								<span class="focus-input100"></span>
-								<span class="symbol-input100">
-									<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
-								</span>
-								<span class="descripcion_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-						</div>
+                        </div>
 
 						<div class="col-md-2">
 							<div class="wrap-input100 mrginput100 validate-input">
@@ -50,7 +40,6 @@
 
 						<div class="col-md-4">
    							<div class="select2-idresponsable_{{$prefix}} div-select2 input-group mt-10px">
-							    <span><b>RESPONSABLE:</b></span>
 								<select class="form-control select2-show-search" id="idresponsable_{{$prefix}}" name="idresponsable" data-placeholder="Selecciona el que elaboró el proceso*" style="width:100%;" >
 									<option label="Selecciona el que elaboró el proceso"></option>
 									@foreach($entidades as $value)
@@ -64,7 +53,7 @@
 						<div class="col-md-12">
 
 							<div class="wrap-input100 mrginput100 validate-input">
-								<textarea class="input100" id="objetivo_{{$prefix}}" name="objetivo" placeholder="Describe el Objetivo del Indicador*" cols="30" rows="5"></textarea>
+								<textarea class="input100" id="objetivo_{{$prefix}}" name="objetivo" placeholder="Colocar la finalidad de contar con el indicador definido. Empieza con un verbo en infinitivo, debe ser claro y concreto.*" cols="30" rows="5"></textarea>
 								<span class="focus-input100"></span>
 								<span class="symbol-input100">
 									<i class="fa fa-align-justify" aria-hidden="true"></i>
@@ -75,7 +64,7 @@
 
 						<div class="col-md-12">
 							<div class="wrap-input100 mrginput100 validate-input">
-								<textarea name="variables" class="input100" id="variables_{{$prefix}}" name="variables" placeholder="Describe el variables del Indicador*" cols="30" rows="5"></textarea>
+								<textarea name="variables" class="input100" id="variables_{{$prefix}}" name="variables" placeholder="Indicar cada una de las variables utilizadas para el calculo del indicador.*" cols="30" rows="5"></textarea>
 								<span class="focus-input100"></span>
 								<span class="symbol-input100">
 									<i class="fa fa-align-justify" aria-hidden="true"></i>
@@ -86,7 +75,7 @@
 
 						<div class="col-md-12">
 							<div class="wrap-input100 mrginput100 validate-input">
-								<textarea name="calculo" class="input100" id="calculo_{{$prefix}}" name="calculo" placeholder="Describe el calculo del Indicador*" cols="30" rows="5"></textarea>
+								<textarea name="calculo" class="input100" id="calculo_{{$prefix}}" name="calculo" placeholder="Colocar la fórmula utilizada para obtener el resultado del  indicador, incluyendo la unidad de medición.*" cols="30" rows="5"></textarea>
 								<span class="focus-input100"></span>
 								<span class="symbol-input100">
 									<i class="fa fa-align-justify" aria-hidden="true"></i>
@@ -99,11 +88,11 @@
 						<div class="col-md-4">
 							<div class="wrap-input100 mrginput100 validate-input">
 									<span><b>FECHA DE APROBACIÓN:</b></span>
-                                    <input type="date" class="input100" id="fecha_aprobacion_{{$prefix}}" name="fecha_aprobacion" placeholder="Fecha de Aprobación*">
+                                    <input type="date" class="input100" id="fecha_aprobado_{{$prefix}}" name="fecha_aprobado" placeholder="Fecha de Aprobación*">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                     </span>
-                                    <span class="fecha_aprobacion_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+                                    <span class="fecha_aprobado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
                         </div>
 
@@ -140,13 +129,13 @@
 						</div>
 
 						<div class="col-md-12 documentos" id="documentos" >
-							@foreach($informacion as $value)
+							<!--foreach($informacion as $value)
 							<div class="fila-documento row">
 							<div class="col-md-10">
 								<div class="wrap-input100 mrginput100 validate-input">
-									<input type="hidden" name="iddocumento[]" value="{{$value->iddocumento}}">
+									<input type="hidden" name="iddocumento[]" value="{{-- $value->iddocumento --}}">
 									<input type="text" class="input100" id="descripcion_documentos_{{$prefix}}" name="descripcion_documentos" placeholder="Nombre del Documento*" 
-									value="{{$value->documento->descripcion}}"
+									value="{{-- $value->documento->descripcion --}}"
 									disabled>
 									<span class="focus-input100"></span>
 									<span class="symbol-input100">
@@ -162,47 +151,8 @@
 								</div>
 							</div>
 							</div>
-							@endforeach
+							endforeach-->
 						</div>
-
-						<div class="col-md-4">
-   							<div class="select2-idelaborado_{{$prefix}} div-select2 input-group mt-10px">
-							    <span><b>ELABORADO POR:</b></span>
-								<select class="form-control select2-show-search" id="idelaborado_{{$prefix}}" name="idelaborado" data-placeholder="Selecciona el que elaboró el proceso*" style="width:100%;" >
-									<option label="Selecciona el que elaboró el proceso"></option>
-									@foreach($entidades as $value)
-		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
-		                        	@endforeach
-								</select>
-								<span class="idelaborado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-                        </div>
-
-						<div class="col-md-4">
-   							<div class="select2-idrevisado_{{$prefix}} div-select2 input-group mt-10px">
-								<span><b>REVISADO POR:</b></span>
-								<select class="form-control select2-show-search" id="idrevisado_{{$prefix}}" name="idrevisado" data-placeholder="Selecciona el que revisó el proceso*" style="width:100%;" >
-									<option label="Selecciona el que revisó el proceso"></option>
-									@foreach($entidades as $value)
-		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
-		                        	@endforeach
-								</select>
-								<span class="idrevisado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-                        </div>
-
-						<div class="col-md-4">
-   							<div class="select2-idaprobado_{{$prefix}} div-select2 input-group mt-10px">
-							   <span><b>APROBADO POR:</b></span>
-								<select class="form-control select2-show-search" id="idaprobado_{{$prefix}}" name="idaprobado" data-placeholder="Selecciona el que aprobó el proceso*" style="width:100%;" >
-									<option label="Selecciona el que aprobó el proceso"></option>
-									@foreach($entidades as $value)
-		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
-		                        	@endforeach
-								</select>
-								<span class="idaprobado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-                        </div>
 					</div>
 				</div>
 				<div class="modal-footer border-0">
@@ -224,11 +174,11 @@
 
 	});
 
-	 $('#documentos').on('click', '#del-documentos', function(){
+	$('#documentos').on('click', '#del-documentos', function(){
 		$(this).parent().parent().parent().remove();
-	 });
+	});
 
-	 $(".select2").select2();
+	$(".select2").select2();
 	});
 </script>
 <script src='{{asset("js/form/$pathController/script.js")}}'></script>

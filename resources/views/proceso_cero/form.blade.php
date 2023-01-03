@@ -39,7 +39,7 @@
 							</div>
 						</div>
 
-						<div class="col-md-8">
+						<div class="col-md-12">
 							<div class="wrap-input100 mrginput100 validate-input">
 								<input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Nombre del Proceso*">
 								<span class="focus-input100"></span>
@@ -49,80 +49,6 @@
 								<span class="descripcion_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 							</div>
 						</div>
-
-						<div class="col-md-4">
-							<div class="select2-idresponsable_{{$prefix}} div-select2 input-group mt-10px">
-								<select class="form-control select2-show-search" id="idresponsable_{{$prefix}}" name="idresponsable" data-placeholder="Responsable del Proceso*" style="width:100%;">
-									<option label="Selecciona el responsable"></option>
-									@foreach($entidades as $value)
-									<option value="{{$value->id}}">{{$value->descripcion}}</option>
-									@endforeach
-								</select>
-								<span class="idresponsable_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-						</div>
-
-						<div class="col-md-12">
-
-							<div class="wrap-input100 mrginput100 validate-input">
-								<textarea class="input100" id="objetivo_{{$prefix}}" name="objetivo" placeholder="Describe el Objetivo del Proceso*" cols="30" rows="5"></textarea>
-								<span class="focus-input100"></span>
-								<span class="symbol-input100">
-									<i class="fa fa-align-justify" aria-hidden="true"></i>
-								</span>
-								<span class="objetivo_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-						</div>
-
-						<div class="col-md-12">
-							<div class="wrap-input100 mrginput100 validate-input">
-								<textarea name="alcance" class="input100" id="alcance_{{$prefix}}" name="alcance" placeholder="Describe el Alcance del Proceso*" cols="30" rows="5"></textarea>
-								<span class="focus-input100"></span>
-								<span class="symbol-input100">
-									<i class="fa fa-align-justify" aria-hidden="true"></i>
-								</span>
-								<span class="alcance_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-						</div>
-
-						<div class="col-md-4">
-   							<div class="select2-idelaborado_{{$prefix}} div-select2 input-group mt-10px">
-							    <span><b>ELABORADO POR:</b></span>
-								<select class="form-control select2-show-search" id="idelaborado_{{$prefix}}" name="idelaborado" data-placeholder="Selecciona el que elaboró el proceso*" style="width:100%;" >
-									<option label="Selecciona el que elaboró el proceso"></option>
-									@foreach($entidades as $value)
-		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
-		                        	@endforeach
-								</select>
-								<span class="idelaborado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-                        </div>
-
-						<div class="col-md-4">
-   							<div class="select2-idrevisado_{{$prefix}} div-select2 input-group mt-10px">
-								<span><b>REVISADO POR:</b></span>
-								<select class="form-control select2-show-search" id="idrevisado_{{$prefix}}" name="idrevisado" data-placeholder="Selecciona el que revisó el proceso*" style="width:100%;" >
-									<option label="Selecciona el que revisó el proceso"></option>
-									@foreach($entidades as $value)
-		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
-		                        	@endforeach
-								</select>
-								<span class="idrevisado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-                        </div>
-
-						<div class="col-md-4">
-   							<div class="select2-idaprobado_{{$prefix}} div-select2 input-group mt-10px">
-							   <span><b>APROBADO POR:</b></span>
-								<select class="form-control select2-show-search" id="idaprobado_{{$prefix}}" name="idaprobado" data-placeholder="Selecciona el que aprobó el proceso*" style="width:100%;" >
-									<option label="Selecciona el que aprobó el proceso"></option>
-									@foreach($entidades as $value)
-		                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
-		                        	@endforeach
-								</select>
-								<span class="idaprobado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-                        </div>
 					</div>
 				</div>
 				<div class="modal-footer border-0">
@@ -135,17 +61,28 @@
 </div>
 <script type="text/javascript">
 	data_form = @json($data);
+	$('#idtipo_proceso_').val(data_form.idtipo_proceso);
+	$('#codigo_').val(data_form.codigo);
+	$('#codigo_hidde_').val(data_form.codigo);
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
+
 		$('#idtipo_proceso_').change(function(e) {
 			let tipo_proceso = @json($tipo_proceso);
+			let data = @json($data);
 			tipo_proceso.map((e) => {
 				if (e.id == $(this).val()) {
 					let codigo = e.codigo;
 					let numero = parseInt(e.procesos_cero.length+1);
-					$('#codigo_').val(codigo+'.0'+numero);
-					$('#codigo_hidde_').val(codigo+'.0'+numero);
+					if(e.id != data.idtipo_proceso){
+						$('#codigo_').val(codigo+'.0'+numero);
+						$('#codigo_hidde_').val(codigo+'.0'+numero);
+					}else{
+						$('#codigo_').val(data.codigo);
+						$('#codigo_hidde_').val(data.codigo);
+					}
+					
 				}
 			});
 		});

@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\SGCIndicador as ModelsSGCIndicador;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SGCIndicador_informacion extends Model
+class SGCIndicador_uno extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "sgc.indicador_informacion";
+    protected $table        = "sgc.indicador_uno";
     protected $primaryKey   = "id";
 
     protected $fillable = [
@@ -19,10 +18,15 @@ class SGCIndicador_informacion extends Model
         'idpersona_solicita',
         'idpersona_aprueba',
         'idtipo_accion',
-        'idindicador',
-        'iddocumento',
+        'idproceso_uno',
+        'codigo',
+        'descripcion',
         'deleted_at'
     ];
+
+    public function indicadores_uno(){
+        return $this->hasMany(SGCFicha_indicador_uno::class, 'idindicador_uno');
+    }
 
     public function persona_solicita(){
         return $this->belongsTo(Persona::class, 'idpersona_solicita');
@@ -40,14 +44,9 @@ class SGCIndicador_informacion extends Model
         return $this->belongsTo(SGCTipo_accion::class, 'idtipo_accion');
     }
 
-    public function indicador(){
-        return $this->belongsTo(SGCIndicador::class, 'idindicador');
+    public function proceso_uno(){
+        return $this->belongsTo(SGCProceso_uno::class, 'idproceso_uno');
     }
-
-    public function documento(){
-        return $this->belongsTo(SGCDocumento::class, 'iddocumento');
-    }
-
 
     public function getTableName(){
         return (explode(".", $this->table))[1];

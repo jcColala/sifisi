@@ -15,25 +15,28 @@ class SGCProceso_uno extends Model
 
     protected $fillable = [
         'idestado',
+        'idtipo_accion',
         'idpersona_solicita',
         'idpersona_aprueba',
         'idproceso_cero',
-        'idelaborado',
-        'idrevisado',
-        'idaprobado',
-        'idtipo_accion',
-        'editable',
-        'codigo',
-        'descripcion',
+        'idresponsable',
         'version',
         'fecha_aprobado',
-        'proveedores',
-        'entradas',
-        'salidas',
-        'clientes',
+        'codigo',
+        'descripcion',
+        'objetivo',
+        'alcance',
         'diagrama',
+        'editable',
         'deleted_at'
     ];
+    public function procesos_dos(){
+        return $this->hasMany(SGCProceso_dos::class, 'idproceso_uno');
+    }
+
+    public function indicadores(){
+        return $this->hasMany(SGCIndicador_uno::class, 'idproceso_uno');
+    }
 
     public function persona_solicita(){
         return $this->belongsTo(Persona::class, 'idpersona_solicita');

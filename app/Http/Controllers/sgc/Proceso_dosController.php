@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
 
-use App\Models\MOVSGCMov_proceso_uno;
+
 use App\Models\SGCEntidad;
-use App\Models\SGCProceso_cero;
 use App\Models\SGCProceso_uno;
-use App\Models\SGCTipo_proceso;
-use App\Models\SGCIndicador_uno;
-use App\Models\MOVSGCMov_indicador;
+use App\Models\SGCProceso_dos;
+use App\Models\SGCIndicador_dos;
+use App\Models\SGCActividades_proceso_dos;
+
+
 
 use App\Models\Funcion;
 use Illuminate\Http\Request;
@@ -18,10 +19,10 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class Proceso_unoController extends Controller
+class Proceso_dosController extends Controller
 {
-    public $modulo                  = "Procesos de Nivel 1";
-    public $path_controller         = "proceso_uno";
+    public $modulo                  = "Procesos de Nivel 2";
+    public $path_controller         = "proceso_dos";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -34,7 +35,7 @@ class Proceso_unoController extends Controller
             $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
         }
 
-        $this->model                = new SGCProceso_uno();
+        $this->model                = new SGCProceso_dos();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
 
@@ -45,16 +46,18 @@ class Proceso_unoController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
-        $datos["proceso_cero"]      = SGCProceso_cero::where('idestado', 2)->with('procesos_uno')->get();
+        $datos["proceso_uno"]      = SGCProceso_uno::where('idestado', 2)->with('procesos_dos')->get();
         $datos["entidades"]         = SGCEntidad::get();
-        $datos["tipo_proceso"]      = SGCTipo_proceso::get();
         $datos["data"]              = [];
         $datos["indicadores"]       = [];
+        $datos["actividades"]       = [];
 
         if( $id != null )
-            $datos["data"]          = SGCProceso_uno::withTrashed()->find($id);   
+            $datos["data"]          = SGCProceso_dos::withTrashed()->find($id);   
         if($id != null)
-            $datos["indicadores"]   = SGCIndicador_uno::where('idproceso_uno', $id)->get();     
+            $datos["indicadores"]   = SGCIndicador_dos::where('idproceso_dos', $id)->get();   
+        if($id != null)
+            $datos["actividades"]   = SGCActividades_proceso_dos::where('idproceso_dos', $id)->get();  
         return $datos;
     }
 
@@ -64,7 +67,7 @@ class Proceso_unoController extends Controller
 
     public function grilla(){
         //withTrashed
-        $objeto = SGCProceso_uno::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'ASC')->get();
+        $objeto = SGCProceso_dos::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'ASC')->get();
 
         return DataTables::of($objeto)
                 ->addIndexColumn()
@@ -86,24 +89,27 @@ class Proceso_unoController extends Controller
         $this->validate($request,[
             'version'=>'required',
             'fecha_aprobado'=>'required',
-            'idproceso_cero'=>'required',
+            'idproceso_uno'=>'required',
             'descripcion' => 'required',
             'idresponsable' => 'required',
             'objetivo'=>'required',
             'alcance'=>'required',
-            'codigo_indicador'=>'required',
-            'descripcion_indicador'=>'required',
-
+            'proveedores'=>'required',
+            'entradas'=>'required',
+            'salidas'=>'required',
+            'clientes'=>'required',
             ],[
             'version.required' => 'Escriba la versión del documento',
             'fecha_aprobado.required' => 'Seleccione la fecha en la que se aprobó el documento',
-            'idproceso_cero.required' => 'Seleccione el Proceso Nivel Cero al que pertenece este Proceso Nivel 1',
+            'idproceso_uno.required' => 'Seleccione el Proceso Nivel Cero al que pertenece este Proceso Nivel 1',
             'descripcion.required' => 'Escriba el Nombre del Proceso',
             'idresponsable' => 'Debes seleecionar el puesto que es responsable del proceso',
-            'objetivo.required' => 'Escriba las salidas del Proceso',
-            'alcance.required' => 'Escriba los clientes del Proceso',
-            'codigo_indicador.required' => 'Escriba los clientes del Proceso',
-            'descripcion_indicador.required' => 'Escriba los clientes del Proceso',
+            'objetivo.required' => 'Escriba los objetivos del Proceso',
+            'alcance.required' => 'Escriba el alcance del Proceso',
+            'proveedores.required' => 'Escriba los proveedores del Proceso',
+            'entradas.required' => 'Escriba las entradas del Proceso',
+            'salidas.required' => 'Escriba las salidas del Proceso',
+            'clientes.required' => 'Escriba los clientes del Proceso',
         ]);
 
         return DB::transaction(function() use ($request){
@@ -116,32 +122,42 @@ class Proceso_unoController extends Controller
             $obj_mov->save();*/
 
             //LLENADO - EDICIÓN EN LA TABLA SGC
-            $obj        = SGCProceso_uno::withTrashed()->find($request->id);
+            $obj        = SGCProceso_dos::withTrashed()->find($request->id);
             if(empty($obj))
             {
-                $obj    = new SGCProceso_uno();
+                /**REGISTRAR PROCESO DE NIVEL 2 */
+                $obj    = new SGCProceso_dos();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
                 $obj->version = $request->version;
                 $obj->fecha_aprobado = $request->fecha_aprobado;
-                $obj->idproceso_cero = $request->idproceso_cero;
+                $obj->idproceso_uno = $request->idproceso_uno;
                 $obj->codigo = $request->codigo_hidde;
                 $obj->descripcion = $request->descripcion;
                 $obj->idresponsable = $request->idresponsable;
                 $obj->objetivo  = $request->objetivo;
                 $obj->alcance = $request->alcance;
+                $obj->proveedores = $request->proveedores;
+                $obj->entradas = $request->entradas;
+                $obj->salidas = $request->salidas;
+                $obj->clientes = $request->clientes;
                 $obj->save();
             }else{
+                /**EDITAR PROCESO DE NIVEL 2 */
                 $obj->idestado = 1;
                 $obj->idtipo_accion = 2;
                 $obj->idpersona_solicita = $request->idpersona_solicita;
                 $obj->version = $request->version;
                 $obj->fecha_aprobado = $request->fecha_aprobado;
-                $obj->idproceso_cero = $request->idproceso_cero;
+                $obj->idproceso_uno = $request->idproceso_uno;
                 $obj->codigo = $request->codigo_hidde;
                 $obj->descripcion = $request->descripcion;
                 $obj->idresponsable = $request->idresponsable;
                 $obj->objetivo  = $request->objetivo;
                 $obj->alcance = $request->alcance;
+                $obj->proveedores = $request->proveedores;
+                $obj->entradas = $request->entradas;
+                $obj->salidas = $request->salidas;
+                $obj->clientes = $request->clientes;
                 $obj->save();
             }
                 
@@ -160,15 +176,29 @@ class Proceso_unoController extends Controller
                 $indicador_mov->save();
             }*/
 
-            //sgc
+            //REGISTRAR INDICADORES NIVEL 2
+            for ($i=0; $i < count($request->descripcion_actividad); $i++){ 
+                $actividad  = SGCActividades_proceso_dos::where('id',$request->id_actividad[$i])->first();
+                
+                if(is_null($actividad))
+                    $actividad = new SGCActividades_proceso_dos();
+                $actividad->idproceso_dos = $obj->id;
+                $actividad->idpersona_solicita = $request->idpersona_solicita;
+                $actividad->descripcion = $request->descripcion_actividad[$i];
+                $actividad->idresponsable = $request->idresponsable_actividad[$i];
+                $actividad->registro = $request->registro[$i];
+                $actividad->correlativo = 1;
+                $actividad->save();
+            }
+
+            //REGISTRAR INDICADORES NIVEL 2
             for ($i=0; $i < count($request->codigo_indicador); $i++){ 
-                $indicador  = SGCIndicador_uno::where('codigo',$request->codigo_indicador[$i])->first();
+                $indicador  = SGCIndicador_dos::where('codigo',$request->codigo_indicador[$i])->first();
                 
                 if(is_null($indicador))
-                    $indicador = new SGCIndicador_uno();
-                $indicador->idproceso_uno = $obj->id;
+                    $indicador = new SGCIndicador_dos();
+                $indicador->idproceso_dos = $obj->id;
                 $indicador->idpersona_solicita = $request->idpersona_solicita;
-                $indicador->version_proceso_uno = $request->version;
                 $indicador->codigo = $request->codigo_indicador[$i];
                 $indicador->descripcion = $request->descripcion_indicador[$i];
                 $indicador->save();
@@ -187,7 +217,7 @@ class Proceso_unoController extends Controller
     }
 
     public function aprobar(request $request){
-        $obj = SGCProceso_uno::withTrashed()->where("id",$request->id)->first();
+        $obj = SGCProceso_dos::withTrashed()->where("id",$request->id)->first();
         $obj->idpersona_aprueba = auth()->user()->persona->id;
             $obj->idestado = 2;
             $obj->save();
@@ -196,15 +226,15 @@ class Proceso_unoController extends Controller
 
     public function destroy(Request $request){
 
-        $obj = SGCProceso_uno::withTrashed()->where("id",$request->id)->first();
+        $obj = SGCProceso_dos::withTrashed()->where("id",$request->id)->first();
         /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel 1 ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/
         if ($request->accion == "eliminar") {
-            SGCProceso_uno::find($request->id)->delete();
+            SGCProceso_dos::find($request->id)->delete();
             return response()->json();
         }
-        SGCProceso_uno::withTrashed()->find($request->id)->restore();
+        SGCProceso_dos::withTrashed()->find($request->id)->restore();
         return response()->json();        
     }
 }

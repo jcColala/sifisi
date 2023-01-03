@@ -28,13 +28,13 @@
                         </div>
 						<div class="col-md-4">
 							<div class="wrap-input100 mrginput100 validate-input">
-                                    <input type="text" class="input100" id="cant_integrantes_{{$prefix}}" name="cant_integrantes" placeholder="Cantidad Integrantes*"
+                                    <input type="text" class="input100" id="idpersona_responsable_{{$prefix}}" name="idpersona_responsable" placeholder="Cantidad Integrantes*"
 									disabled>
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
                                     </span>
-                                    <span class="cant_integrantes_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+                                    <span class="idpersona_responsable_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
                             </div>
                         </div>
 

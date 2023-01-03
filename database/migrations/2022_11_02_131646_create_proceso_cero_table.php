@@ -27,18 +27,6 @@ class CreateProcesoceroTable extends Migration
             $table->unsignedBigInteger('idtipo_proceso');
             $table->foreign('idtipo_proceso')->references('id')->on('sgc.tipo_proceso');
 
-            $table->unsignedBigInteger('idresponsable');
-            $table->foreign('idresponsable')->references('id')->on('sgc.entidad');
-
-            $table->unsignedBigInteger('idelaborado');
-            $table->foreign('idelaborado')->references('id')->on('sgc.entidad');
-
-            $table->unsignedBigInteger('idrevisado');
-            $table->foreign('idrevisado')->references('id')->on('sgc.entidad');
-
-            $table->unsignedBigInteger('idaprobado');
-            $table->foreign('idaprobado')->references('id')->on('sgc.entidad');
-
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
             
@@ -46,8 +34,6 @@ class CreateProcesoceroTable extends Migration
             
             $table->string('codigo', 20);
             $table->text('descripcion');
-            $table->text('objetivo');
-            $table->text('alcance');
             $table->softDeletes();
             $table->timestamps();
 

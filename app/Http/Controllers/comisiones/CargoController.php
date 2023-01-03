@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\sgc;
+namespace App\Http\Controllers\comisiones;
 use App\Http\Controllers\Controller;
-use App\Models\SGCEntidad;
+use App\Models\COMCargo;
 use App\Models\MOVSGCMov_entidad;
 use App\Models\Funcion;
-
+use App\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class EntidadController extends Controller
+class CargoController extends Controller
 {
-    public $modulo                  = "Entidades";
-    public $path_controller         = "entidad";
+    public $modulo                  = "Cargos";
+    public $path_controller         = "cargo";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -30,7 +30,7 @@ class EntidadController extends Controller
             $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
         }
 
-        $this->model                = new SGCEntidad();
+        $this->model                = new COMCargo();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
 
@@ -42,8 +42,9 @@ class EntidadController extends Controller
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
         $datos["data"]              = [];
+        $datos["responsables"]           = Persona::withTrashed()->get();
         if( $id != null )
-            $datos["data"]          = SGCEntidad::withTrashed()->find($id);
+            $datos["data"]          = COMCargo::withTrashed()->find($id);
 
         return $datos;
     }
@@ -55,7 +56,7 @@ class EntidadController extends Controller
 
     public function grilla(){
 
-        $objeto = SGCEntidad::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->withTrashed();
+        $objeto = COMCargo::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->with('responsable')->withTrashed();
         
         return DataTables::of($objeto)
                 ->addIndexColumn()
@@ -76,33 +77,32 @@ class EntidadController extends Controller
     public function store(Request $request){
         $this->validate($request,[
             'descripcion'=>'required|max:120',
-            'cant_integrantes' => 'required|integer',
+            'idpersona_responsable' => 'required|integer',
             ],[
-            'descripcion.required'=>'Ingresar el nombre de la entidad',
-            'cant_integrantes.required' => 'Ingresar la cantidad de integrantes de la entidad',
-            'cant_integrantes.integer' => 'La cantidad de integrantes debe ser un número entero'
+            'descripcion.required'=>'Ingresar el nombre del cargo',
+            'idpersona_responsable.required' => 'Debe elegir un usuario responsable del cargo',
         ]);
 
         return DB::transaction(function() use ($request){            
-            $obj = SGCEntidad::withTrashed()->find($request->id);
+            $obj = COMCargo::withTrashed()->find($request->id);
 
             if(empty($obj)){
                 //REGISTRO EN TABLA
-                $obj = new SGCEntidad();
+                $obj = new COMCargo();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
                 $obj->idtipo_accion = 1;
-                $obj->cant_integrantes = $request->cant_integrantes;
+                $obj->idpersona_responsable = $request->idpersona_responsable;
                 $obj->descripcion = $request->descripcion;
                 $obj->save();
 
                 //REGISTRO MOVIMIENTOS
-                $obj_mov = new MOVSGCMov_entidad();
+                /*$obj_mov = new MOVSGCMov_entidad();
                 $obj_mov->idpersona_solicita = $request->idpersona_solicita;
                 $obj_mov->idtipo_accion = 1;
                 $obj_mov->idsgc = $obj->id;
                 $obj_mov->cant_integrantes = $request->cant_integrantes;
                 $obj_mov->descripcion = $request->descripcion;
-                $obj_mov->save();
+                $obj_mov->save();*/
             }else{
                 if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
                     $data = array(
@@ -118,13 +118,13 @@ class EntidadController extends Controller
                 $obj->save();
                 
                 //EDICIÓN EN MOVIMIENTO
-                $obj_mov = new MOVSGCMov_entidad();
+                /*$obj_mov = new MOVSGCMov_entidad();
                 $obj_mov->idpersona_solicita = $request->idpersona_solicita;
                 $obj_mov->idtipo_accion = 2;
                 $obj_mov->idsgc = $obj->id;
                 $obj_mov->cant_integrantes = $request->cant_integrantes;
                 $obj_mov->descripcion = $request->descripcion;
-                $obj_mov->save();
+                $obj_mov->save();*/
             }
 
             return response()->json($obj);
@@ -147,7 +147,7 @@ class EntidadController extends Controller
             $mov->idestado = 2;
             $mov->save();
     
-            $obj = SGCEntidad::withTrashed()->where("id",$request->id)->first();
+            $obj = COMCargo::withTrashed()->where("id",$request->id)->first();
             $obj->idestado = 2;
             $obj->idpersona_solicita = $mov->idpersona_solicita;
             $obj->idpersona_aprueba = auth()->user()->persona->id;
@@ -161,7 +161,7 @@ class EntidadController extends Controller
 
     public function destroy(Request $request){
 
-        $obj = SGCEntidad::withTrashed()->where("id",$request->id)->first();
+        $obj = COMCargo::withTrashed()->where("id",$request->id)->first();
         /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/

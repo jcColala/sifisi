@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIndicadorInformacion extends Migration
+class CreateIntegranteComision extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateIndicadorInformacion extends Migration
      */
     public function up()
     {
-        Schema::create('sgc.indicador_informacion', function (Blueprint $table) {
+        Schema::create('comisiones.integrante_comision', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idestado')->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
@@ -24,20 +24,16 @@ class CreateIndicadorInformacion extends Migration
             $table->unsignedInteger('idpersona_aprueba')->nullable();
             $table->foreign('idpersona_aprueba')->references('id')->on('general.persona');
 
+            $table->unsignedBigInteger('idpersona');
+            $table->foreign('idpersona')->references('id')->on('general.persona');
 
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
 
-            $table->unsignedBigInteger('idindicador');
-            $table->foreign('idindicador')->references('id')->on('sgc.indicador');
-
-            $table->unsignedBigInteger('iddocumento');
-            $table->foreign('iddocumento')->references('id')->on('sgc.documentos');
-
+            $table->boolean('presidente')->default(false);
             $table->boolean('editable')->default(true);
-
-            $table->timestamps();
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -48,6 +44,6 @@ class CreateIndicadorInformacion extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sgc.indicador_informacion');
+        Schema::dropIfExists('comisiones.integrante_comision');
     }
 }
