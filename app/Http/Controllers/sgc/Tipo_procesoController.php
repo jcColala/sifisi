@@ -144,6 +144,7 @@ class Tipo_procesoController extends Controller
         return DB::transaction(function () use($request){
             //EXTRAE EL REGISTRO DEL MOVIMIENTO
             $mov = MOVSGCMov_tipo_proceso::where('idsgc', $request->id)->latest('created_at')->first();
+            
             $mov->idpersona_aprueba = auth()->user()->persona->id;
             $mov->idestado = 2;
             $mov->save();
@@ -196,6 +197,16 @@ class Tipo_procesoController extends Controller
             $obj->idtipo_accion = 3;
             $obj->idestado = 1;
             $obj->save();
+
+            //MOVIMIENTO
+            $mov = new MOVSGCMov_tipo_proceso();
+            $mov->idpersona_solicita = auth()->user()->persona->id;
+            $mov->idtipo_accion = 3;
+            $mov->idestado = 1;
+            $mov->idsgc = $obj->id;
+            $mov->codigo = $obj->codigo;
+            $mov->descripcion = $obj->descripcion;
+            $mov->save();
             return response()->json($obj);   
 
         }
@@ -212,6 +223,16 @@ class Tipo_procesoController extends Controller
         $obj->idtipo_accion = 4;
         $obj->idestado = 1;
         $obj->save();
+
+        //MOVIMIENTO
+        $mov = new MOVSGCMov_tipo_proceso();
+        $mov->idpersona_solicita = auth()->user()->persona->id;
+        $mov->idtipo_accion = 4;
+        $mov->idestado = 1;
+        $mov->idsgc = $obj->id;
+        $mov->codigo = $obj->codigo;
+        $mov->descripcion = $obj->descripcion;
+        $mov->save();
         return response()->json($obj);   
     }
 }
