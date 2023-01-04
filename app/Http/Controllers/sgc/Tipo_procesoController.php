@@ -148,6 +148,14 @@ class Tipo_procesoController extends Controller
             $mov->idestado = 2;
             $mov->save();
             
+            //ELIMINAR EN MOVIMIENTO
+            if($mov->idtipo_accion == 3)
+                $mov->delete();
+
+            //ELIMINAR EN MOVIMIENTO
+            if($mov->idtipo_accion == 4)
+                $mov->restore();
+            
             //APRUEBA EN LA TABLA
             $obj = SGCTipo_proceso::withTrashed()->where("id",$request->id)->first();
             $obj->idestado = 2;
@@ -156,6 +164,14 @@ class Tipo_procesoController extends Controller
             $obj->descripcion = $mov->descripcion;
             $obj->codigo = $mov->codigo;
             $obj->save();
+            
+            //ELIMINAR EN LA TABLA
+            if($obj->idtipo_accion == 3)
+                $obj->delete();
+
+            //RESTAURAR EN LA TABLA
+            if($obj->idtipo_accion == 4)
+                $obj->restore();
             return response()->json($obj);
         });
     }
