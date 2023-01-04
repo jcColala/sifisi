@@ -17,8 +17,8 @@
    					<div class="form-group form-row">
 						<div class="col-md-6">
 							<div class="wrap-input100 mrginput100 validate-input">
-                                    <input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Nombre Tipo Proceso*">
-                                    <span class="focus-input100"></span>
+                                    <input type="text" class="input100 mrginput100 validate-input" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Nombre del Tipo Proceso*">
+                                    <span class="focus-input100">Nombre del Tipo de Proceso*</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
                                     </span>
@@ -27,8 +27,8 @@
                         </div>
 						<div class="col-md-6">
 							<div class="wrap-input100 mrginput100 validate-input">
-                                    <input type="text" class="input100" id="codigo_{{$prefix}}" name="codigo" placeholder="CÓDIGO*">
-                                    <span class="focus-input100"></span>
+                                    <input type="text" class="input100 mrginput100 validate-input" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*">
+                                    <span class="focus-input100">Código*</span>
                                     <span class="symbol-input100">
                                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
                                     </span>

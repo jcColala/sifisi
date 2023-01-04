@@ -4,7 +4,7 @@ namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
 
 
-use App\Models\COMCargo;
+use App\Models\COMComisiones;
 use App\Models\SGCProceso_uno;
 use App\Models\SGCProceso_dos;
 use App\Models\SGCIndicador_dos;
@@ -48,7 +48,7 @@ class Proceso_dosController extends Controller
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
         $datos["proceso_uno"]      = SGCProceso_uno::where('idestado', 2)->with('procesos_dos')->get();
-        $datos["entidades"]         = COMCargo::get();
+        $datos["entidades"]         = COMComisiones::get();
         $datos["data"]              = [];
         $datos["indicadores"]       = [];
         $datos["actividades"]       = [];

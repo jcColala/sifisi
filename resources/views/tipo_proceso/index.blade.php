@@ -24,10 +24,10 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="30%">Tipo de Proceso</th>
-								<th width="20%">Código</th>
-								<th width="05%">Accion</th>
-								<th width="05%">Estado</th>
+								<th width="40%">Tipo de Proceso</th>
+								<th width="30%">Código</th>
+								<th width="20%">Estado</th>
+								<th width="05%">Activo</th>
 							</tr>
 						</thead>
 						<tbody>

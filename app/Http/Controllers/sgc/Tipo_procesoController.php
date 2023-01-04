@@ -60,8 +60,12 @@ class Tipo_procesoController extends Controller
                 })
                 ->addColumn("activo", function($row){
                     return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
+                })->addColumn('estado', function($objeto){
+                    return $objeto->tipo_accion->descripcion." ".$objeto->estado->descripcion;
                 })
-                ->rawColumns(['icono', "activo"])
+                ->rawColumns(
+                    ['icono', "activo", "estado"]
+                    )
                 ->make(true);
     }
 
@@ -172,7 +176,7 @@ class Tipo_procesoController extends Controller
                 return response()->json($data);
             }
 
-            $obj->idpersona_solicita = auth()->user()->persona->dni;
+            $obj->idpersona_solicita = auth()->user()->persona->id;
             $obj->idtipo_accion = 3;
             $obj->idestado = 1;
             $obj->save();
@@ -188,7 +192,7 @@ class Tipo_procesoController extends Controller
             );
             return response()->json($data);
         }
-        $obj->idpersona_solicita = auth()->user()->persona->dni;
+        $obj->idpersona_solicita = auth()->user()->persona->id;
         $obj->idtipo_accion = 4;
         $obj->idestado = 1;
         $obj->save();
