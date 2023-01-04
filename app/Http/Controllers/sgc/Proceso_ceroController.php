@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\SGCProceso_cero;
 use App\Models\MOVSGCMov_proceso_cero;
-use App\Models\SGCEntidad;
+
 use App\Models\SGCTipo_proceso;
 use App\Models\Funcion;
 
@@ -116,6 +116,7 @@ class Proceso_ceroController extends Controller
                 }
                 //EDICIÓN TABLA
                 $obj->idpersona_solicita = $request->idpersona_solicita;
+                $obj->idpersona_aprueba = null;
                 $obj->idtipo_accion = 2;
                 $obj->idestado = 1;
                 $obj->save();
@@ -145,11 +146,13 @@ class Proceso_ceroController extends Controller
 
     public function aprobar(request $request){
         return DB::transaction(function () use($request){
+            //EDITA EL MOVIMIENTO
             $mov = MOVSGCMov_proceso_cero::where('idsgc', $request->id)->latest('created_at')->first();
             $mov->idpersona_aprueba = auth()->user()->persona->id;
             $mov->idestado = 2;
             $mov->save();
 
+            //EDITA EN LA TABLA
             $obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->first();
             $obj->idestado = 2;
             $obj->idpersona_solicita = $mov->idpersona_solicita;

@@ -33,13 +33,6 @@ class CreateMovIndicadorTable extends Migration
 
             $table->string('codigo', 20);
             $table->text('descripcion');
-            /*$table->float('version');
-            $table->text('objetivo')->nullable();
-            $table->text('variables')->nullable();
-            $table->text('calculo')->nullable();
-            $table->text('informacion')->nullable();
-            $table->text('periodicidad')->nullable();
-            $table->text('porcentaje')->nullable();*/
             $table->softDeletes();
             $table->timestamps();
 

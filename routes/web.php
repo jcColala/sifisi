@@ -124,11 +124,11 @@ Route::group(["middleware" => ['auth']], function () {
     Route::post('ficha_indicador_uno/aprobar', [Ficha_indicador_unoController::class, 'aprobar'])->name('ficha_indicador_uno.aprobar');
     Route::get('ficha_indicador_uno_ver/{id}', [Ficha_indicador_unoController::class, 'ver'])->name('ficha_indicador_uno.ver');
 
-    //-----------------------------------------------------------------------------------------------------INDICADORES NIVEL UNO
-    Route::resource('indicador', IndicadorController::class)->only("index", "create", "store", "edit", "destroy");
-    Route::get('indicador/grilla/', [IndicadorController::class, 'grilla'])->name('indicador.grilla');
-    Route::post('indicador/aprobar', [IndicadorController::class, 'aprobar'])->name('indicador.aprobar');
-    Route::get('indicador_ver/{id}', [IndicadorController::class, 'ver'])->name('indicador.ver');
+    //-----------------------------------------------------------------------------------------------------INDICADORES NIVEL DOS
+    Route::resource('ficha_indicador_dos', Ficha_indicador_unoController::class)->only("index", "create", "store", "edit", "destroy");
+    Route::get('ficha_indicador_dos/grilla/', [Ficha_indicador_unoController::class, 'grilla'])->name('ficha_indicador_dos.grilla');
+    Route::post('ficha_indicador_dos/aprobar', [Ficha_indicador_unoController::class, 'aprobar'])->name('ficha_indicador_dos.aprobar');
+    Route::get('ficha_indicador_dos_ver/{id}', [Ficha_indicador_unoController::class, 'ver'])->name('ficha_indicador_dos.ver');
 
     //------------------------------------------------------------------------------------------------------DOCUMENTOS
     Route::resource('documentos', DocumentoController::class)->only("index", "create", "store", "edit", "destroy");

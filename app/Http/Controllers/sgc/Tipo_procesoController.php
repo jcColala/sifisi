@@ -6,6 +6,7 @@ use App\Models\SGCTipo_proceso;
 use App\Models\MOVSGCMov_tipo_proceso;
 use App\Models\Funcion;
 use Illuminate\Http\Request;
+
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
@@ -30,7 +31,6 @@ class Tipo_procesoController extends Controller
         $this->model                = new SGCTipo_proceso();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
-
     }
 
     public function form($id = null){
@@ -109,6 +109,7 @@ class Tipo_procesoController extends Controller
                 }
                 //EDICIÓN TABLA
                 $obj->idpersona_solicita = $request->idpersona_solicita;
+                $obj->idpersona_aprueba = null;
                 $obj->idtipo_accion = 2;
                 $obj->idestado = 1;
                 $obj->save();
@@ -137,11 +138,13 @@ class Tipo_procesoController extends Controller
 
     public function aprobar(request $request){
         return DB::transaction(function () use($request){
+            //EXTRAE EL REGISTRO DEL MOVIMIENTO
             $mov = MOVSGCMov_tipo_proceso::where('idsgc', $request->id)->latest('created_at')->first();
             $mov->idpersona_aprueba = auth()->user()->persona->id;
             $mov->idestado = 2;
             $mov->save();
-    
+            
+            //APRUEBA EN LA TABLA
             $obj = SGCTipo_proceso::withTrashed()->where("id",$request->id)->first();
             $obj->idestado = 2;
             $obj->idpersona_solicita = $mov->idpersona_solicita;

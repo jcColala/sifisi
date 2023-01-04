@@ -15,28 +15,21 @@ class MOVSGCMov_proceso_uno extends Model
 
     protected $fillable = [
         'idestado',
+        'idtipo_accion',
         'idpersona_solicita',
         'idpersona_aprueba',
         'idproceso_cero',
-        'idelaborado',
-        'idrevisado',
-        'idaprobado',
+        'idsgc',
         'codigo',
         'descripcion',
         'version',
         'fecha_aprobado',
-        'proveedores',
-        'entradas',
-        'salidas',
-        'clientes',
+        'objetivo',
+        'alcance',
         'diagrama',
         'deleted_at'
     ];
-
-
-    public function proceso_cero(){
-        return $this->belongsTo(SGCProceso_cero::class, 'idproceso_cero');
-    }
+    
     public function getTableName(){
         return (explode(".", $this->table))[1];
     }

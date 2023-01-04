@@ -28,18 +28,6 @@ class MOVSGCMov_proceso_cero extends Model
         'deleted_at'
     ];
 
-    /*
-    public function procesos_uno(){
-        return $this->hasMany(MOVSGCMov_proceso_uno::class);
-    }
-
-    public function tipo_proceso(){
-        return $this->belongsTo(SGCTipo_proceso::class, 'idtipo_proceso');
-    }
-
-    public function responsable(){
-        return $this->belongsTo(SGCEntidad::class, 'idresponsable');
-    }*/
 
     public function getTableName(){
         return (explode(".", $this->table))[1];

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
 
 use App\Models\MOVSGCMov_proceso_uno;
-use App\Models\SGCEntidad;
+use App\Models\COMCargo;
 use App\Models\SGCProceso_cero;
 use App\Models\SGCProceso_uno;
 use App\Models\SGCTipo_proceso;
@@ -46,7 +46,7 @@ class Proceso_unoController extends Controller
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
         $datos["proceso_cero"]      = SGCProceso_cero::where('idestado', 2)->with('procesos_uno')->get();
-        $datos["entidades"]         = SGCEntidad::get();
+        $datos["entidades"]         = COMCargo::get();
         $datos["tipo_proceso"]      = SGCTipo_proceso::get();
         $datos["data"]              = [];
         $datos["indicadores"]       = [];
@@ -115,11 +115,10 @@ class Proceso_unoController extends Controller
             $obj_mov->fill($request->all());
             $obj_mov->save();*/
 
-            //LLENADO - EDICIÓN EN LA TABLA SGC
             $obj        = SGCProceso_uno::withTrashed()->find($request->id);
             if(empty($obj))
             {
-                $obj    = new SGCProceso_uno();
+                $obj = new SGCProceso_uno();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
                 $obj->version = $request->version;
                 $obj->fecha_aprobado = $request->fecha_aprobado;
@@ -130,6 +129,20 @@ class Proceso_unoController extends Controller
                 $obj->objetivo  = $request->objetivo;
                 $obj->alcance = $request->alcance;
                 $obj->save();
+
+                $mov = new MOVSGCMov_proceso_uno();
+                $mov->idpersona_solicita = $request->idpersona_solicita;
+                $mov->version = $request->version;
+                $mov->fecha_aprobado = $request->fecha_aprobado;
+                $mov->idproceso_cero = $request->idproceso_cero;
+                $mov->idsgc = $obj->id;
+                $mov->idtipo_accion = 1;
+                $mov->codigo = $request->codigo_hidde;
+                $mov->descripcion = $request->descripcion;
+                $mov->idresponsable = $request->idresponsable;
+                $mov->objetivo  = $request->objetivo;
+                $mov->alcance = $request->alcance;
+                $mov->save();
             }else{
                 $obj->idestado = 1;
                 $obj->idtipo_accion = 2;

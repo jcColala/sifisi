@@ -6,31 +6,35 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class MOVSGCMov_indicador extends Model
+class MOVSGCMov_proceso_dos extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "movsgc.mov_indicador";
+    protected $table        = "movsgc.mov_proceso_dos";
     protected $primaryKey   = "id";
 
     protected $fillable = [
         'idestado',
+        'idtipo_accion',
         'idpersona_solicita',
         'idpersona_aprueba',
-        'idproceso_uno',
+        'idproceso_cero',
+        'idsgc',
         'codigo',
         'descripcion',
         'version',
+        'fecha_aprobado',
         'objetivo',
-        'varialbes',
-        'calculo',
-        'informacion',
-        'periodicidad',
-        'porcentaje',
+        'alcance',
+        'proveedores',
+        'entradas',
+        'clientes',
+        'salidas',
+        'diagrama',
+        'editable',
         'deleted_at'
     ];
-
-
+    
     public function getTableName(){
         return (explode(".", $this->table))[1];
     }

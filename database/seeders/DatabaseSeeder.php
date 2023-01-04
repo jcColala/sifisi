@@ -16,6 +16,7 @@ use App\Models\Modulo_padre;
 use App\Models\Modulo;
 use App\Models\MOVSGCMov_estado;
 use App\Models\Accesos;
+use App\Models\COMCargo;
 use App\Models\Funcion;
 use App\Models\Funcion_modulo;
 use Spatie\Permission\Models\Role;
@@ -164,6 +165,14 @@ class DatabaseSeeder extends Seeder
         $data->orden        = 2;
         $data->save();
 
+        $data = new Modulo_padre();
+        $data->descripcion  = "Comisiones";
+        $data->abreviatura  = "COM";
+        $data->url          = "#";
+        $data->icono        = "fa fa-list-ol";
+        $data->orden        = 3;
+        $data->save();
+
         
         //------------------------------------------------------- Modulo
 
@@ -214,21 +223,11 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
-        $data->modulo           = "Entidades";
-        $data->abreviatura      = "SGC_ENT";
-        $data->url              = "entidad";
-        $data->icono            = null;
-        $data->orden            = 1;
-        $data->save();
-
-        $data = new Modulo();
-        $data->idmodulo_padre   = 2;
-        $data->idpadre          = null;
         $data->modulo           = "Tipos de Proceso";
         $data->abreviatura      = "SGC_TPR";
         $data->url              = "tipo_proceso";
         $data->icono            = null;
-        $data->orden            = 2;
+        $data->orden            = 1;
         $data->save();
 
         $data = new Modulo();
@@ -238,7 +237,7 @@ class DatabaseSeeder extends Seeder
         $data->abreviatura      = "SGC_PR0";
         $data->url              = "proceso_cero";
         $data->icono            = null;
-        $data->orden            = 3;
+        $data->orden            = 2;
         $data->save();
 
         $data = new Modulo();
@@ -248,7 +247,7 @@ class DatabaseSeeder extends Seeder
         $data->abreviatura      = "SGC_PR1";
         $data->url              = "proceso_uno";
         $data->icono            = null;
-        $data->orden            = 4;
+        $data->orden            = 3;
         $data->save();
 
         $data = new Modulo();
@@ -258,7 +257,7 @@ class DatabaseSeeder extends Seeder
         $data->abreviatura      = "SGC_PR2";
         $data->url              = "proceso_dos";
         $data->icono            = null;
-        $data->orden            = 5;
+        $data->orden            = 4;
         $data->save();
 
         $data = new Modulo();
@@ -266,17 +265,17 @@ class DatabaseSeeder extends Seeder
         $data->idpadre          = null;
         $data->modulo           = "Indicadores Nivel 1";
         $data->abreviatura      = "SGC_IND1";
-        $data->url              = "indicador";
+        $data->url              = "ficha_indicador_uno";
         $data->icono            = null;
-        $data->orden            = 6;
+        $data->orden            = 5;
         $data->save();
 
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
         $data->modulo           = "Indicadores Nivel 2";
-        $data->abreviatura      = "SGC_IND1";
-        $data->url              = "indicador";
+        $data->abreviatura      = "SGC_IND2";
+        $data->url              = "ficha_indicador_dos";
         $data->icono            = null;
         $data->orden            = 6;
         $data->save();
@@ -300,6 +299,26 @@ class DatabaseSeeder extends Seeder
         $data->url              = "resoluciones";
         $data->icono            = null;
         $data->orden            = 8;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 3;
+        $data->idpadre          = null;
+        $data->modulo           = "Cargo";
+        $data->abreviatura      = "COMCargo";
+        $data->url              = "cargo";
+        $data->icono            = null;
+        $data->orden            = 1;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 3;
+        $data->idpadre          = null;
+        $data->modulo           = "Comisiones";
+        $data->abreviatura      = "COMCom";
+        $data->url              = "comision";
+        $data->icono            = null;
+        $data->orden            = 2;
         $data->save();
 
         //}
@@ -357,6 +376,21 @@ class DatabaseSeeder extends Seeder
 
         $data = new Accesos();
         $data->idmodulo   = 11;
+        $data->idrol      = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 12;
+        $data->idrol      = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 13;
+        $data->idrol      = 1;
+        $data->save();
+
+        $data = new Accesos();
+        $data->idmodulo   = 14;
         $data->idrol      = 1;
         $data->save();
 
@@ -519,21 +553,19 @@ class DatabaseSeeder extends Seeder
         $data->save();
 
         //ENTIDADES
-        $data = new SGCEntidad();
+        $data = new COMCargo();
         $data->idestado = 2;
         $data->idpersona_solicita = '1';
         $data->idpersona_aprueba = '1';
         $data->descripcion = 'Decano';
-        $data->cant_integrantes = 1;
         $data->editable = false;
         $data->save();
 
-        $data = new SGCEntidad();
+        $data = new COMCargo();
         $data->idestado = 2;
         $data->idpersona_solicita = '1';
         $data->idpersona_aprueba = '1';
         $data->descripcion = 'Decano Director de Escuela';
-        $data->cant_integrantes = 1;
         $data->editable = false;
         $data->save();
 

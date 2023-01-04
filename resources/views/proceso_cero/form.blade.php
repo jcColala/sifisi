@@ -15,24 +15,25 @@
 				<div class="modal-body modal_body">
 					<input type="hidden" name="id" id="id_{{$prefix}}">
 					<div class="form-group form-row">
-						<div class="col-md-6">
-							<div class="select2-idtipo_proceso_{{$prefix}} div-select2 input-group mt-10px">
-								<select class="form-control select2-show-search" id="idtipo_proceso_{{$prefix}}" name="idtipo_proceso" data-placeholder="Selecciona el Tipo de Proceso*" style="width:100%;">
-									<option label="Selecciona el Tipo de Proceso"></option>
-									@foreach($tipo_proceso as $value)
-									<option value="{{$value->id}}">{{$value->descripcion}}</option>
-									@endforeach
-								</select>
-								<span class="idtipo_proceso_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-						</div>
+					<div class="col-md-6"> 
+		   							<div class="select2-idtipo_proceso_{{$prefix}} div-select2 mrginput100_form input-group mt-10px">
+										<select class="form-control select2-show-search" id="idtipo_proceso_{{$prefix}}" name="idtipo_proceso" data-placeholder="Selecciona el tipo de proceso*" style="width:100%;" required >
+											<option label="Selecciona el tipo de proceso"></option>
+											@foreach($tipo_proceso as $value)
+				                            	<option value="{{$value->id}}">{{$value->descripcion}}</option>
+				                        	@endforeach
+										</select>
+                                    	<span class="focus-input100">Tipo de Proceso*</span>
+										<span class="idtipo_proceso_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+									</div>
+		                        </div>
 
 						<div class="col-md-6">
 							<div class="wrap-input100 mrginput100 validate-input">
-								<input type="hidden" class="input100" id="codigo_hidde_{{$prefix}}" name="codigo_hidde">
-								<input type="text" class="input100" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*"
+								<input type="hidden" id="codigo_hidde_{{$prefix}}" name="codigo_hidde">
+								<input type="text" class="input100 mrginput100 validate-input" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*"
 								disabled>
-								<span class="focus-input100"></span>
+								<span class="focus-input100">Código*</span>
 								<span class="symbol-input100">
 								</span>
 								<span class="codigo_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
@@ -41,8 +42,8 @@
 
 						<div class="col-md-12">
 							<div class="wrap-input100 mrginput100 validate-input">
-								<input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Nombre del Proceso*">
-								<span class="focus-input100"></span>
+								<input type="text" class="input100 mrginput100 validate-input" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Nombre del Proceso de Nivel 0*">
+								<span class="focus-input100">Nombre del Proceso de Nivel 0</span>
 								<span class="symbol-input100">
 									<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
 								</span>

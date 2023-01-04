@@ -4,11 +4,12 @@ namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
 
 
-use App\Models\SGCEntidad;
+use App\Models\COMCargo;
 use App\Models\SGCProceso_uno;
 use App\Models\SGCProceso_dos;
 use App\Models\SGCIndicador_dos;
 use App\Models\SGCActividades_proceso_dos;
+use App\Models\MOVSGCMov_proceso_dos;
 
 
 
@@ -47,7 +48,7 @@ class Proceso_dosController extends Controller
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
         $datos["proceso_uno"]      = SGCProceso_uno::where('idestado', 2)->with('procesos_dos')->get();
-        $datos["entidades"]         = SGCEntidad::get();
+        $datos["entidades"]         = COMCargo::get();
         $datos["data"]              = [];
         $datos["indicadores"]       = [];
         $datos["actividades"]       = [];
@@ -141,24 +142,47 @@ class Proceso_dosController extends Controller
                 $obj->salidas = $request->salidas;
                 $obj->clientes = $request->clientes;
                 $obj->save();
+
+                $mov    = new MOVSGCMov_proceso_dos();
+                $mov->idpersona_solicita = $request->idpersona_solicita;
+                $mov->version = $request->version;
+                $mov->fecha_aprobado = $request->fecha_aprobado;
+                $mov->idproceso_uno = $request->idproceso_uno;
+                $mov->idsgc = $obj->id;
+                $mov->codigo = $request->codigo_hidde;
+                $mov->descripcion = $request->descripcion;
+                $mov->idresponsable = $request->idresponsable;
+                $mov->objetivo  = $request->objetivo;
+                $mov->alcance = $request->alcance;
+                $mov->proveedores = $request->proveedores;
+                $mov->entradas = $request->entradas;
+                $mov->salidas = $request->salidas;
+                $mov->clientes = $request->clientes;
+                $mov->save();
             }else{
                 /**EDITAR PROCESO DE NIVEL 2 */
                 $obj->idestado = 1;
                 $obj->idtipo_accion = 2;
                 $obj->idpersona_solicita = $request->idpersona_solicita;
-                $obj->version = $request->version;
-                $obj->fecha_aprobado = $request->fecha_aprobado;
-                $obj->idproceso_uno = $request->idproceso_uno;
-                $obj->codigo = $request->codigo_hidde;
-                $obj->descripcion = $request->descripcion;
-                $obj->idresponsable = $request->idresponsable;
-                $obj->objetivo  = $request->objetivo;
-                $obj->alcance = $request->alcance;
-                $obj->proveedores = $request->proveedores;
-                $obj->entradas = $request->entradas;
-                $obj->salidas = $request->salidas;
-                $obj->clientes = $request->clientes;
+                $obj->idpersona_aprueba = null;
                 $obj->save();
+
+                $mov    = new MOVSGCMov_proceso_dos();
+                $mov->idpersona_solicita = $request->idpersona_solicita;
+                $mov->version = $request->version;
+                $mov->fecha_aprobado = $request->fecha_aprobado;
+                $mov->idproceso_uno = $request->idproceso_uno;
+                $mov->idsgc = $obj->id;
+                $mov->codigo = $request->codigo_hidde;
+                $mov->descripcion = $request->descripcion;
+                $mov->idresponsable = $request->idresponsable;
+                $mov->objetivo  = $request->objetivo;
+                $mov->alcance = $request->alcance;
+                $mov->proveedores = $request->proveedores;
+                $mov->entradas = $request->entradas;
+                $mov->salidas = $request->salidas;
+                $mov->clientes = $request->clientes;
+                $mov->save();
             }
                 
             //!INDICADORES
