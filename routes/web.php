@@ -143,15 +143,6 @@ Route::group(["middleware" => ['auth']], function () {
     Route::get('resoluciones_ver/{id}', [ResolucionController::class, 'ver'])->name('resoluciones.ver');
 
 
-
-
-    //-----------------------------------------------------------------------------------------------------CARGOS
-    Route::resource('cargo', CargoController::class)->only('index', 'create', 'store', 'edit', 'destroy');
-    Route::get('cargo/grilla', [CargoController::class, 'grilla'])->name('cargo.grilla');
-    Route::post('cargo/aprobar ', [CargoController::class, 'aprobar'])->name('cargo.aprobar');
-    Route::get('cargo/{id}', [CargoController::class, 'ver'])->name('entidad.ver');
-
-
      //-----------------------------------------------------------------------------------------------------COMISIONES
      Route::resource('comision', ComisionesController::class)->only('index', 'create', 'store', 'edit', 'destroy');
      Route::get('comision/grilla', [ComisionesController::class, 'grilla'])->name('comision.grilla');

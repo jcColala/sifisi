@@ -27,9 +27,6 @@ class CreateMovProcesoDos extends Migration
             $table->unsignedBigInteger('idproceso_uno');
             $table->foreign('idproceso_uno')->references('id')->on('sgc.proceso_uno');
 
-            $table->unsignedBigInteger('idresponsable');
-            $table->foreign('idresponsable')->references('id')->on('comisiones.cargo');
-
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
             

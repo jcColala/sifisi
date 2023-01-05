@@ -302,15 +302,6 @@ class DatabaseSeeder extends Seeder
         $data->orden            = 8;
         $data->save();
 
-        $data = new Modulo();
-        $data->idmodulo_padre   = 3;
-        $data->idpadre          = null;
-        $data->modulo           = "Cargo";
-        $data->abreviatura      = "COMCargo";
-        $data->url              = "cargo";
-        $data->icono            = null;
-        $data->orden            = 1;
-        $data->save();
 
         $data = new Modulo();
         $data->idmodulo_padre   = 3;
@@ -319,7 +310,7 @@ class DatabaseSeeder extends Seeder
         $data->abreviatura      = "COMCom";
         $data->url              = "comision";
         $data->icono            = null;
-        $data->orden            = 2;
+        $data->orden            = 1;
         $data->save();
 
         //}
@@ -390,10 +381,6 @@ class DatabaseSeeder extends Seeder
         $data->idrol      = 1;
         $data->save();
 
-        $data = new Accesos();
-        $data->idmodulo   = 14;
-        $data->idrol      = 1;
-        $data->save();
 
         //------------------------------------------------------- Funcion
         $data = new Funcion();
@@ -552,23 +539,7 @@ class DatabaseSeeder extends Seeder
         $data = new SGCTipo_accion();
         $data->descripcion = 'Restauración';
         $data->save();
-        
-        //ENTIDADES
-        $data = new COMCargo();
-        $data->idestado = 2;
-        $data->idpersona_solicita = '1';
-        $data->idpersona_aprueba = '1';
-        $data->descripcion = 'Decano';
-        $data->editable = false;
-        $data->save();
-
-        $data = new COMCargo();
-        $data->idestado = 2;
-        $data->idpersona_solicita = '1';
-        $data->idpersona_aprueba = '1';
-        $data->descripcion = 'Decano Director de Escuela';
-        $data->editable = false;
-        $data->save();
+    
 
         //TIPOS DE PROCESO
         $data = new SGCTipo_proceso();

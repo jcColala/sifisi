@@ -49,7 +49,7 @@ class Proceso_unoController extends Controller
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
         $datos["proceso_cero"]      = SGCProceso_cero::where('idestado', 2)->with('procesos_uno')->get();
-        $datos["comisiones"]         = COMComisiones::get();
+        $datos["comisiones"]        = COMComisiones::get();
         $datos["tipo_proceso"]      = SGCTipo_proceso::get();
         $datos["data"]              = [];
         $datos["indicadores"]       = [];
@@ -165,6 +165,8 @@ class Proceso_unoController extends Controller
 
                 $mov = new MOVSGCMov_proceso_uno();
                 $mov->idpersona_solicita = $request->idpersona_solicita;
+                $mov->idestado = 1;
+                $mov->idtipo_accion = 2;
                 $mov->version = $request->version;
                 $mov->fecha_aprobado = $request->fecha_aprobado;
                 $mov->idproceso_cero = $request->idproceso_cero;

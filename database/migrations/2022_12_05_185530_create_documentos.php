@@ -30,9 +30,6 @@ class CreateDocumentos extends Migration
             $table->unsignedBigInteger('idtipo_documento');
             $table->foreign('idtipo_documento')->references('id')->on('sgc.tipo_documentos');
 
-            $table->unsignedBigInteger('identidad');
-            $table->foreign('identidad')->references('id')->on('comisiones.cargo');
-
             $table->unsignedBigInteger('idresolucion');
             $table->foreign('idresolucion')->references('id')->on('sgc.resoluciones');
 

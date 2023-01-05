@@ -27,8 +27,6 @@ class CreateActividadesProcesoDos extends Migration
             $table->unsignedBigInteger('idproceso_dos');
             $table->foreign('idproceso_dos')->references('id')->on('sgc.proceso_dos');
 
-            $table->unsignedBigInteger('idresponsable');
-            $table->foreign('idresponsable')->references('id')->on('comisiones.cargo');
 
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
