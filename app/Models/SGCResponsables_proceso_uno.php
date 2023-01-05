@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SGCIndicador_uno extends Model
+class SGCResponsables_proceso_uno extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "sgc.indicador_uno";
+    protected $table        = "sgc.responsables_proceso_uno";
     protected $primaryKey   = "id";
 
     protected $fillable = [
@@ -19,15 +19,10 @@ class SGCIndicador_uno extends Model
         'idpersona_aprueba',
         'idtipo_accion',
         'idproceso_uno',
+        'idcomision_responsable',
         'version_proceso_uno',
-        'codigo',
-        'descripcion',
         'deleted_at'
     ];
-
-    public function indicadores_uno(){
-        return $this->hasMany(SGCFicha_indicador_uno::class, 'idindicador_uno');
-    }
 
     public function persona_solicita(){
         return $this->belongsTo(Persona::class, 'idpersona_solicita');
@@ -46,7 +41,11 @@ class SGCIndicador_uno extends Model
     }
 
     public function proceso_uno(){
-        return $this->belongsTo(SGCProceso_uno::class, 'idproceso_uno');
+        return $this->belongsTo(SGCProceso_dos::class, 'idproceso_uno');
+    }
+
+    public function responsable(){
+        return $this->belongsTo(COMComisiones::class, 'idcomision_responsable');
     }
 
     public function getTableName(){

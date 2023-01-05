@@ -47,7 +47,9 @@
     let _prefix_{{$table_name}}        		= "{{$prefix}}"
     let table 								= ""
 </script>
+
 <script src='{{asset("js/form/$pathController/index.js")}}'></script>
 <script src='{{asset("js/form/$pathController/form.js")}}'></script>
 @endsection
 @endsection
+

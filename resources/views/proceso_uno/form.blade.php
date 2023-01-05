@@ -71,18 +71,29 @@
 								<span class="descripcion_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 							</div>
 						</div>
-						<div class="col-md-4">
-							<div class="select2-idresponsable_{{$prefix}} div-select2 input-group mt-10px">
-								<span><b>RESPONSABLE:</b></span>
-								<select class="form-control select2-show-search" id="idresponsable_{{$prefix}}" name="idresponsable" data-placeholder="Selecciona el puesto responsable del proceso*" style="width:100%;">
-									<option label="Selecciona el puesto responsable del proceso"></option>
-									@foreach($entidades as $value)
-									<option value="{{$value->id}}">{{$value->descripcion}}</option>
-									@endforeach
-								</select>
-								<span class="idresponsable_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+						<div class="col-md-12 mt-3 mp-3 ">
+							<button type="button" class="btn btn-outline-primary" id="add-responsable">Agregar Responsable
+							</button>
+						</div>
+
+						<div class="col-md-12 responsables" id="responsables">
+						@if(count($responsables) === 0)
+						<div class="fila-responsable row">
+							<div class="col-md-6">
+								<div class="select2-idcomision_responsable_{{$prefix}} div-select2 input-group mt-10px">
+									<select class="form-control select2-show-search" id="idcomision_responsable_{{$prefix}}" name="idcomision_responsable[]" data-placeholder="Selecciona el puesto responsable del proceso*" style="width:100%;">
+										<option label="Selecciona el puesto responsable del proceso"></option>
+										@foreach($comisiones as $value)
+										<option value="{{$value->id}}">{{$value->descripcion}}</option>
+										@endforeach
+									</select>
+									<span class="idcomision_responsable_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+								</div>
 							</div>
 						</div>
+						@endif
+						</div>
+
 						<div class="col-md-12">
 							<div class="wrap-input100 mrginput100 validate-input">
 								<span><b>OBJETIVO</b></span>
@@ -177,6 +188,7 @@
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
+		/**--------------------INDICADORES--------------- */
 		let html_indicador = '';
 		let indicadores = @json($indicadores);
 		indicadores.forEach(e => {
@@ -184,16 +196,7 @@
 		});
 		$('.indicadores').append(html_indicador);
 
-
-		$('#idproceso_cero_').change(function(e) {
-			let proceso_cero = @json($proceso_cero);
-			proceso_cero.map((e) => {
-				if (e.id == $(this).val()) {
-					$('#codigo_').val(e.codigo + '.');
-				}
-			});
-		});
-
+		
 
 		$("#add-indicador").click(function() {
 			let html = '<div class="fila-indicador row"><div class="col-md-3"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador[]" placeholder="Código*"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-7"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador[]" placeholder="Nombre del Indicador*"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-indicador" >Eliminar</button></div></div></div>';
@@ -204,6 +207,36 @@
 		$('#indicadores').on('click', '#del-indicador', function() {
 			$(this).parent().parent().parent().remove();
 		});
+		/**---------------------------END INDICADORES---------- */
+
+		/**--------------------RESPONSABLES ---------------- */
+		let html_responsable = '';
+		let responsables = @json($responsables);
+		responsables.forEach(e => {
+			html_responsable += '<div class="fila-responsable row"><div class="col-md-6"><div class="select2-idcomision_responsable_{{$prefix}} div-select2 input-group mt-10px"><input type="hidden" value="'+e.id+'" name="id_responsable_hidde[]" ><input type="hidden" value="'+e.idcomision_responsable+'" name="idcomision_responsable[]" ><input type="text" value="'+e.responsable.descripcion+'" disabled class="form-control" ><span class="idcomision_responsable_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-responsable" >Eliminar</button></div></div></div>';
+		});
+		$('.responsables').append(html_responsable);
+
+		$("#add-responsable").click(function() {
+			let html = '<div class="fila-responsable row"><div class="col-md-6"><div class="select2-idcomision_responsable_{{$prefix}} div-select2 input-group mt-10px"><select class="form-control select2-show-search" id="idcomision_responsable_{{$prefix}}" name="idcomision_responsable[]" data-placeholder="Selecciona el puesto responsable del proceso*" style="width:100%;"><option label="Selecciona el puesto responsable del proceso"></option>@foreach($comisiones as $value)<option value="{{$value->id}}">{{$value->descripcion}}</option>@endforeach</select><span class="idcomision_responsable_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-responsable" >Eliminar</button></div></div></div>';
+			$('.responsables').append(html);
+
+		});
+
+		$('#responsables').on('click', '#del-responsable', function() {
+			$(this).parent().parent().parent().remove();
+		});
+		/**----------------------END RESPONSABLES----------- */
+
+		$('#idproceso_cero_').change(function(e) {
+			let proceso_cero = @json($proceso_cero);
+			proceso_cero.map((e) => {
+				if (e.id == $(this).val()) {
+					$('#codigo_').val(e.codigo + '.');
+				}
+			});
+		});
+
 
 		//! PONE EL CÓDIGO 
 		$('#idproceso_cero_').change(function(e) {

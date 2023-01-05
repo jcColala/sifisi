@@ -17,6 +17,7 @@ use App\Models\Modulo;
 use App\Models\MOVSGCMov_estado;
 use App\Models\Accesos;
 use App\Models\COMCargo;
+use App\Models\COMTipo_entidad;
 use App\Models\Funcion;
 use App\Models\Funcion_modulo;
 use Spatie\Permission\Models\Role;
@@ -551,7 +552,7 @@ class DatabaseSeeder extends Seeder
         $data = new SGCTipo_accion();
         $data->descripcion = 'Restauración';
         $data->save();
-
+        
         //ENTIDADES
         $data = new COMCargo();
         $data->idestado = 2;

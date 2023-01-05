@@ -19,7 +19,6 @@ class SGCProceso_uno extends Model
         'idpersona_solicita',
         'idpersona_aprueba',
         'idproceso_cero',
-        'idresponsable',
         'version',
         'fecha_aprobado',
         'codigo',

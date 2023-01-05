@@ -79,14 +79,14 @@ class Tipo_procesoController extends Controller
             'codigo'=> 'required',
             'descripcion' => 'required',
             ],[
-            'codigo'=> 'Escriba el código del tipo de proceso',
+            'codigo'=> 'Escriba el código del Tipo de Proceso',
             'descripcion' => 'Escriba el Nombre del Tipo de Proceso',
         ]);
 
         return DB::transaction(function() use ($request){
             $obj        = SGCTipo_proceso::withTrashed()->find($request->id);
 
-            if(empty($obj)){
+            if(empty($obj)){//SI ESTÁ VACIO REGISTRA
                 //REGISTRO EN TABLA
                 $obj = new SGCTipo_proceso();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
@@ -103,7 +103,7 @@ class Tipo_procesoController extends Controller
                 $obj_mov->codigo = $request->codigo;
                 $obj_mov->descripcion = $request->descripcion;
                 $obj_mov->save();
-            }else{
+            }else{//SI NO ESTÁ VACIO EDITA
                 if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
                     $data = array(
                         "type" => "error",
@@ -144,19 +144,16 @@ class Tipo_procesoController extends Controller
         return DB::transaction(function () use($request){
             //EXTRAE EL REGISTRO DEL MOVIMIENTO
             $mov = MOVSGCMov_tipo_proceso::where('idsgc', $request->id)->latest('created_at')->first();
+
+            //SI EL ESTADO NO ESTA EN PENDIENTE NO HACE NADA
+            if($mov->idestado == 2){
+                return response()->json($mov);
+            }
             
             $mov->idpersona_aprueba = auth()->user()->persona->id;
             $mov->idestado = 2;
             $mov->save();
-            
-            //ELIMINAR EN MOVIMIENTO
-            if($mov->idtipo_accion == 3)
-                $mov->delete();
-
-            //ELIMINAR EN MOVIMIENTO
-            if($mov->idtipo_accion == 4)
-                $mov->restore();
-            
+                    
             //APRUEBA EN LA TABLA
             $obj = SGCTipo_proceso::withTrashed()->where("id",$request->id)->first();
             $obj->idestado = 2;
@@ -165,7 +162,15 @@ class Tipo_procesoController extends Controller
             $obj->descripcion = $mov->descripcion;
             $obj->codigo = $mov->codigo;
             $obj->save();
-            
+
+            //ELIMINAR EN MOVIMIENTO
+            if($mov->idtipo_accion == 3){
+                $mov->delete();
+            }
+            //RESTAURAR EN MOVIMIENTO
+            if($mov->idtipo_accion == 4){
+                $mov->restore();
+            }            
             //ELIMINAR EN LA TABLA
             if($obj->idtipo_accion == 3)
                 $obj->delete();
@@ -180,9 +185,9 @@ class Tipo_procesoController extends Controller
     public function destroy(Request $request){
 
         $obj = SGCTipo_proceso::withTrashed()->where("id",$request->id)->first();
-        /*if($obj->modulo->isNotEmpty()){
-            throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
-        }*/
+        if($obj->procesos_cero->isNotEmpty()){
+            throw ValidationException::withMessages(["referencias" => "El Tipo de Proceso ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
+        }
         if ($request->accion == "eliminar") {
 
             if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE

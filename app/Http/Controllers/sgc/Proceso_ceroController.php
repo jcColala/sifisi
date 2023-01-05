@@ -56,7 +56,7 @@ class Proceso_ceroController extends Controller
 
     public function grilla(){
         //withTrashed
-        $objeto = SGCProceso_cero::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'ASC')->get();
+        $objeto = SGCProceso_cero::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'ASC')->withTrashed();
 
         return DataTables::of($objeto)
                 ->addIndexColumn()
@@ -65,8 +65,12 @@ class Proceso_ceroController extends Controller
                 })
                 ->addColumn("activo", function($row){
                     return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
+                })->addColumn('estado', function($objeto){
+                    return $objeto->tipo_accion->descripcion." ".$objeto->estado->descripcion;
                 })
-                ->rawColumns(['icono', "activo"])
+                ->rawColumns(
+                    ['icono', "activo", "estado"]
+                    )
                 ->make(true);
     }
     
@@ -87,7 +91,7 @@ class Proceso_ceroController extends Controller
         return DB::transaction(function() use ($request){
             $obj        = SGCProceso_cero::withTrashed()->find($request->id);
 
-            if(empty($obj)){
+            if(empty($obj)){//SI ESTA VACIO REGISTRA
                 //REGISTRO EN TABLA
                 $obj = new SGCProceso_cero();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
@@ -148,11 +152,17 @@ class Proceso_ceroController extends Controller
         return DB::transaction(function () use($request){
             //EDITA EL MOVIMIENTO
             $mov = MOVSGCMov_proceso_cero::where('idsgc', $request->id)->latest('created_at')->first();
+
+            //SI EL ESTADO NO ESTA EN PENDIENTE NO HACE NADA
+            if($mov->idestado == 2){
+                return response()->json($mov);
+            }
+            
             $mov->idpersona_aprueba = auth()->user()->persona->id;
             $mov->idestado = 2;
             $mov->save();
 
-            //EDITA EN LA TABLA
+            //APRUEBA EN LA TABLA
             $obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->first();
             $obj->idestado = 2;
             $obj->idpersona_solicita = $mov->idpersona_solicita;
@@ -162,6 +172,22 @@ class Proceso_ceroController extends Controller
             $obj->descripcion = $mov->descripcion;
             $obj->codigo = $mov->codigo;
             $obj->save();
+
+            //ELIMINAR EN MOVIMIENTO
+            if($mov->idtipo_accion == 3){
+                $mov->delete();
+            }
+            //RESTAURAR EN MOVIMIENTO
+            if($mov->idtipo_accion == 4){
+                $mov->restore();
+            }            
+            //ELIMINAR EN LA TABLA
+            if($obj->idtipo_accion == 3)
+                $obj->delete();
+
+            //RESTAURAR EN LA TABLA
+            if($obj->idtipo_accion == 4)
+                $obj->restore();
             return response()->json($obj);
         });
     }
@@ -169,10 +195,11 @@ class Proceso_ceroController extends Controller
     public function destroy(Request $request){
 
         $obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->first();
-        /*if($obj->modulo->isNotEmpty()){
+        if($obj->procesos_uno->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
-        }*/
+        }
         
+        /**----------------------------SOLICITUD ELIMINAR---------- */
         if ($request->accion == "eliminar") {
 
             if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
@@ -183,14 +210,26 @@ class Proceso_ceroController extends Controller
                 return response()->json($data);
             }
 
-            $obj->idpersona_solicita = auth()->user()->persona->dni;
+            $obj->idpersona_solicita = auth()->user()->persona->id;
             $obj->idtipo_accion = 3;
             $obj->idestado = 1;
             $obj->save();
+
+            //MOVIMIENTO
+            $mov = new MOVSGCMov_proceso_cero();
+            $mov->idpersona_solicita = auth()->user()->persona->id;
+            $mov->idtipo_proceso = $obj->idtipo_proceso;
+            $mov->idtipo_accion = 3;
+            $mov->idestado = 1;
+            $mov->idsgc = $obj->id;
+            $mov->codigo = $obj->codigo;
+            $mov->descripcion = $obj->descripcion;
+            $mov->save();
+
             return response()->json($obj);
         }
 
-        //RESTAURAR
+        /**----------------------SOLICITUD RESTAURAR---------------------- */
         if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
             $data = array(
                 "type" => "error",
@@ -198,10 +237,21 @@ class Proceso_ceroController extends Controller
             );
             return response()->json($data);
         }
-        $obj->idpersona_solicita = auth()->user()->persona->dni;
+        $obj->idpersona_solicita = auth()->user()->persona->id;
         $obj->idtipo_accion = 4;
         $obj->idestado = 1;
         $obj->save();
-        return response()->json($obj);
+        
+        //MOVIMIENTO
+        $mov = new MOVSGCMov_proceso_cero();
+        $mov->idpersona_solicita = auth()->user()->persona->id;
+        $mov->idtipo_accion = 4;
+        $mov->idestado = 1;
+        $mov->idtipo_proceso = $obj->idtipo_proceso;
+        $mov->idsgc = $obj->id;
+        $mov->codigo = $obj->codigo;
+        $mov->descripcion = $obj->descripcion;
+        $mov->save();
+        return response()->json($obj);   
     }
 }

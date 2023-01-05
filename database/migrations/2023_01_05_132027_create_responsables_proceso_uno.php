@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMovProcesounoTable extends Migration
+class CreateResponsablesProcesoUno extends Migration
 {
     /**
      * Run the migrations.
@@ -13,37 +13,30 @@ class CreateMovProcesounoTable extends Migration
      */
     public function up()
     {
-        Schema::create('movsgc.mov_proceso_uno', function (Blueprint $table) {
+        Schema::create('sgc.responsables_proceso_uno', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idestado')->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
 
-            $table->unsignedInteger('idpersona_solicita');
+            $table->unsignedBigInteger('idpersona_solicita');
             $table->foreign('idpersona_solicita')->references('id')->on('general.persona');
 
-            $table->unsignedInteger('idpersona_aprueba')->nullable();
+            $table->unsignedBigInteger('idpersona_aprueba')->nullable();
             $table->foreign('idpersona_aprueba')->references('id')->on('general.persona');
 
-            $table->unsignedBigInteger('idproceso_cero');
-            $table->foreign('idproceso_cero')->references('id')->on('sgc.proceso_cero');
-
-            $table->unsignedBigInteger('idsgc');
-            $table->foreign('idsgc')->references('id')->on('sgc.proceso_uno');
+            $table->unsignedBigInteger('idproceso_uno');
+            $table->foreign('idproceso_uno')->references('id')->on('sgc.proceso_uno');
 
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
 
-            $table->float('version');
-            $table->date('fecha_aprobado');
-            $table->string('codigo', 20);
-            $table->string('descripcion', 255);
-            $table->text('objetivo');
-            $table->text('alcance');
-            $table->text('diagrama')->default('hola buenas tardes');
+            $table->unsignedBigInteger('idcomision_responsable');
+            $table->foreign('idcomision_responsable')->references('id')->on('comisiones.comision');
+
+            $table->float('version_proceso_uno');
+            $table->boolean('editable')->default(true);
             $table->softDeletes();
             $table->timestamps();
-
-
         });
     }
 
@@ -54,6 +47,6 @@ class CreateMovProcesounoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movsgc.mov_proceso_uno');
+        Schema::dropIfExists('sgc.responsables_proceso_uno');
     }
 }
