@@ -302,6 +302,25 @@ class DatabaseSeeder extends Seeder
         $data->orden            = 8;
         $data->save();
 
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Tipo Entidad";
+        $data->abreviatura      = "SGC_TPENT";
+        $data->url              = "tipo_entidad";
+        $data->icono            = null;
+        $data->orden            = 9;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 2;
+        $data->idpadre          = null;
+        $data->modulo           = "Entidades";
+        $data->abreviatura      = "SGC_ENT";
+        $data->url              = "entidad";
+        $data->icono            = null;
+        $data->orden            = 10;
+        $data->save();
 
         $data = new Modulo();
         $data->idmodulo_padre   = 3;

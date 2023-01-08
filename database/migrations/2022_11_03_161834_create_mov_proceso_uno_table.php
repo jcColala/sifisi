@@ -37,8 +37,6 @@ class CreateMovProcesounoTable extends Migration
             $table->date('fecha_aprobado');
             $table->string('codigo', 20);
             $table->string('descripcion', 255);
-            $table->text('objetivo');
-            $table->text('alcance');
             $table->text('diagrama')->default('hola buenas tardes');
             $table->softDeletes();
             $table->timestamps();

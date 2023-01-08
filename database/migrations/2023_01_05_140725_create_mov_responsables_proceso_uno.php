@@ -37,6 +37,7 @@ class CreateMovResponsablesProcesoUno extends Migration
             $table->foreign('idsgc')->references('id')->on('sgc.responsables_proceso_uno');
             
             $table->float('version_proceso_uno');
+            $table->boolean('comision')->default(false);
             $table->boolean('editable')->default(true);
             $table->softDeletes();
             $table->timestamps();

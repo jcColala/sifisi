@@ -24,8 +24,6 @@ class MOVSGCMov_proceso_uno extends Model
         'descripcion',
         'version',
         'fecha_aprobado',
-        'objetivo',
-        'alcance',
         'diagrama',
         'deleted_at'
     ];

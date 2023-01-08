@@ -16,10 +16,11 @@ use App\Http\Controllers\sgc\Proceso_unoController;
 use App\Http\Controllers\sgc\Proceso_dosController;
 use App\Http\Controllers\sgc\Tipo_procesoController;
 use App\Http\Controllers\sgc\ResolucionController;
+USE App\Http\Controllers\sgc\Tipo_entidadController;
 //-------COMISIONES
 use App\Http\Controllers\comisiones\CargoController;
 use App\Http\Controllers\comisiones\ComisionesController;
-
+use App\Http\Controllers\sgc\EntidadController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Contracts\Role;
 
@@ -136,13 +137,25 @@ Route::group(["middleware" => ['auth']], function () {
     Route::post('documentos/aprobar', [DocumentoController::class, 'aprobar'])->name('documentos.aprobar');
     Route::get('documentos/{id}', [DocumentoController::class, 'ver'])->name('documentos.ver');
 
+
     //------------------------------------------------------------------------------------------------------RESOLUCIONES
     Route::resource('resoluciones', ResolucionController::class)->only("index", "create", "store", "edit", "destroy");
     Route::get('resoluciones/grilla/', [ResolucionController::class, 'grilla'])->name('resoluciones.grilla');
     Route::post('resoluciones/aprobar', [ResolucionController::class, 'aprobar'])->name('resoluciones.aprobar');
-    Route::get('resoluciones_ver/{id}', [ResolucionController::class, 'ver'])->name('resoluciones.ver');
+    Route::get('resoluciones_ver/{id}', [ResolucionController::class, 'ver'])->name('resoluciones.ver');    
 
+    //------------------------------------------------------------------------------------------------------TIPOS ENTIDAD
+    Route::resource('tipo_entidad', Tipo_entidadController::class)->only("index", "create", "store", "edit", "destroy");
+    Route::get('tipo_entidad/grilla/', [Tipo_entidadController::class, 'grilla'])->name('tipo_entidad.grilla');
+    Route::post('tipo_entidad/aprobar', [Tipo_entidadController::class, 'aprobar'])->name('tipo_entidad.aprobar');
+    Route::get('tipo_entidad_ver/{id}', [Tipo_entidadController::class, 'ver'])->name('tipo_entidad.ver');
 
+    //------------------------------------------------------------------------------------------------------ENTIDAD
+    Route::resource('entidad', EntidadController::class)->only("index", "create", "store", "edit", "destroy");
+    Route::get('entidad/grilla/', [EntidadController::class, 'grilla'])->name('entidad.grilla');
+    Route::post('entidad/aprobar', [EntidadController::class, 'aprobar'])->name('entidad.aprobar');
+    Route::get('entidad_ver/{id}', [EntidadController::class, 'ver'])->name('entidad.ver');
+    
      //-----------------------------------------------------------------------------------------------------COMISIONES
      Route::resource('comision', ComisionesController::class)->only('index', 'create', 'store', 'edit', 'destroy');
      Route::get('comision/grilla', [ComisionesController::class, 'grilla'])->name('comision.grilla');

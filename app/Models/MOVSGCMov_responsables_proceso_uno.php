@@ -20,6 +20,7 @@ class MOVSGCMov_responsables_proceso_uno extends Model
         'idtipo_accion',
         'idproceso_uno',
         'idcomision_responsable',
+        'idsgc',
         'version_proceso_uno',
         'deleted_at'
     ];

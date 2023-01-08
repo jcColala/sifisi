@@ -15,29 +15,7 @@
 					<input type="hidden" name="id" id="id_{{$prefix}}">
 					<input type="hidden" name="idpersona_solicita" value=" {{auth()->user()->persona->id}}" id="idpersona_solicita_{{$prefix}}">
 					<div class="form-group form-row">
-						<div class="col-md-2">
-							<div class="wrap-input100 mrginput100 validate-input">
-								<input type="text" class="input100" id="version_{{$prefix}}" name="version" placeholder="Version*">
-								<span class="focus-input100"></span>
-								<span class="symbol-input100">
-									<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
-								</span>
-								<span class="version_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-						</div>
-
-						<div class="col-md-4">
-							<div class="wrap-input100 mrginput100 validate-input">
-								<input type="date" class="input100" id="fecha_aprobado_{{$prefix}}" name="fecha_aprobado" placeholder="Fecha de Aprobación*">
-								<span class="focus-input100"></span>
-								<span class="symbol-input100">
-									<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
-								</span>
-								<span class="fecha_aprobado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-						</div>
-
-						<div class="col-md-6">
+						<div class="col-md-3">
 							<div class="select2-idproceso_cero_{{$prefix}} div-select2 input-group mt-10px">
 								<select class="form-control select2-show-search" id="idproceso_cero_{{$prefix}}" name="idproceso_cero" data-placeholder="Selecciona el Proceso de Nivel 0.*" style="width:100%;">
 									<option label="Selecciona el Responsable del Proceso"></option>
@@ -61,7 +39,7 @@
 							</div>
 						</div>
 
-						<div class="col-md-9">
+						<div class="col-md-6">
 							<div class="wrap-input100 mrginput100 validate-input">
 								<input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Nombre del Proceso Nivel 1*">
 								<span class="focus-input100"></span>
@@ -71,6 +49,30 @@
 								<span class="descripcion_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 							</div>
 						</div>
+
+						<div class="col-md-2">
+							<div class="wrap-input100 mrginput100 validate-input">
+								<input type="text" class="input100" id="version_{{$prefix}}" name="version" placeholder="Version*">
+								<span class="focus-input100"></span>
+								<span class="symbol-input100">
+									<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
+								</span>
+								<span class="version_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="wrap-input100 mrginput100 validate-input">
+								<input type="date" class="input100" id="fecha_aprobado_{{$prefix}}" name="fecha_aprobado" placeholder="Fecha de Aprobación*">
+								<span class="focus-input100"></span>
+								<span class="symbol-input100">
+									<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
+								</span>
+								<span class="fecha_aprobado_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
+							</div>
+						</div>
+
+
 						<div class="col-md-12 mt-3 mp-3 ">
 							<button type="button" class="btn btn-outline-primary" id="add-responsable">Agregar Responsable
 							</button>
@@ -83,7 +85,7 @@
 								<div class="select2-idcomision_responsable_{{$prefix}} div-select2 input-group mt-10px">
 									<select class="form-control select2-show-search" id="idcomision_responsable_{{$prefix}}" name="idcomision_responsable[]" data-placeholder="Selecciona el puesto responsable del proceso*" style="width:100%;">
 										<option label="Selecciona el puesto responsable del proceso"></option>
-										@foreach($cargos as $value)
+										@foreach($entidades as $value)
 										<option value="{{$value->id}}">{{$value->descripcion}}</option>
 										@endforeach
 										@foreach($comisiones as $value)
@@ -96,31 +98,6 @@
 						</div>
 						@endif
 						</div>
-
-						<div class="col-md-12">
-							<div class="wrap-input100 mrginput100 validate-input">
-								<span><b>OBJETIVO</b></span>
-								<textarea name="objetivo" class="input100" id="objetivo_{{$prefix}}" placeholder="Propósito o razón de ser del proceso, debe estar relacionado a los bienes y servicios que genera. Empieza con un verbo en infinitivo. debe ser claro, concreto y medible." cols="30" rows="5"></textarea>
-								<span class="focus-input100"></span>
-								<span class="symbol-input100">
-									<i class="fa fa-align-justify" aria-hidden="true"></i>
-								</span>
-								<span class="objetivo_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="wrap-input100 mrginput100 validate-input">
-								<span><b>ALCANCE</b></span>
-								<textarea name="alcance" class="input100" id="alcance_{{$prefix}}" placeholder="Proceso inicial y final si es que los procesos que lo conforman son secuenciales; de lo contrario se describen los procesos nivel 2 que lo componen." cols="30" rows="5"></textarea>
-								<span class="focus-input100"></span>
-								<span class="symbol-input100">
-									<i class="fa fa-align-justify" aria-hidden="true"></i>
-								</span>
-								<span class="alcance_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
-							</div>
-						</div>
-
-
 						<!--<div class="col-md-12">
 							<div class="wrap-input100 mrginput100 validate-input">
 								<span>Diagrama del Proceso</span>

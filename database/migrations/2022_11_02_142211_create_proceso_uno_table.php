@@ -34,8 +34,6 @@ class CreateProcesounoTable extends Migration
             $table->text('descripcion');
             $table->float('version');
             $table->date('fecha_aprobado');
-            $table->text('objetivo');
-            $table->text('alcance');
             $table->boolean('editable')->default(true);
             $table->text('diagrama')->default('hola buenas tardes');
             $table->softDeletes();

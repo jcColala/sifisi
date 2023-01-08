@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
-
-use App\Models\SGCProceso_cero;
-use App\Models\MOVSGCMov_proceso_cero;
-
-use App\Models\SGCTipo_proceso;
+use App\Models\SGCTipo_entidad;
+use App\Models\MOVSGCMov_tipo_entidad;
 use App\Models\Funcion;
-
 use Illuminate\Http\Request;
+
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class Proceso_ceroController extends Controller
+class Tipo_entidadController extends Controller
 {
-    public $modulo                  = "Procesos de Nivel Cero";
-    public $path_controller         = "proceso_cero";
+    public $modulo                  = "Tipos de Entidad";
+    public $path_controller         = "tipo_entidad";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -31,10 +28,9 @@ class Proceso_ceroController extends Controller
         foreach (Funcion::get() as $key => $value) {
             $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
         }
-        $this->model                = new SGCProceso_cero();
+        $this->model                = new SGCTipo_entidad();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
-
     }
 
     public function form($id = null){
@@ -42,10 +38,9 @@ class Proceso_ceroController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
-        $datos["tipo_proceso"]      = SGCTipo_proceso::where('idestado', 2)->with('procesos_cero')->get();
         $datos["data"]              = [];
         if( $id != null )
-            $datos["data"]          = SGCProceso_cero::withTrashed()->find($id);
+            $datos["data"]          = SGCTipo_entidad::withTrashed()->find($id);
 
         return $datos;
     }
@@ -55,9 +50,9 @@ class Proceso_ceroController extends Controller
     }
 
     public function grilla(){
-        //withTrashed
-        $objeto = SGCProceso_cero::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'ASC')->withTrashed();
-
+        $objeto = SGCTipo_entidad::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->orderBy('id', 'asc')->withTrashed();
+        
+        
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -73,44 +68,38 @@ class Proceso_ceroController extends Controller
                     )
                 ->make(true);
     }
-    
+
     public function create(){
-        
         return view("{$this->path_controller}.form",$this->form());
     }
 
     public function store(Request $request){
-        
+
         $this->validate($request,[
-            'idtipo_proceso'=>'required',
             'descripcion' => 'required',
             ],[
-            'idtipo_proceso.required' => 'Seleccione el tipo de proceso',
-            'descripcion.required' => 'Escriba el Nombre del Proceso',
+            'descripcion' => 'Escriba el Nombre del Tipo de Proceso',
         ]);
-        return DB::transaction(function() use ($request){
-            $obj        = SGCProceso_cero::withTrashed()->find($request->id);
 
-            if(empty($obj)){//SI ESTA VACIO REGISTRA
+        return DB::transaction(function() use ($request){
+            $obj        = SGCTipo_entidad::withTrashed()->find($request->id);
+
+            if(empty($obj)){//SI ESTÁ VACIO REGISTRA
                 //REGISTRO EN TABLA
-                $obj = new SGCProceso_cero();
+                $obj = new SGCTipo_entidad();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
                 $obj->idtipo_accion = 1;
-                $obj->idtipo_proceso = $request->idtipo_proceso;
-                $obj->codigo = $request->codigo_hidde;
                 $obj->descripcion = $request->descripcion;
                 $obj->save();
 
                 //REGISTRO MOVIMIENTOS
-                $obj_mov = new MOVSGCMov_proceso_cero();
+                $obj_mov = new MOVSGCMov_tipo_entidad();
                 $obj_mov->idpersona_solicita = $request->idpersona_solicita;
                 $obj_mov->idtipo_accion = 1;
                 $obj_mov->idsgc = $obj->id;
-                $obj_mov->idtipo_proceso = $request->idtipo_proceso;
-                $obj_mov->codigo = $request->codigo_hidde;
                 $obj_mov->descripcion = $request->descripcion;
                 $obj_mov->save();
-            }else{
+            }else{//SI NO ESTÁ VACIO EDITA
                 if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
                     $data = array(
                         "type" => "error",
@@ -126,12 +115,10 @@ class Proceso_ceroController extends Controller
                 $obj->save();
 
                 //EDICIÓN EN MOVIMIENTO
-                $obj_mov = new MOVSGCMov_proceso_cero();
+                $obj_mov = new MOVSGCMov_tipo_entidad();
                 $obj_mov->idpersona_solicita = $request->idpersona_solicita;
                 $obj_mov->idtipo_accion = 2;
                 $obj_mov->idsgc = $obj->id;
-                $obj_mov->idtipo_proceso = $request->idtipo_proceso;
-                $obj_mov->codigo = $request->codigo_hidde;
                 $obj_mov->descripcion = $request->descripcion;
                 $obj_mov->save();
             }
@@ -150,8 +137,8 @@ class Proceso_ceroController extends Controller
 
     public function aprobar(request $request){
         return DB::transaction(function () use($request){
-            //EDITA EL MOVIMIENTO
-            $mov = MOVSGCMov_proceso_cero::where('idsgc', $request->id)->latest('created_at')->first();
+            //EXTRAE EL REGISTRO DEL MOVIMIENTO
+            $mov = MOVSGCMov_tipo_entidad::where('idsgc', $request->id)->latest('created_at')->first();
 
             //SI EL ESTADO NO ESTA EN PENDIENTE NO HACE NADA
             if($mov->idestado == 2){
@@ -161,16 +148,13 @@ class Proceso_ceroController extends Controller
             $mov->idpersona_aprueba = auth()->user()->persona->id;
             $mov->idestado = 2;
             $mov->save();
-
+                    
             //APRUEBA EN LA TABLA
-            $obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->first();
+            $obj = SGCTipo_entidad::withTrashed()->where("id",$request->id)->first();
             $obj->idestado = 2;
             $obj->idpersona_solicita = $mov->idpersona_solicita;
             $obj->idpersona_aprueba = auth()->user()->persona->id;
-            $obj->idtipo_proceso    = $mov->idtipo_proceso;
-            $obj->idtipo_accion = $mov->idtipo_accion;
             $obj->descripcion = $mov->descripcion;
-            $obj->codigo = $mov->codigo;
             $obj->save();
 
             //ELIMINAR EN MOVIMIENTO
@@ -194,13 +178,12 @@ class Proceso_ceroController extends Controller
 
     public function destroy(Request $request){
 
-        $obj = SGCProceso_cero::withTrashed()->where("id",$request->id)->first();
-        if($obj->procesos_uno->isNotEmpty()){
-            throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
+        $obj = SGCTipo_entidad::withTrashed()->where("id",$request->id)->first();
+        if($obj->entidades->isNotEmpty()){
+            throw ValidationException::withMessages(["referencias" => "El Tipo de Proceso ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }
-        
-        /**----------------------------SOLICITUD ELIMINAR---------- */
         if ($request->accion == "eliminar") {
+
             if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
                 $data = array(
                     "type" => "error",
@@ -215,20 +198,18 @@ class Proceso_ceroController extends Controller
             $obj->save();
 
             //MOVIMIENTO
-            $mov = new MOVSGCMov_proceso_cero();
+            $mov = new MOVSGCMov_tipo_entidad();
             $mov->idpersona_solicita = auth()->user()->persona->id;
-            $mov->idtipo_proceso = $obj->idtipo_proceso;
             $mov->idtipo_accion = 3;
             $mov->idestado = 1;
             $mov->idsgc = $obj->id;
-            $mov->codigo = $obj->codigo;
             $mov->descripcion = $obj->descripcion;
             $mov->save();
+            return response()->json($obj);   
 
-            return response()->json($obj);
         }
 
-        /**----------------------SOLICITUD RESTAURAR---------------------- */
+        //RESTAURAR
         if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
             $data = array(
                 "type" => "error",
@@ -240,15 +221,13 @@ class Proceso_ceroController extends Controller
         $obj->idtipo_accion = 4;
         $obj->idestado = 1;
         $obj->save();
-        
+
         //MOVIMIENTO
-        $mov = new MOVSGCMov_proceso_cero();
+        $mov = new MOVSGCMov_tipo_entidad();
         $mov->idpersona_solicita = auth()->user()->persona->id;
         $mov->idtipo_accion = 4;
         $mov->idestado = 1;
-        $mov->idtipo_proceso = $obj->idtipo_proceso;
         $mov->idsgc = $obj->id;
-        $mov->codigo = $obj->codigo;
         $mov->descripcion = $obj->descripcion;
         $mov->save();
         return response()->json($obj);   

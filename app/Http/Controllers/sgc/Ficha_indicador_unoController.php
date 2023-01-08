@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Funcion;
 use App\Models\SGCDocumento;
-use App\Models\COMCargo;
+use App\Models\SGCEntidad;
 use App\Models\SGCFicha_indicador_uno;
 use App\Models\SGCIndicador_uno;
 use App\Models\SGCPeriodicidad;
@@ -45,7 +45,7 @@ class Ficha_indicador_unoController extends Controller
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
         $datos["data"]              = [];
-        $datos["entidades"]         = COMCargo::get();
+        $datos["entidades"]         = SGCEntidad::get();
         $datos["periodicidad"]      = SGCPeriodicidad::get();
         $datos["documentos"]        = SGCDocumento::get();
         $datos["indicadores"]       = SGCIndicador_uno::get();
