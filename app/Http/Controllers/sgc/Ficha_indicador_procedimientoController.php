@@ -21,7 +21,7 @@ use Illuminate\Validation\ValidationException;
 
 class Ficha_indicador_procedimientoController extends Controller
 {
-    public $modulo                  = "Indicadores";
+    public $modulo                  = "Ficha de Indicadores de Procedimientos";
     public $path_controller         = "ficha_indicador_procedimiento";
 
     public $model                   = null;
@@ -48,7 +48,7 @@ class Ficha_indicador_procedimientoController extends Controller
         $datos["data"]              = [];
         $datos["periodicidad"]      = SGCPeriodicidad::get();
         $datos["documentos"]        = SGCDocumento::get();
-        $datos["indicadores"]       = SGCIndicador_uno::get();
+        $datos["indicadores"]       = SGCIndicador_procedimiento::get();
         if( $id != null )
             $datos["data"]          = SGCFicha_indicador_uno::withTrashed()->find($id);
         return $datos;
@@ -60,7 +60,7 @@ class Ficha_indicador_procedimientoController extends Controller
 
     public function grilla(){
         
-        $objeto = SGCIndicador_procedimiento::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->withTrashed();
+        $objeto = SGCIndicador_procedimiento::get();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -74,6 +74,7 @@ class Ficha_indicador_procedimientoController extends Controller
     } 
 
     public function create(){
+
         return view("{$this->path_controller}.form",$this->form());
     }
 

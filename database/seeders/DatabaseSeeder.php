@@ -151,7 +151,7 @@ class DatabaseSeeder extends Seeder
         //------------------------------------------------------- Mod Padre
         $data = new Modulo_padre();
         $data->descripcion  = "Seguridad";
-        $data->abreviatura  = "Seg";
+        $data->abreviatura  = "Seg.";
         $data->url          = "#";
         $data->icono        = "ti-lock";
         $data->orden        = 1;
@@ -160,7 +160,7 @@ class DatabaseSeeder extends Seeder
 
         $data = new Modulo_padre();
         $data->descripcion  = "Gestion de calidad";
-        $data->abreviatura  = "SGC";
+        $data->abreviatura  = "SGC.";
         $data->url          = "#";
         $data->icono        = "fe fe-file-text";
         $data->orden        = 2;
@@ -168,9 +168,9 @@ class DatabaseSeeder extends Seeder
 
         $data = new Modulo_padre();
         $data->descripcion  = "Comisiones";
-        $data->abreviatura  = "COM";
+        $data->abreviatura  = "Com.";
         $data->url          = "#";
-        $data->icono        = "fa fa-list-ol";
+        $data->icono        = "mdi mdi-apple-finder";
         $data->orden        = 3;
         $data->save();
 
@@ -325,8 +325,8 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 3;
         $data->idpadre          = null;
-        $data->modulo           = "Comisiones";
-        $data->abreviatura      = "COMCom";
+        $data->modulo           = "Comision";
+        $data->abreviatura      = "Com";
         $data->url              = "comision";
         $data->icono            = null;
         $data->orden            = 1;

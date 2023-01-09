@@ -15,19 +15,16 @@ class CreateComision extends Migration
     {
         Schema::create('comisiones.comision', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idestado')->default(1);
-            $table->foreign('idestado')->references('id')->on('sgc.estado');
-
-            $table->unsignedInteger('idpersona_solicita');
-            $table->foreign('idpersona_solicita')->references('id')->on('general.persona');
-
-            $table->unsignedInteger('idpersona_aprueba')->nullable();
-            $table->foreign('idpersona_aprueba')->references('id')->on('general.persona');
-
-            $table->unsignedBigInteger('idtipo_accion')->default(1);
-            $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
-
-            $table->text('descripcion');
+            $table->unsignedBigInteger('idcreador');
+            $table->foreign('idcreador')->references('id')->on('general.persona');
+            $table->string("descripcion", 120);
+            $table->string("abreviatura", 60)->nullable();
+            $table->string("resolucion", 60);
+            $table->string("especiales", 1)->default('N')->comment('N --> Comisiones permanentes , S --> Comisiones especiales');
+            $table->date("fecha_inicio");
+            $table->date("fecha_fin");
+            $table->string("anio", 5);
+            $table->string("mes", 3);
             $table->boolean('editable')->default(true);
             $table->softDeletes();
             $table->timestamps();
