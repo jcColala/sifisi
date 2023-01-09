@@ -4,19 +4,18 @@ namespace App\Http\Controllers\sgc;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\MOVSGCMov_proceso_uno;
-use App\Models\COMCargo;
+
 use App\Models\COMComisiones;
 use App\Models\SGCProceso_cero;
 use App\Models\SGCProceso_uno;
+use App\Models\MOVSGCMov_proceso_uno;
 use App\Models\SGCTipo_proceso;
 use App\Models\SGCIndicador_uno;
 use App\Models\MOVSGCMov_indicador_uno;
+use App\Models\SGCProcedimiento;
 
 use App\Models\Funcion;
-use App\Models\MOVSGCMov_responsables_proceso_uno;
-use App\Models\SGCEntidad;
-use App\Models\SGCResponsables_proceso_uno;
+use App\Models\MOVSGCMov_procedimiento;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -52,19 +51,16 @@ class Proceso_unoController extends Controller
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
         $datos["proceso_cero"]      = SGCProceso_cero::where('idestado', 2)->with('procesos_uno')->get();
-        $datos["entidades"]         = SGCEntidad::where('idestado', 2)->get();
-        $datos["comisiones"]        = COMComisiones::get();
-        $datos["tipo_proceso"]      = SGCTipo_proceso::get();
         $datos["data"]              = [];
         $datos["indicadores"]       = [];
-        $datos["responsables"]      = [];
+        $datos["procedimientos"]    = [];
 
         if ($id != null)
             $datos["data"]          = SGCProceso_uno::withTrashed()->find($id);
         if ($id != null)
             $datos["indicadores"]   = SGCIndicador_uno::where('idproceso_uno', $id)->orderBy('id')->get();
         if ($id != null)
-            $datos["responsables"]  = SGCResponsables_proceso_uno::where('idproceso_uno', $id)->with('responsable')->get();
+            $datos["procedimientos"] = SGCProcedimiento::where('idproceso_uno', $id)->orderBy('id')->get();
         return $datos;
     }
 
@@ -102,24 +98,30 @@ class Proceso_unoController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'version' => 'required',
-            'fecha_aprobado' => 'required',
             'idproceso_cero' => 'required',
             'descripcion' => 'required',
-            'idcomision_responsable' => 'required',
+            'version' => 'required',
+            'fecha_aprobado' => 'required',
+            //'diagrama' => 'required',
+            //'documento' => 'required',
             'codigo_indicador' => 'required',
             'descripcion_indicador' => 'required',
+            'codigo_procedimiento' => 'required',
+            'descripcion_procedimiento' => 'required',
 
         ], [
             'version.required' => 'Escriba la versión del documento',
             'fecha_aprobado.required' => 'Seleccione la fecha en la que se aprobó el documento',
             'idproceso_cero.required' => 'Seleccione el Proceso Nivel Cero al que pertenece este Proceso Nivel 1',
             'descripcion.required' => 'Escriba el Nombre del Proceso',
-            'idcomision_responsable' => 'Debes seleecionar el puesto que es responsable del proceso',
-            'codigo_indicador.required' => 'Escriba los clientes del Proceso',
-            'descripcion_indicador.required' => 'Escriba los clientes del Proceso',
+            'diagrama.required' => 'Debes subir el diagrama del Proceso de Nivel 1',
+            'documento.required' => 'Debes subir la ficha del Proceso de Nivel 1',
+            'codigo_indicador.required' => 'Escriba el codigo del indicador del proceso',
+            'descripcion_indicador.required' => 'Escriba el nombre del indicador del proceso',
+            'codigo_procedimiento.required' => 'Escriba el codigo del procedimiento.',
+            'descripcion_procedimiento.required' => 'Escriba el nombre del procedimiento'
         ]);
-
+        
         return DB::transaction(function () use ($request) {
             $obj        = SGCProceso_uno::withTrashed()->find($request->id);
             if (empty($obj)) {
@@ -130,7 +132,7 @@ class Proceso_unoController extends Controller
                 $obj->version = $request->version;
                 $obj->fecha_aprobado = $request->fecha_aprobado;
                 $obj->idproceso_cero = $request->idproceso_cero;
-                $obj->codigo = $request->codigo_hidde;
+                $obj->codigo = $request->codigo;
                 $obj->descripcion = $request->descripcion;
                 $obj->save();
 
@@ -141,11 +143,11 @@ class Proceso_unoController extends Controller
                 $mov->fecha_aprobado = $request->fecha_aprobado;
                 $mov->idproceso_cero = $request->idproceso_cero;
                 $mov->idsgc = $obj->id;
-                $mov->codigo = $request->codigo_hidde;
+                $mov->codigo = $request->codigo;
                 $mov->descripcion = $request->descripcion;
                 $mov->save();
 
-                /*
+
                 //TABLA INDICADOR 
                 for ($i = 0; $i < count($request->codigo_indicador); $i++) {
                     $indicador = new SGCIndicador_uno();
@@ -166,25 +168,33 @@ class Proceso_unoController extends Controller
                     $mov->save();
                 }
 
-                //TABLA RESPONSABLES
-                for ($i = 0; $i < count($request->idcomision_responsable); $i++) {
-                    $responsable = new SGCResponsables_proceso_uno();
-                    $responsable->idpersona_solicita = $request->idpersona_solicita;
-                    $responsable->idproceso_uno = $obj->id;
-                    $responsable->idcomision_responsable = $request->idcomision_responsable[$i];
-                    $responsable->version_proceso_uno = $request->version;
-                    $responsable->save();
+                //TABLA PROCEDIMIENTO 
+                for ($i = 0; $i < count($request->codigo_procedimiento); $i++) {
+                    $procedimiento = new SGCProcedimiento();
+                    $procedimiento->idproceso_uno = $obj->id;
+                    $procedimiento->idpersona_solicita = $request->idpersona_solicita;
+                    $procedimiento->version_proceso_uno = $request->version;
+                    $procedimiento->codigo = $request->codigo_procedimiento[$i];
+                    $procedimiento->descripcion = $request->descripcion_procedimiento[$i];
+                    $procedimiento->save();
 
-                    $mov = new MOVSGCMov_responsables_proceso_uno();
-                    $mov->idpersona_solicita = $request->idpersona_solicita;
+                    $mov = new MOVSGCMov_procedimiento();
                     $mov->idproceso_uno = $obj->id;
-                    $mov->idcomision_responsable = $request->idcomision_responsable[$i];
+                    $mov->idpersona_solicita = $request->idpersona_solicita;
+                    $mov->idsgc = $procedimiento->id;
                     $mov->version_proceso_uno = $request->version;
-                    $mov->idsgc = $responsable->id;
+                    $mov->codigo = $request->codigo_procedimiento[$i];
+                    $mov->descripcion = $request->descripcion_procedimiento[$i];
                     $mov->save();
                 }
-                */
             } else {
+                if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
+                    $data = array(
+                        "type" => "error",
+                        "text" => "No puedes editar un registro que está en estado Pendiente"
+                    );
+                    return response()->json($data);
+                }
                 /** -------------------EDICION---------- */
                 //EDICIÓN TABLA
                 $obj->idpersona_solicita = $request->idpersona_solicita;
@@ -201,10 +211,10 @@ class Proceso_unoController extends Controller
                 $mov->fecha_aprobado = $request->fecha_aprobado;
                 $mov->idproceso_cero = $request->idproceso_cero;
                 $mov->idsgc = $obj->id;
-                $mov->codigo = $request->codigo_hidde;
+                $mov->codigo = $request->codigo;
                 $mov->descripcion = $request->descripcion;
                 $mov->save();
-                /*
+                
                 //ELIMINA LOS INDICADORES DEL PROCESO
                 SGCIndicador_uno::where('idproceso_uno', $obj->id)->delete();
                 MOVSGCMov_indicador_uno::where('idproceso_uno')->delete();
@@ -230,42 +240,80 @@ class Proceso_unoController extends Controller
                         $mov->codigo = $request->codigo_indicador[$i];
                         $mov->descripcion = $request->descripcion_indicador[$i];
                         $mov->save();
+                    }else{
+                        //RESTAURA LOS INDICADORES QUE SIGAN IGUALES
+                        $indicador->restore();
+
+                        //EDITA UN INDICADOR
+                        $indicador->idpersona_solicita = $request->idpersona_solicita;
+                        $indicador->idpersona_aprueba = null;
+                        $indicador->idtipo_accion = 2;
+                        $indicador->idestado = 1;
+                        $indicador->save();    
+
+                        //REGISTRO DE EDICIÓN EN LA TABLA MOVIMIENTO
+                        $mov = new MOVSGCMov_indicador_uno();
+                        $mov->idtipo_accion = 2;
+                        $mov->idproceso_uno = $obj->id;
+                        $mov->idpersona_solicita = $request->idpersona_solicita;
+                        $mov->idsgc = $indicador->id;
+                        $mov->version_proceso_uno = $request->version;
+                        $mov->codigo = $request->codigo_indicador[$i];
+                        $mov->descripcion = $request->descripcion_indicador[$i];
+                        $mov->save();
                     }
-                    //RESTAURA LOS INDICADORES QUE SIGAN IGUALES
-                    $indicador->restore();
-
-                    //EDITA UN INDICADOR
-                    $indicador->idpersona_solicita = $request->idpersona_solicita;
-                    $indicador->idpersona_aprueba = null;
-                    $indicador->idtipo_accion = 2;
-                    $indicador->idestado = 1;
-                    $indicador->save();    
-
-                    //REGISTRO DE EDICIÓN EN LA TABLA MOVIMIENTO
-                    $mov = new MOVSGCMov_indicador_uno();
-                    $mov->idtipo_accion = 2;
-                    $mov->idproceso_uno = $obj->id;
-                    $mov->idpersona_solicita = $request->idpersona_solicita;
-                    $mov->idsgc = $indicador->id;
-                    $mov->version_proceso_uno = $request->version;
-                    $mov->codigo = $request->codigo_indicador[$i];
-                    $mov->descripcion = $request->descripcion_indicador[$i];
-                    $mov->save();
+                    
                 }
-                */
-                /*
-                //TABLA RESPONSABLES
-                for ($i = 0; $i < count($request->idcomision_responsable); $i++) {
-                    $responsable  = SGCResponsables_proceso_uno::where('idcomision_responsable', $request->idcomision_responsable[$i])->where('idproceso_uno', $obj->id)->first();
 
-                    if (is_null($responsable))
-                        $responsable = new SGCResponsables_proceso_uno();
-                    $responsable->idpersona_solicita = $request->idpersona_solicita;
-                    $responsable->idproceso_uno = $obj->id;
-                    $responsable->idcomision_responsable = $request->idcomision_responsable[$i];
-                    $responsable->version_proceso_uno = $request->version;
-                    $responsable->save();
-                }*/
+
+                //ELIMINA LOS PROCEDIMIENTOS DEL PROCESO
+                SGCProcedimiento::where('idproceso_uno', $obj->id)->delete();
+                MOVSGCMov_procedimiento::where('idproceso_uno')->delete();
+
+                //REGISTRO O EDICIÓN DE PROCEDIMIENTOS AL EDITAR
+                for ($i = 0; $i < count($request->codigo_procedimiento); $i++) {
+                    $procedimiento  = SGCProcedimiento::withTrashed()->find($request->id_procedimiento[$i]);
+
+                    if (is_null($procedimiento)) { //REGISTRA UN NUEVO PROCEDIMIENTO
+                        $procedimiento = new SGCProcedimiento();
+                        $procedimiento->idproceso_uno = $obj->id;
+                        $procedimiento->idpersona_solicita = $request->idpersona_solicita;
+                        $procedimiento->version_proceso_uno = $request->version;
+                        $procedimiento->codigo = $request->codigo_procedimiento[$i];
+                        $procedimiento->descripcion = $request->descripcion_procedimiento[$i];
+                        $procedimiento->save();
+
+                        $mov = new MOVSGCMov_procedimiento();
+                        $mov->idproceso_uno = $obj->id;
+                        $mov->idpersona_solicita = $request->idpersona_solicita;
+                        $mov->idsgc = $procedimiento->id;
+                        $mov->version_proceso_uno = $request->version;
+                        $mov->codigo = $request->codigo_procedimiento[$i];
+                        $mov->descripcion = $request->descripcion_procedimiento[$i];
+                        $mov->save();
+                    } else {
+                        //RESTAURA LOS PROCEDIMIENTOS QUE SIGAN IGUALES
+                        $procedimiento->restore();
+
+                        //EDITA UN PROCEDIMIENTO
+                        $procedimiento->idpersona_solicita = $request->idpersona_solicita;
+                        $procedimiento->idpersona_aprueba = null;
+                        $procedimiento->idtipo_accion = 2;
+                        $procedimiento->idestado = 1;
+                        $procedimiento->save();
+
+                        //REGISTRO DE EDICIÓN EN LA TABLA MOVIMIENTO
+                        $mov = new MOVSGCMov_procedimiento();
+                        $mov->idtipo_accion = 2;
+                        $mov->idproceso_uno = $obj->id;
+                        $mov->idpersona_solicita = $request->idpersona_solicita;
+                        $mov->idsgc = $procedimiento->id;
+                        $mov->version_proceso_uno = $request->version;
+                        $mov->codigo = $request->codigo_procedimiento[$i];
+                        $mov->descripcion = $request->descripcion_procedimiento[$i];
+                        $mov->save();
+                    }
+                }
             }
             return response()->json($obj);
         });
@@ -297,7 +345,7 @@ class Proceso_unoController extends Controller
             $mov->save();
 
             //APRUEBA EN LA TABLA
-            $obj = SGCProceso_uno::withTrashed()->where("id",$request->id)->first();
+            $obj = SGCProceso_uno::where("id",$request->id)->first();
             $obj->idestado = 2;
             $obj->idtipo_accion = $mov->idtipo_accion;
             $obj->idpersona_solicita = $mov->idpersona_solicita;
@@ -308,6 +356,7 @@ class Proceso_unoController extends Controller
             $obj->codigo = $mov->codigo;
             $obj->descripcion = $mov->descripcion;
             $obj->diagrama = $mov->diagrama;
+            $obj->documento = $mov->documento;
 
             $obj->save();
 
@@ -358,7 +407,7 @@ class Proceso_unoController extends Controller
             $mov->fecha_aprobado = $obj->fecha_aprobado;
             $mov->idproceso_cero = $obj->idproceso_cero;
             $mov->idsgc = $obj->id;
-            $mov->codigo = $obj->codigo_hidde;
+            $mov->codigo = $obj->codigo;
             $mov->descripcion = $obj->descripcion;
             $mov->save();
 
@@ -389,7 +438,7 @@ class Proceso_unoController extends Controller
             $mov->fecha_aprobado = $obj->fecha_aprobado;
             $mov->idproceso_cero = $obj->idproceso_cero;
             $mov->idsgc = $obj->id;
-            $mov->codigo = $obj->codigo_hidde;
+            $mov->codigo = $obj->codigo;
             $mov->descripcion = $obj->descripcion;
             $mov->save();
         return response()->json($obj);   

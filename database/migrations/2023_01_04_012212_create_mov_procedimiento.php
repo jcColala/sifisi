@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMovProcesoDos extends Migration
+class CreateMovProcedimiento extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMovProcesoDos extends Migration
      */
     public function up()
     {
-        Schema::create('movsgc.mov_proceso_dos', function (Blueprint $table) {
+        Schema::create('movsgc.mov_procedimiento', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idestado')->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
@@ -31,20 +31,17 @@ class CreateMovProcesoDos extends Migration
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
             
             $table->unsignedBigInteger('idsgc');
-            $table->foreign('idsgc')->references('id')->on('sgc.proceso_dos');
-            
+            $table->foreign('idsgc')->references('id')->on('sgc.procedimiento');
+
+            $table->float('version_proceso_uno');
+            $table->float('version')->nullable();
+            $table->date('fecha_aprobado')->nullable();
             $table->string('codigo', 20);
             $table->text('descripcion');
-            $table->float('version');
-            $table->date('fecha_aprobado');
-            $table->text('objetivo');
-            $table->text('alcance');
-            $table->text('proveedores');
-            $table->text('entradas');
-            $table->text('salidas');
-            $table->text('clientes');
+
             $table->boolean('editable')->default(true);
-            $table->text('diagrama')->default('hola buenas tardes');
+            $table->text('documento')->nullable();
+            $table->text('diagrama')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -57,6 +54,6 @@ class CreateMovProcesoDos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movsgc.mov_proceso_dos');
+        Schema::dropIfExists('movsgc.mov_procedimiento');
     }
 }

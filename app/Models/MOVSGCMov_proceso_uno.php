@@ -23,7 +23,9 @@ class MOVSGCMov_proceso_uno extends Model
         'codigo',
         'descripcion',
         'version',
+        'version_proceso_cero',
         'fecha_aprobado',
+        'documento',
         'diagrama',
         'deleted_at'
     ];

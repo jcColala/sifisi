@@ -33,11 +33,12 @@ class CreateMovProcesounoTable extends Migration
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
 
-            $table->float('version');
-            $table->date('fecha_aprobado');
+            $table->float('version')->nullable();
+            $table->date('fecha_aprobado')->nullable();
             $table->string('codigo', 20);
             $table->string('descripcion', 255);
-            $table->text('diagrama')->default('hola buenas tardes');
+            $table->text('documento')->default('hola buenas tardes')->nullable();
+            $table->text('diagrama')->default('hola buenas tardes')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

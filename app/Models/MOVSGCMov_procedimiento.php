@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class MOVSGCMov_proceso_dos extends Model
+class MOVSGCMov_procedimiento extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "movsgc.mov_proceso_dos";
+    protected $table        = "movsgc.mov_procedimiento";
     protected $primaryKey   = "id";
 
     protected $fillable = [
@@ -18,18 +18,14 @@ class MOVSGCMov_proceso_dos extends Model
         'idtipo_accion',
         'idpersona_solicita',
         'idpersona_aprueba',
-        'idproceso_cero',
+        'idproceso_uno',
         'idsgc',
         'codigo',
         'descripcion',
         'version',
+        'version_proceso_uno',
         'fecha_aprobado',
-        'objetivo',
-        'alcance',
-        'proveedores',
-        'entradas',
-        'clientes',
-        'salidas',
+        'documento',
         'diagrama',
         'editable',
         'deleted_at'

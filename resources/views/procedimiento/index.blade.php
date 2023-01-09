@@ -24,12 +24,12 @@
 					<table id="dt-{{$pathController}}" realid="{{$pathController}}" class="table table-striped databale table-bordered text-nowrap w-100">
 						<thead>
 							<tr>
-							<th width="05%">#</th>
-								<th width="30%">Proceso de Nivel 1</th>
+								<th width="05%">#</th>
+								<th width="30%">Ficha de Indicadores de Procedimiento</th>
 								<th width="30%">Código</th>
 								<th width="10%">Version</th>
-								<th width="20%">Estado</th>
-								<th width="05%">Activo</th>
+								<th width="10%">Estado</th>
+								<th width="05%">Accion</th>
 							</tr>
 						</thead>
 						<tbody>

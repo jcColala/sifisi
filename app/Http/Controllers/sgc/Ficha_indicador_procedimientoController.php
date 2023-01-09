@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Funcion;
 use App\Models\SGCDocumento;
+use App\Models\SGCFicha_indicador_procedimiento;
 use App\Models\SGCIndicador_uno;
 use App\Models\SGCFicha_indicador_uno;
+use App\Models\SGCIndicador_procedimiento;
 use App\Models\SGCPeriodicidad;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -17,10 +19,10 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\ValidationException;
 
-class Ficha_indicador_unoController extends Controller
+class Ficha_indicador_procedimientoController extends Controller
 {
     public $modulo                  = "Indicadores";
-    public $path_controller         = "ficha_indicador_uno";
+    public $path_controller         = "ficha_indicador_procedimiento";
 
     public $model                   = null;
     public $name_schema             = null;
@@ -32,7 +34,7 @@ class Ficha_indicador_unoController extends Controller
         foreach (Funcion::get() as $key => $value) {
             $this->middleware('permission:'.$value["funcion"].'-'.$this->path_controller.'', ['only' => [$value["funcion"]]]);
         }
-        $this->model                = new SGCFicha_indicador_uno();
+        $this->model                = new SGCFicha_indicador_procedimiento();
         $this->name_schema          = $this->model->getSchemaName();
         $this->name_table           = $this->model->getTableName();
 
@@ -57,8 +59,8 @@ class Ficha_indicador_unoController extends Controller
     }
 
     public function grilla(){
-
-        $objeto = SGCFicha_indicador_uno::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->with('indicador_uno')->withTrashed();
+        
+        $objeto = SGCIndicador_procedimiento::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){

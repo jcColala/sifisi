@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SGCProceso_dos extends Model
+class SGCProcedimiento extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "sgc.proceso_dos";
+    protected $table        = "sgc.procedimiento";
     protected $primaryKey   = "id";
 
     protected $fillable = [
@@ -21,15 +21,11 @@ class SGCProceso_dos extends Model
         'idproceso_uno',
         'idresponsable',
         'version',
+        'version_proceso_uno',
         'fecha_aprobado',
         'codigo',
         'descripcion',
-        'objetivo',
-        'alcance',
-        'proveedores',
-        'entradas',
-        'salidas',
-        'clientes',
+        'documento',
         'diagrama',
         'editable',
         'deleted_at'

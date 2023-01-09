@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIndicadorDos extends Migration
+class CreateFichaIndicadorProcedimiento extends Migration
 {
     /**
      * Run the migrations.
@@ -13,28 +13,31 @@ class CreateIndicadorDos extends Migration
      */
     public function up()
     {
-        Schema::create('sgc.indicador_dos', function (Blueprint $table) {
+        Schema::create('sgc.ficha_indicador_procedimiento', function (Blueprint $table) {
             $table->id();
+
             $table->unsignedBigInteger('idestado')->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
 
-            $table->unsignedInteger('idpersona_solicita');
+            $table->unsignedBigInteger('idpersona_solicita');
             $table->foreign('idpersona_solicita')->references('id')->on('general.persona');
 
-            $table->unsignedInteger('idpersona_aprueba')->nullable();
+            $table->unsignedBigInteger('idpersona_aprueba')->nullable();
             $table->foreign('idpersona_aprueba')->references('id')->on('general.persona');
 
-            $table->unsignedBigInteger('idproceso_dos');
-            $table->foreign('idproceso_dos')->references('id')->on('sgc.proceso_dos');
+            $table->unsignedBigInteger('idindicador_procedimiento');
+            $table->foreign('idindicador_procedimiento')->references('id')->on('sgc.indicador_procedimiento');
 
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
 
-            $table->string('codigo', 20);
-            $table->text('descripcion');
-            $table->boolean('editable')->default(true);
-            $table->softDeletes();
+            $table->unsignedBigInteger('idperiodicidad');
+            $table->foreign('idperiodicidad')->references('id')->on('sgc.periodicidad');
+
+            $table->float('version');
+            $table->date("fecha_aprobado");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -45,6 +48,6 @@ class CreateIndicadorDos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sgc.indicador_dos');
+        Schema::dropIfExists('sgc.ficha_indicador_procedimiento');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateActividadesProcesoDos extends Migration
+class CreateProcedimiento extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateActividadesProcesoDos extends Migration
      */
     public function up()
     {
-        Schema::create('sgc.actividades_proceso_dos', function (Blueprint $table) {
+        Schema::create('sgc.procedimiento', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idestado')->default(1);
             $table->foreign('idestado')->references('id')->on('sgc.estado');
@@ -24,18 +24,23 @@ class CreateActividadesProcesoDos extends Migration
             $table->unsignedInteger('idpersona_aprueba')->nullable();
             $table->foreign('idpersona_aprueba')->references('id')->on('general.persona');
 
-            $table->unsignedBigInteger('idproceso_dos');
-            $table->foreign('idproceso_dos')->references('id')->on('sgc.proceso_dos');
-
+            $table->unsignedBigInteger('idproceso_uno');
+            $table->foreign('idproceso_uno')->references('id')->on('sgc.proceso_uno');
 
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
-
-            $table->unsignedInteger('correlativo');
-            $table->string('descripcion', 255);
-            $table->text('registro');
-            $table->timestamps();
+            
+            $table->float('version_proceso_uno');
+            $table->float('version')->nullable();
+            $table->date('fecha_aprobado')->nullable();
+            $table->string('codigo', 20);
+            $table->text('descripcion');
+            $table->boolean('editable')->default(true);
+            $table->text('documento')->nullable();
+            $table->text('diagrama')->nullable();
             $table->softDeletes();
+            $table->timestamps();
+
         });
     }
 
@@ -46,6 +51,6 @@ class CreateActividadesProcesoDos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sgc.actividades_proceso_dos');
+        Schema::dropIfExists('sgc.procedimiento');
     }
 }

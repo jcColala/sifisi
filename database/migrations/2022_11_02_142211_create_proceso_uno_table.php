@@ -32,10 +32,11 @@ class CreateProcesounoTable extends Migration
             
             $table->string('codigo', 20);
             $table->text('descripcion');
-            $table->float('version');
-            $table->date('fecha_aprobado');
-            $table->boolean('editable')->default(true);
-            $table->text('diagrama')->default('hola buenas tardes');
+            $table->float('version')->nullable();
+            $table->date('fecha_aprobado')->nullable();
+            $table->boolean('editable')->default(true)->nullable();
+            $table->text('documento')->default('hola buenas tardes')->nullable();
+            $table->text('diagrama')->default('hola buenas tardes')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

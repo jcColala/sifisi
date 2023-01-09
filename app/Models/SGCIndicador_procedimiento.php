@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SGCActividades_proceso_dos extends Model
+class SGCIndicador_procedimiento extends Model
 {
     use SoftDeletes;
 
-    protected $table        = "sgc.actividades_proceso_dos";
+    protected $table        = "sgc.indicador_procedimiento";
     protected $primaryKey   = "id";
 
     protected $fillable = [
@@ -18,11 +18,9 @@ class SGCActividades_proceso_dos extends Model
         'idpersona_solicita',
         'idpersona_aprueba',
         'idtipo_accion',
-        'idproceso_dos',
-        'idresponsable',
-        'correlativo',
+        'idprocedimiento',
+        'codigo',
         'descripcion',
-        'registro',
         'deleted_at'
     ];
 
@@ -40,6 +38,10 @@ class SGCActividades_proceso_dos extends Model
 
     public function tipo_accion(){
         return $this->belongsTo(SGCTipo_accion::class, 'idtipo_accion');
+    }
+
+    public function procedimiento(){
+        return $this->belongsTo(SGCProceso_dos::class, 'idprocedimiento');
     }
 
     public function getTableName(){

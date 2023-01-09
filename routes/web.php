@@ -21,6 +21,8 @@ USE App\Http\Controllers\sgc\Tipo_entidadController;
 use App\Http\Controllers\comisiones\CargoController;
 use App\Http\Controllers\comisiones\ComisionesController;
 use App\Http\Controllers\sgc\EntidadController;
+use App\Http\Controllers\sgc\Ficha_indicador_procedimientoController;
+use App\Http\Controllers\sgc\ProcedimientoController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Contracts\Role;
 
@@ -114,10 +116,10 @@ Route::group(["middleware" => ['auth']], function () {
 
 
     //----------------------------------------------------------------------------------------------------PROCESO NIVEL UNO
-    Route::resource('proceso_dos', Proceso_dosController::class)->only("index", "create", "store", "edit", "destroy");
-    Route::get('proceso_dos/grilla', [Proceso_dosController::class, 'grilla'])->name('proceso_dos.grilla');
-    Route::post('proceso_dos/aprobar', [Proceso_dosController::class, 'aprobar'])->name('proceso_dos.aprobar');
-    Route::get('proceso_dos_ver/{id}', [Proceso_dosController::class, 'ver'])->name('proceso_dos.ver');
+    Route::resource('procedimiento', ProcedimientoController::class)->only("index", "create", "store", "edit", "destroy");
+    Route::get('procedimiento/grilla', [ProcedimientoController::class, 'grilla'])->name('procedimiento.grilla');
+    Route::post('procedimiento/aprobar', [ProcedimientoController::class, 'aprobar'])->name('procedimiento.aprobar');
+    Route::get('procedimiento_ver/{id}', [ProcedimientoController::class, 'ver'])->name('procedimiento.ver');
 
     //-----------------------------------------------------------------------------------------------------INDICADORES NIVEL UNO
     Route::resource('ficha_indicador_uno', Ficha_indicador_unoController::class)->only("index", "create", "store", "edit", "destroy");
@@ -126,10 +128,10 @@ Route::group(["middleware" => ['auth']], function () {
     Route::get('ficha_indicador_uno_ver/{id}', [Ficha_indicador_unoController::class, 'ver'])->name('ficha_indicador_uno.ver');
 
     //-----------------------------------------------------------------------------------------------------INDICADORES NIVEL DOS
-    Route::resource('ficha_indicador_dos', Ficha_indicador_unoController::class)->only("index", "create", "store", "edit", "destroy");
-    Route::get('ficha_indicador_dos/grilla/', [Ficha_indicador_unoController::class, 'grilla'])->name('ficha_indicador_dos.grilla');
-    Route::post('ficha_indicador_dos/aprobar', [Ficha_indicador_unoController::class, 'aprobar'])->name('ficha_indicador_dos.aprobar');
-    Route::get('ficha_indicador_dos_ver/{id}', [Ficha_indicador_unoController::class, 'ver'])->name('ficha_indicador_dos.ver');
+    Route::resource('ficha_indicador_procedimiento', Ficha_indicador_procedimientoController::class)->only("index", "create", "store", "edit", "destroy");
+    Route::get('ficha_indicador_procedimiento/grilla/', [Ficha_indicador_unoController::class, 'grilla'])->name('ficha_indicador_procedimiento.grilla');
+    Route::post('ficha_indicador_procedimiento/aprobar', [Ficha_indicador_unoController::class, 'aprobar'])->name('ficha_indicador_procedimiento.aprobar');
+    Route::get('ficha_indicador_procedimiento_ver/{id}', [Ficha_indicador_unoController::class, 'ver'])->name('ficha_indicador_procedimiento.ver');
 
     //------------------------------------------------------------------------------------------------------DOCUMENTOS
     Route::resource('documentos', DocumentoController::class)->only("index", "create", "store", "edit", "destroy");

@@ -254,9 +254,9 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
-        $data->modulo           = "Procesos Nivel 2";
-        $data->abreviatura      = "SGC_PR2";
-        $data->url              = "proceso_dos";
+        $data->modulo           = "Procedimientos";
+        $data->abreviatura      = "SGC_PRC";
+        $data->url              = "procedimiento";
         $data->icono            = null;
         $data->orden            = 4;
         $data->save();
@@ -274,9 +274,9 @@ class DatabaseSeeder extends Seeder
         $data = new Modulo();
         $data->idmodulo_padre   = 2;
         $data->idpadre          = null;
-        $data->modulo           = "Indicadores Nivel 2";
-        $data->abreviatura      = "SGC_IND2";
-        $data->url              = "ficha_indicador_dos";
+        $data->modulo           = "Indicadores de Procedimientos";
+        $data->abreviatura      = "SGC_INDPR";
+        $data->url              = "ficha_indicador_procedimiento";
         $data->icono            = null;
         $data->orden            = 6;
         $data->save();
