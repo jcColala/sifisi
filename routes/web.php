@@ -17,8 +17,7 @@ use App\Http\Controllers\sgc\Proceso_dosController;
 use App\Http\Controllers\sgc\Tipo_procesoController;
 use App\Http\Controllers\sgc\ResolucionController;
 //-------COMISIONES
-use App\Http\Controllers\comisiones\CargoController;
-use App\Http\Controllers\comisiones\ComisionesController;
+use App\Http\Controllers\comisiones\ComisionController;
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Contracts\Role;
@@ -144,10 +143,8 @@ Route::group(["middleware" => ['auth']], function () {
 
 
      //-----------------------------------------------------------------------------------------------------COMISIONES
-     Route::resource('comision', ComisionesController::class)->only('index', 'create', 'store', 'edit', 'destroy');
-     Route::get('comision/grilla', [ComisionesController::class, 'grilla'])->name('comision.grilla');
-     Route::post('comision/aprobar ', [ComisionesController::class, 'aprobar'])->name('comision.aprobar');
-     Route::get('comision/{id}', [ComisionesController::class, 'ver'])->name('entidad.ver');
+     Route::resource('comision', ComisionController::class)->only('index', 'create', 'store', 'edit', 'destroy');
+     Route::get('comision/grilla', [ComisionController::class, 'grilla'])->name('comision.grilla');
 
 
 });

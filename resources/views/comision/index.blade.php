@@ -9,7 +9,7 @@
 	<div class="col-md-12 col-lg-12">
 		<div class="card">
 			<div class="card-header">
-				<h3 class="card-title">Lista de {{"$modulo"}}</h3>
+				<h3 class="card-title">Lista de {{"$modulo"}}es</h3>
 				<div class="card-options card_options">
 					<div class="btn-list">
 						<!-- START Botones-->
@@ -24,9 +24,12 @@
 						<thead>
 							<tr>
 								<th width="05%">#</th>
-								<th width="15%">Comision</th>	
-								<th width="10%">Accion</th>
-								<th width="10%">Estado</th>
+								<th width="30%">Responsable ( presidente )</th>	
+								<th width="25%">Comisi&oacute;n</th>
+								<th width="15%">Resoluci&oacute;n</th>
+								<th width="10%">Fecha inicio</th>
+								<th width="10%">Fecha fin</th>
+								<th width="05%">Estado</th>
 							</tr>
 						</thead>
 						<tbody>

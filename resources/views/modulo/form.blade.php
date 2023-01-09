@@ -120,10 +120,10 @@
 		                        	<div class="mt-10px">
 										<div class="grid-margin">
 											<div class="">
-												<!-- Template compras ---->
+												<!-- Template funcion ---->
                                                 <template id="template_funcion">
                                                 	<tr>
-														<td class="nro_funcion">1</td>
+														<td class="nro_funcion text-center">1</td>
 														<td class="nombre_funcion text-center font-weight-600">
 															<i></i>
 															<span></span>
