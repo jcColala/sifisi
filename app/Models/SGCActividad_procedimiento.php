@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\comisiones\Comision;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,9 +23,16 @@ class SGCActividad_procedimiento extends Model
         'idresponsable',
         'correlativo',
         'descripcion',
-        'registro',
         'deleted_at'
     ];
+
+    public function procedimiento(){
+        return $this->belongsTo(SGCProcedimiento::class, 'idprocedimiento');
+    }
+
+    Public function comision(){
+        return $this->hasOne(Comision::class, 'idresponsable');
+    }
 
     public function persona_solicita(){
         return $this->belongsTo(Persona::class, 'idpersona_solicita');
