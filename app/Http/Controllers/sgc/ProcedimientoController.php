@@ -4,7 +4,7 @@ namespace App\Http\Controllers\sgc;
 use App\Http\Controllers\Controller;
 
 
-use App\Models\COMComisiones;
+use App\Models\comisiones\Comision;
 use App\Models\SGCProcedimiento;
 use App\Models\SGCIndicador_procedimiento;
 use App\Models\SGCActividad_procedimiento;
@@ -46,7 +46,7 @@ class ProcedimientoController extends Controller
         $datos["pathController"]    = $this->path_controller;
         $datos["modulo"]            = $this->modulo;
         $datos["prefix"]            = "";
-        $datos["comisiones"]         = COMComisiones::get();
+        $datos["comisiones"]         = Comision::get();
         $datos["data"]              = [];
         $datos["indicadores"]       = [];
         $datos["actividades"]       = [];
@@ -66,7 +66,7 @@ class ProcedimientoController extends Controller
 
     public function grilla(){
         //withTrashed
-        $objeto = SGCProcedimiento::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->where('idestado', 2)->orderBy('id', 'ASC')->withTrashed()->get();
+        $objeto = SGCProcedimiento::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->with('proceso_uno')->orderBy('id', 'ASC')->withTrashed()->get();
 
         return DataTables::of($objeto)
                 ->addIndexColumn()
@@ -75,8 +75,12 @@ class ProcedimientoController extends Controller
                 })
                 ->addColumn("activo", function($row){
                     return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
+                })->addColumn('estado', function($objeto){
+                    return $objeto->tipo_accion->descripcion." ".$objeto->estado->descripcion;
                 })
-                ->rawColumns(['icono', "activo"])
+                ->rawColumns(
+                    ['icono', "activo", "estado"]
+                    )
                 ->make(true);
     }
 
@@ -122,8 +126,15 @@ class ProcedimientoController extends Controller
                 $mov->idsgc = $obj->id;
                 $mov->save();
             }else{
+                if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE
+                    $data = array(
+                        "type" => "error",
+                        "text" => "No puedes editar un registro que está en estado Pendiente"
+                    );
+                    return response()->json($data);
+                }
                 /**EDITAR PROCEDIMIENTO */
-                $obj->idestado = 2;
+                $obj->idestado = 1;
                 $obj->idtipo_accion = 2;
                 $obj->idpersona_solicita = $request->idpersona_solicita;
                 $obj->idpersona_aprueba = null;
@@ -159,9 +170,8 @@ class ProcedimientoController extends Controller
                     $actividad->idestado = 2;
                     $actividad->idprocedimiento = $obj->id;
                     $actividad->idpersona_solicita = $request->idpersona_solicita;
-                    //$actividad->version_procedimiento = $request->version; CREAR LUEGO
+                    $actividad->version_procedimiento = $request->version; 
                     $actividad->descripcion = $request->descripcion_indicador[$i];
-                    $actividad->registro = "a"; //borrar 
                     $actividad->correlativo = "1"; //ARREGLAR
                     $actividad->save();
                 }
@@ -198,9 +208,25 @@ class ProcedimientoController extends Controller
     public function aprobar(request $request){
         $obj = SGCProcedimiento::withTrashed()->where("id",$request->id)->first();
         $obj->idpersona_aprueba = auth()->user()->persona->id;
-            $obj->idestado = 2;
-            $obj->save();
-            return response()->json($obj);
+        $obj->idestado = 2;
+        $obj->save();
+
+        /**-----ACTIVIDADES */
+        $actividad = SGCActividad_procedimiento::where('idprocedimiento', $obj->id)->get();
+        foreach($actividad as $acti){
+            $acti->idestado = 2;
+            $acti->idpersona_aprueba = $obj->idpersona_aprueba;
+            $acti->save();
+        }
+
+        /**-----INDICADORES */
+        $procedimiento = SGCIndicador_procedimiento::where('idprocedimiento', $obj->id)->get();
+        foreach($procedimiento as $proc){
+            $proc->idestado = 2;
+            $proc->idpersona_aprueba = $obj->idpersona_aprueba;
+            $proc->save();
+        }
+        return response()->json($obj);
     }
 
     public function destroy(Request $request){

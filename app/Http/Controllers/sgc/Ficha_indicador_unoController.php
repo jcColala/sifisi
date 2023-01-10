@@ -66,8 +66,12 @@ class Ficha_indicador_unoController extends Controller
                 })
                 ->addColumn("activo", function($row){
                     return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
+                })->addColumn('estado', function($objeto){
+                    return $objeto->tipo_accion->descripcion." ".$objeto->estado->descripcion;
                 })
-                ->rawColumns(['icono', "activo"])
+                ->rawColumns(
+                    ['icono', "activo", "estado"]
+                    )
                 ->make(true);
     } 
 
@@ -77,7 +81,7 @@ class Ficha_indicador_unoController extends Controller
 
     public function store(Request $request){
         $this->validate($request,[
-            'version_ficha'     =>'required|numeric|regex:/^[\d]{0,11}(\.[\d]{1,2})?$/',
+            'version'     =>'required|numeric|regex:/^[\d]{0,11}(\.[\d]{1,2})?$/',
             'fecha_aprobado'  =>'required',
             //'idresponsable'     =>'required',
             //'objetivo'          =>'required',
@@ -86,7 +90,7 @@ class Ficha_indicador_unoController extends Controller
             'idperiodicidad'   =>'required',
             //'porcentaje'        =>'required|integer',
             ],[
-            'version_ficha.required'=>'Ingresar el version del documento',
+            'version.required'=>'Ingresar el version del documento',
             'fecha_aprobado.required'=>'Ingresar la fecha de aprobación de la ficha del indicador',
             //'idresponsable.required'=>'Seleccionar el cargo responsable del indicador',
             //'objetivo.required' => 'Ingresar el objetivo del indicador',
@@ -104,7 +108,7 @@ class Ficha_indicador_unoController extends Controller
                     $obj->idpersona_solicita = $request->idpersona_solicita;
                     $obj->idtipo_accion = 1;
                     $obj->idindicador_uno = $request->idindicador_uno;
-                    $obj->version  = $request->version_ficha;
+                    $obj->version  = $request->version;
                     $obj->fecha_aprobado = $request->fecha_aprobado;
                     $obj->idperiodicidad = $request->idperiodicidad;
                     $obj->objetivo = "a";//ELIMINAR
@@ -122,9 +126,10 @@ class Ficha_indicador_unoController extends Controller
                         return response()->json($data);
                     }
                     $obj->idpersona_solicita = $request->idpersona_solicita;
-                    $obj->idtipo_accion = 1;
+                    $obj->idestado = 1;
+                    $obj->idtipo_accion = 2;
                     $obj->idindicador_uno = $request->idindicador_uno;
-                    $obj->version  = $request->version_ficha;
+                    $obj->version  = $request->version;
                     $obj->fecha_aprobado = $request->fecha_aprobado;
                     $obj->idperiodicidad = $request->idperiodicidad;
                     $obj->save();

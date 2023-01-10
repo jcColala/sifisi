@@ -50,7 +50,7 @@ class Ficha_indicador_procedimientoController extends Controller
         $datos["documentos"]        = SGCDocumento::get();
         $datos["indicadores"]       = SGCIndicador_procedimiento::get();
         if( $id != null )
-            $datos["data"]          = SGCFicha_indicador_uno::withTrashed()->find($id);
+            $datos["data"]          = SGCFicha_indicador_procedimiento::withTrashed()->find($id);
         return $datos;
     }
 
@@ -60,7 +60,7 @@ class Ficha_indicador_procedimientoController extends Controller
 
     public function grilla(){
         
-        $objeto = SGCIndicador_procedimiento::get();
+        $objeto = SGCFicha_indicador_procedimiento::with('persona_solicita')->with('persona_aprueba')->with('estado')->with('tipo_accion')->with('indicador_procedimiento')->withTrashed();
         return DataTables::of($objeto)
                 ->addIndexColumn()
                 ->addColumn("icono", function($objeto){
@@ -68,8 +68,12 @@ class Ficha_indicador_procedimientoController extends Controller
                 })
                 ->addColumn("activo", function($row){
                     return (is_null($row->deleted_at))?'<span class="dot-label bg-success" data-toggle="tooltip" data-placement="top" title="Activo"></span>':'<span class="dot-label bg-danger" data-toggle="tooltip" data-placement="top" title="Inactivo"></span>';
+                })->addColumn('estado', function($objeto){
+                    return $objeto->tipo_accion->descripcion." ".$objeto->estado->descripcion;
                 })
-                ->rawColumns(['icono', "activo"])
+                ->rawColumns(
+                    ['icono', "activo", "estado"]
+                    )
                 ->make(true);
     } 
 
@@ -80,7 +84,7 @@ class Ficha_indicador_procedimientoController extends Controller
 
     public function store(Request $request){
         $this->validate($request,[
-            'version_ficha'     =>'required|numeric|regex:/^[\d]{0,11}(\.[\d]{1,2})?$/',
+            'version'     =>'required|numeric|regex:/^[\d]{0,11}(\.[\d]{1,2})?$/',
             'fecha_aprobado'  =>'required',
             //'idresponsable'     =>'required',
             //'objetivo'          =>'required',
@@ -89,7 +93,7 @@ class Ficha_indicador_procedimientoController extends Controller
             'idperiodicidad'   =>'required',
             //'porcentaje'        =>'required|integer',
             ],[
-            'version_ficha.required'=>'Ingresar el version del documento',
+            'version.required'=>'Ingresar el version del documento',
             'fecha_aprobado.required'=>'Ingresar la fecha de aprobación de la ficha del indicador',
             //'idresponsable.required'=>'Seleccionar el cargo responsable del indicador',
             //'objetivo.required' => 'Ingresar el objetivo del indicador',
@@ -100,20 +104,17 @@ class Ficha_indicador_procedimientoController extends Controller
         ]);
 
         return DB::transaction(function() use ($request){                                                                   
-            $obj = SGCFicha_indicador_uno::withTrashed()->find($request->id);
+            $obj = SGCFicha_indicador_procedimiento::withTrashed()->find($request->id);
 
                 if(empty($obj)){
-                    $obj = new SGCFicha_indicador_uno();
+                    $obj = new SGCFicha_indicador_procedimiento();
                     $obj->idpersona_solicita = $request->idpersona_solicita;
                     $obj->idtipo_accion = 1;
-                    $obj->idindicador_uno = $request->idindicador_uno;
-                    $obj->version  = $request->version_ficha;
+                    $obj->idindicador_procedimiento = $request->idindicador_procedimiento;
+                    $obj->version  = $request->version;
                     $obj->fecha_aprobado = $request->fecha_aprobado;
                     $obj->idperiodicidad = $request->idperiodicidad;
-                    $obj->objetivo = "a";//ELIMINAR
-                    $obj->descripcion_variables = "b";//ELIMINAR
-                    $obj->forma_calculo = "c";//ELIMINAR
-                    $obj->porcentaje = "d";//ELIMINAR
+                    
                     $obj->save();
                 }
                 else{
@@ -125,9 +126,10 @@ class Ficha_indicador_procedimientoController extends Controller
                         return response()->json($data);
                     }
                     $obj->idpersona_solicita = $request->idpersona_solicita;
-                    $obj->idtipo_accion = 1;
-                    $obj->idindicador_uno = $request->idindicador_uno;
-                    $obj->version  = $request->version_ficha;
+                    $obj->idestado = 1;
+                    $obj->idtipo_accion = 2;
+                    $obj->idindicador_procedimiento = $request->idindicador_procedimiento;
+                    $obj->version  = $request->version;
                     $obj->fecha_aprobado = $request->fecha_aprobado;
                     $obj->idperiodicidad = $request->idperiodicidad;
                     $obj->save();
@@ -156,7 +158,7 @@ class Ficha_indicador_procedimientoController extends Controller
     }
 
     public function aprobar(request $request){
-        $obj = SGCFicha_indicador_uno::withTrashed()->where("id",$request->id)->first();
+        $obj = SGCFicha_indicador_procedimiento::withTrashed()->where("id",$request->id)->first();
         $obj->idpersona_aprueba = auth()->user()->persona->id;
             $obj->idestado = 2;
             $obj->save();
@@ -165,7 +167,7 @@ class Ficha_indicador_procedimientoController extends Controller
 
     public function destroy(Request $request){
 
-        $obj = SGCFicha_indicador_uno::withTrashed()->where("id",$request->id)->first();
+        $obj = SGCFicha_indicador_procedimiento::withTrashed()->where("id",$request->id)->first();
         /*if($obj->modulo->isNotEmpty()){
             throw ValidationException::withMessages(["referencias" => "El Proceso de Nivel Cero ".$obj->descripcion." tiene información dentro de si por lo cual no se puede eliminar."]);
         }*/

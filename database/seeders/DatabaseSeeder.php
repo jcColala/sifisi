@@ -174,6 +174,14 @@ class DatabaseSeeder extends Seeder
         $data->orden        = 3;
         $data->save();
 
+        $data = new Modulo_padre();
+        $data->descripcion  = "Resoluciones";
+        $data->abreviatura  = "Res.";
+        $data->url          = "#";
+        $data->icono        = "fe fe-file-text";
+        $data->orden        = 4;
+        $data->save();
+
         
         //------------------------------------------------------- Modulo
 
@@ -292,35 +300,6 @@ class DatabaseSeeder extends Seeder
         $data->orden            = 7;
         $data->save();
 
-        $data = new Modulo();
-        $data->idmodulo_padre   = 2;
-        $data->idpadre          = null;
-        $data->modulo           = "Resoluciones";
-        $data->abreviatura      = "SGC_RES";
-        $data->url              = "resoluciones";
-        $data->icono            = null;
-        $data->orden            = 8;
-        $data->save();
-
-        $data = new Modulo();
-        $data->idmodulo_padre   = 2;
-        $data->idpadre          = null;
-        $data->modulo           = "Tipo Entidad";
-        $data->abreviatura      = "SGC_TPENT";
-        $data->url              = "tipo_entidad";
-        $data->icono            = null;
-        $data->orden            = 9;
-        $data->save();
-
-        $data = new Modulo();
-        $data->idmodulo_padre   = 2;
-        $data->idpadre          = null;
-        $data->modulo           = "Entidades";
-        $data->abreviatura      = "SGC_ENT";
-        $data->url              = "entidad";
-        $data->icono            = null;
-        $data->orden            = 10;
-        $data->save();
 
         $data = new Modulo();
         $data->idmodulo_padre   = 3;
@@ -328,6 +307,16 @@ class DatabaseSeeder extends Seeder
         $data->modulo           = "Comision";
         $data->abreviatura      = "Com";
         $data->url              = "comision";
+        $data->icono            = null;
+        $data->orden            = 1;
+        $data->save();
+
+        $data = new Modulo();
+        $data->idmodulo_padre   = 4;
+        $data->idpadre          = null;
+        $data->modulo           = "Resoluciones";
+        $data->abreviatura      = "res";
+        $data->url              = "resoluciones";
         $data->icono            = null;
         $data->orden            = 1;
         $data->save();
@@ -558,57 +547,9 @@ class DatabaseSeeder extends Seeder
         $data = new SGCTipo_accion();
         $data->descripcion = 'Restauración';
         $data->save();
-    
 
-        //TIPOS DE PROCESO
-        $data = new SGCTipo_proceso();
-        $data->idestado = '2';
-        $data->idpersona_solicita = '1';
-        $data->idpersona_aprueba = '1';
-        $data->descripcion = 'Procesos Estratégicos';
-        $data->codigo = 'PE';
-        $data->editable = false;
-        $data->save();
 
-        $data = new SGCTipo_proceso();
-        $data->idestado = '2';
-        $data->idpersona_solicita = '1';
-        $data->idpersona_aprueba = '1';
-        $data->descripcion = 'Procesos Misionales';
-        $data->codigo = 'PM';
-        $data->editable = false;
-        $data->save();
 
-        //------------TIPO DE DOCUMENTO
-        $data = new SGCTipo_documento();
-        $data->idpersona_solicita = '1';
-        $data->descripcion = 'Informe';
-        $data->abreviatura = 'INF';
-        $data->save();
-
-        //-------------RESOLUCIONES
-        $data = new SGCResolucion();
-        $data->idpersona_solicita = '1';
-        $data->codigo = 'RES-2022-1FISI/EPISI';
-        $data->descripcion = 'Nombre de la Resolución';
-        $data->documento = "a";
-        $data->save();
-
-        //------------TIPO DE ARCHIVO
-        $data = new SGCTipo_archivo();
-        $data->idpersona_solicita = '1';
-        $data->descripcion = 'PDF';
-        $data->abreviatura = 'PDF';
-        $data->extension   = 'pdf';
-        $data->save();
-
-        //------------TIPO DE ARCHIVO
-        $data = new SGCTipo_archivo();
-        $data->idpersona_solicita = '1';
-        $data->descripcion = 'WORD';
-        $data->abreviatura = 'WORD';
-        $data->extension   = 'docs';
-        $data->save();
 
         //----------------PERIODICIDAD
         $data = new SGCPeriodicidad();

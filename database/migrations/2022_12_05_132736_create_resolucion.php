@@ -28,8 +28,8 @@ class CreateResolucion extends Migration
             $table->unsignedBigInteger('idtipo_accion')->default(1);
             $table->foreign('idtipo_accion')->references('id')->on('sgc.tipo_accion');
 
-            $table->string('codigo', 120);
             $table->string('descripcion', 255);
+            $table->date('fecha_aprobacion');
             $table->text('documento');
             $table->boolean('editable')->default(true);
             $table->timestamps();

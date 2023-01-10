@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SGCResolucion;
 use App\Models\MOVSGCMov_entidad;
 use App\Models\Funcion;
-use App\Models\SGCDocumento;
+
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -86,31 +86,25 @@ class ResolucionController extends Controller
             $obj = SGCResolucion::withTrashed()->find($request->id);
             if(empty($obj)){
                 //TRATAMIENTO DEL DOCUMENTO
-
+                $documento = $request->file('archivo');
+                if (!Storage::putFileAs('resoluciones', $documento, $documento->getClientOriginalName())) {
+                    $data = array(
+                        "type" => "error",
+                        "text" => "No se ha podido subir el documento, inténtelo nuevamente"
+                    );
+                    return response()->json($data);  
+                }
 
                 //REGISTRO EN TABLA
                 $obj = new SGCResolucion();
                 $obj->idpersona_solicita = $request->idpersona_solicita;
-                $obj->idestado = 2;
                 $obj->idtipo_accion = 1;
+                $obj->codigo = $request->codigo;
                 $obj->descripcion = $request->descripcion;
-                $obj->fecha_aprobacion = $request->fecha_aprobado;
-                $obj->documento = "a";
+                $obj->documento = $documento->getClientOriginalName();
                 $obj->save();
 
-                /**---------REGISTRO EN DOCUMENTOS */
-                for ($i = 0; $i < count($request->codigo_documento); $i++) {
-                    $documento = new SGCDocumento();
-                    $documento->idestado = 2;
-                    $documento->fecha_aprobacion = $request->fecha_aprobado;
-                    $documento->idresolucion = $obj->id;
-                    $documento->idpersona_solicita = $request->idpersona_solicita;
-                    $documento->version = $request->version_documento[$i];
-                    $documento->codigo = $request->codigo_documento[$i];
-                    $documento->descripcion = $request->descripcion_documento[$i];
-                    $documento->documento = "a";
-                    $documento->save();
-                }
+                //REGISTRO MOVIMIENTOS
                 
             }else{
                 if($obj->idestado == 1){//VALIDA SI ESTÁ PENDIENTE

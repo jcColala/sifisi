@@ -26,6 +26,10 @@ class SGCFicha_indicador_procedimiento extends Model
         'deleted_at'
     ];
 
+    public function indicador_procedimiento(){
+        return $this->belongsTo(SGCIndicador_procedimiento::class, 'idindicador_procedimiento');
+    }
+
     public function persona_solicita(){
         return $this->belongsTo(Persona::class, 'idpersona_solicita');
     }

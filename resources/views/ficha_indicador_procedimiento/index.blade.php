@@ -27,8 +27,8 @@
 								<th width="05%">Código</th>
 								<th width="30%">Indicador</th>
 								<th width="30%">Procedimiento</th>
-								<th width="05%">Acción</th>
 								<th width="05%">Estado</th>
+								<th width="05%">Acción</th>
 							</tr>
 						</thead>
 						<tbody>

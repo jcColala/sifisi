@@ -27,8 +27,9 @@
 								<th width="05%">Código</th>
 								<th width="30%">Indicador</th>
 								<th width="30%">Proceso Nivel 1</th>
-								<th width="05%">Acción</th>
+								<th width="20%" >Version</th>
 								<th width="05%">Estado</th>
+								<th width="05%">Acción</th>
 							</tr>
 						</thead>
 						<tbody>

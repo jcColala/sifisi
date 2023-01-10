@@ -36,7 +36,7 @@ class SGCProcedimiento extends Model
     }
 
     public function indicadores(){
-        return $this->hasMany(SGCIndicador_dos::class, 'idproceso_dos');
+        return $this->hasMany(SGCIndicador_procedimiento::class, 'idprocedimiento');
     }
 
     public function persona_solicita(){

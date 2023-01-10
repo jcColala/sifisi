@@ -15,7 +15,8 @@
 				<div class="modal-body modal_body">
 					<input type="hidden" name="id" id="id_{{$prefix}}">
 					<div class="form-group form-row">
-					<div class="col-md-6"> 
+						
+								<div class="col-md-6"> 
 		   							<div class="select2-idtipo_proceso_{{$prefix}} div-select2 mrginput100_form input-group mt-10px">
 										<select class="form-control select2-show-search" id="idtipo_proceso_{{$prefix}}" name="idtipo_proceso" data-placeholder="Selecciona el tipo de proceso*" style="width:100%;" required >
 											<option label="Selecciona el tipo de proceso"></option>

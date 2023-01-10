@@ -30,10 +30,11 @@
 							<div class="tab-content" id="pills-tabContent">
 								<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 									<div class="form-group form-row">
+
 										<div class="col-md-3">
 											<div class="wrap-input100 mrginput100 validate-input">
-												<input type="text" class="input100" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*" disabled>
-												<span class="focus-input100"></span>
+												<input type="text" class="input100 mrginput100 validate-input" id="codigo_{{$prefix}}" name="codigo" placeholder="Código*" disabled>
+												<span class="focus-input100">Código</span>
 												<span class="symbol-input100">
 													<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
 												</span>
@@ -43,8 +44,8 @@
 
 										<div class="col-md-9">
 											<div class="wrap-input100 mrginput100 validate-input">
-												<input type="text" class="input100" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Nombre del Procedimiento*" disabled>
-												<span class="focus-input100"></span>
+												<input type="text" class="input100 mrginput100 validate-input" id="descripcion_{{$prefix}}" name="descripcion" placeholder="Nombre del Procedimiento*" disabled>
+												<span class="focus-input100">Nombre del Procedimiento*</span>
 												<span class="symbol-input100">
 													<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
 												</span>
@@ -53,8 +54,8 @@
 										</div>
 										<div class="col-md-2">
 											<div class="wrap-input100 mrginput100 validate-input">
-												<input type="text" class="input100" id="version_{{$prefix}}" name="version" placeholder="Version*">
-												<span class="focus-input100"></span>
+												<input type="text" class="input100 mrginput100 validate-input" id="version_{{$prefix}}" name="version" placeholder="Version*">
+												<span class="focus-input100">Version*</span>
 												<span class="symbol-input100">
 													<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
 												</span>
@@ -64,8 +65,8 @@
 
 										<div class="col-md-4">
 											<div class="wrap-input100 mrginput100 validate-input">
-												<input type="date" class="input100" id="fecha_aprobado_{{$prefix}}" name="fecha_aprobado" placeholder="Fecha de Aprobación*">
-												<span class="focus-input100"></span>
+												<input type="text" class="input100 fc-datepicker" id="fecha_aprobado_{{$prefix}}" name="fecha_aprobado" placeholder="Fecha de Aprobación*">
+												<span class="focus-input100">Fecha de aprobación*</span>
 												<span class="symbol-input100">
 													<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
 												</span>
@@ -113,8 +114,8 @@
 												<div class="col-md-6">
 													<div class="wrap-input100 mrginput100 validate-input">
 														<input type="hidden" name="id_actividad">
-														<input type="text" class="input100" id="descripcion_actividad_{{$prefix}}" name="descripcion_actividad" placeholder="Nombre del actividad*">
-														<span class="focus-input100"></span>
+														<input type="text mrginput100 validate-input" class="input100" id="descripcion_actividad_{{$prefix}}" name="descripcion_actividad" placeholder="Nombre del actividad*">
+														<span class="focus-input100">Actividad</span>
 														<span class="symbol-input100">
 															<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
 														</span>
@@ -122,13 +123,14 @@
 													</div>
 												</div>
 												<div class="col-md-4">
-													<div class="select2-idresponsable_actividad_{{$prefix}} div-select2 input-group mt-10px">
+													<div class="select2-idresponsable_actividad_{{$prefix}} div-select2 mrginput100_form input-group mt-10px">
 														<select class="form-control select2-show-search" id="idresponsable_actividad_{{$prefix}}" name="idresponsable_actividad" data-placeholder="Selecciona el puesto responsable del procedimiento*" style="width:100%;">
 															<option label="Selecciona el puesto responsable del procedimiento"></option>
 															@foreach($comisiones as $value)
 															<option value="{{$value->id}}">{{$value->descripcion}}</option>
 															@endforeach
 														</select>
+														<span class="focus-input100">Responsable</span>
 														<span class="idresponsable_actividad_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 													</div>
 
@@ -150,8 +152,8 @@
 											<div class="fila-indicador row">
 												<div class="col-md-3">
 													<div class="wrap-input100 mrginput100 validate-input">
-														<input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador" placeholder="Código*">
-														<span class="focus-input100"></span>
+														<input type="text" class="input100 mrginput100 validate-input" id="codigo_indicador_{{$prefix}}" name="codigo_indicador" placeholder="Código*">
+														<span class="focus-input100">Código</span>
 														<span class="symbol-input100">
 															<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
 														</span>
@@ -161,8 +163,8 @@
 
 												<div class="col-md-7">
 													<div class="wrap-input100 mrginput100 validate-input">
-														<input type="text" class="input100" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador" placeholder="Nombre del Indicador*">
-														<span class="focus-input100"></span>
+														<input type="text" class="input100 mrginput100 validate-input" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador" placeholder="Nombre del Indicador*">
+														<span class="focus-input100">Nombre del Indicador*</span>
 														<span class="symbol-input100">
 															<i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
 														</span>
@@ -216,21 +218,21 @@
 		let html_indicador = '';
 		let indicadores = @json($indicadores);
 		indicadores.forEach(e => {
-			html_indicador += '<div class="fila-indicador row"><div class="col-md-3"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador" placeholder="Código*" value="' + e.codigo + '" ><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-7"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador" placeholder="Nombre del Indicador*" value="' + e.descripcion + '"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-indicador" >Eliminar</button></div></div></div>';
+			html_indicador += '<div class="fila-indicador row"><div class="col-md-3"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100 mrginput100 validate-input" id="codigo_indicador_{{$prefix}}" name="codigo_indicador" placeholder="Código*" value="' + e.codigo + '" ><span class="focus-input100">Código</span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-7"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100 mrginput100 validate-input" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador" placeholder="Nombre del Indicador*" value="' + e.descripcion + '"><span class="focus-input100">Nombre del Indicador</span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-indicador" >Eliminar</button></div></div></div>';
 		});
 		$('.indicadores').append(html_indicador);
 		/*---------------END---------------*/
 		let html_actividad = '';
 		let actividades = @json($actividades);
 		actividades.forEach(e => {
-			html_actividad += '<div class="fila-actividad row"><div class="col-md-6"><div class="wrap-input100 mrginput100 validate-input"><input type="hidden" name="id_actividad" value="' + e.id + '"><input type="text" class="input100" id="descripcion_actividad_{{$prefix}}" name="descripcion_actividad" placeholder="Nombre del actividad*" value="' + e.descripcion + '"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_actividad_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-4"><div class="select2-idresponsable_actividad_{{$prefix}} div-select2 input-group mt-10px"><select class="form-control select2-show-search" id="idresponsable_actividad_{{$prefix}}" name="idresponsable_actividad" data-placeholder="Selecciona el puesto responsable del proceso*" style="width:100%;"><option label="Selecciona el puesto responsable del proceso"></option>@foreach($comisiones as $value)<option value="{{$value->id}}">{{$value->descripcion}}</option>@endforeach</select><span class="idresponsable_actividad_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-10"><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-actividad" >Eliminar</button></div></div></div>';
+			html_actividad += '<div class="fila-actividad row"><div class="col-md-6"><div class="wrap-input100 mrginput100 validate-input"><input type="hidden" name="id_actividad" value="' + e.id + '"><input type="text" class="input100 mrginput100 validate-input" id="descripcion_actividad_{{$prefix}}" name="descripcion_actividad" placeholder="Nombre del actividad*" value="' + e.descripcion + '"><span class="focus-input100">Actividad*</span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_actividad_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-4"><div class="select2-idresponsable_actividad_{{$prefix}} div-select2 input-group mt-10px"><select class="form-control select2-show-search mrginput100_form input-group mt-10px" id="idresponsable_actividad_{{$prefix}}" name="idresponsable_actividad" data-placeholder="Selecciona el puesto responsable del proceso*" style="width:100%;"><option label="Selecciona el puesto responsable del proceso"></option>@foreach($comisiones as $value)<option value="{{$value->id}}">{{$value->descripcion}}</option>@endforeach</select><span class="focus-input100">Responsable</span><span class="idresponsable_actividad_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-10"><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-actividad" >Eliminar</button></div></div></div>';
 		});
 		$('.actividades').append(html_actividad);
 		/**--PINTAR ACTIVIDADES EN CASO DE EDITAR */
 
 		/**END */
 		$("#add-indicador").click(function() {
-			let html = '<div class="fila-indicador row"><div class="col-md-3"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="codigo_indicador_{{$prefix}}" name="codigo_indicador" placeholder="Código*"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-7"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador" placeholder="Nombre del Indicador*"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-indicador" >Eliminar</button></div></div></div>';
+			let html = '<div class="fila-indicador row"><div class="col-md-3"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100 mrginput100 validate-input" id="codigo_indicador_{{$prefix}}" name="codigo_indicador" placeholder="Código*"><span class="focus-input100">Código</span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="codigo_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-7"><div class="wrap-input100 mrginput100 validate-input"><input type="text" class="input100 mrginput100 validate-input" id="descripcion_indicador_{{$prefix}}" name="descripcion_indicador" placeholder="Nombre del Indicador*"><span class="focus-input100">Nombre del Indicador*</span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_indicador_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-2"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-indicador" >Eliminar</button></div></div></div>';
 			$('.indicadores').append(html);
 
 		});
@@ -241,7 +243,7 @@
 
 
 		$("#add-actividad").click(function() {
-			let html = '<div class="fila-actividad row"><div class="col-md-6"><div class="wrap-input100 mrginput100 validate-input"><input type="hidden" name="id_actividad"><input type="text" class="input100" id="descripcion_actividad_{{$prefix}}" name="descripcion_actividad" placeholder="Nombre del actividad*"><span class="focus-input100"></span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_actividad_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-4"><div class="select2-idresponsable_actividad_{{$prefix}} div-select2 input-group mt-10px"><select class="form-control select2-show-search" id="idresponsable_actividad_{{$prefix}}" name="idresponsable_actividad" data-placeholder="Selecciona el puesto responsable del proceso*" style="width:100%;"><option label="Selecciona el puesto responsable del proceso"></option>@foreach($comisiones as $value)<option value="{{$value->id}}">{{$value->descripcion}}</option>@endforeach</select><span class="idresponsable_actividad_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-1"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-actividad" >Eliminar</button></div></div></div>';
+			let html = '<div class="fila-actividad row"><div class="col-md-6"><div class="wrap-input100 mrginput100 validate-input"><input type="hidden" name="id_actividad"><input type="text" class="input100 mrginput100 validate-input" id="descripcion_actividad_{{$prefix}}" name="descripcion_actividad" placeholder="Nombre del actividad*"><span class="focus-input100">Actividad</span><span class="symbol-input100"><i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i></span><span class="descripcion_actividad_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-4"><div class="select2-idresponsable_actividad_{{$prefix}} div-select2 input-group mt-10px"><select class="form-control select2-show-search mrginput100_form input-group mt-10px" id="idresponsable_actividad_{{$prefix}}" name="idresponsable_actividad" data-placeholder="Selecciona el puesto responsable del proceso*" style="width:100%;"><option label="Selecciona el puesto responsable del proceso"></option>@foreach($comisiones as $value)<option value="{{$value->id}}">{{$value->descripcion}}</option>@endforeach</select><span class="idresponsable_actividad_{{$prefix}} zmdi zmdi-close-circle msj_error d-none riht_extraselect2" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span></div></div><div class="col-md-1"><div class="wrap-input100 mrginput100 validate-input"><button type="button" class="btn btn-outline-danger" id="del-actividad" >Eliminar</button></div></div></div>';
 			$('.actividades').append(html);
 
 		});

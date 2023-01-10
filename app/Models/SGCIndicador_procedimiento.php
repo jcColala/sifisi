@@ -24,6 +24,10 @@ class SGCIndicador_procedimiento extends Model
         'deleted_at'
     ];
 
+    public function fichas_indicador_procedimiento(){
+        return $this->hasMany(SGCFicha_indicador_procedimiento::class, 'idindicador_procedimiento');
+    }
+
     public function persona_solicita(){
         return $this->belongsTo(Persona::class, 'idpersona_solicita');
     }

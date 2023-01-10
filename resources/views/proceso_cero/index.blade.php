@@ -25,7 +25,8 @@
 							<tr>
 								<th width="05%">#</th>
 								<th width="40%">Proceso de Nivel 0</th>
-								<th width="30%">Código</th>
+								<th width="10%">Código</th>
+								<th width="20%">Tipo de Proceso</th>
 								<th width="20%">Estado</th>
 								<th width="05%">Activo</th>
 							</tr>
