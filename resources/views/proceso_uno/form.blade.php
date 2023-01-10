@@ -10,6 +10,7 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
+
 			<form id="form-{{$pathController}}" onsubmit="md_guardar(event,'btn-save')">
 				<div class="modal-body modal_body">
 
@@ -141,6 +142,7 @@
 												<span class="documento_{{$prefix}} zmdi zmdi-close-circle msj_error d-none" data-toggle="popover" data-trigger="hover" data-class="popover_error" data-placement="top"></span>
 											</div>
 										</div>
+
 									</div>
 								</div>
 							</div>

@@ -172,7 +172,7 @@ class ProcedimientoController extends Controller
                     $actividad->idpersona_solicita = $request->idpersona_solicita;
                     $actividad->version_procedimiento = $request->version; 
                     $actividad->descripcion = $request->descripcion_indicador[$i];
-                    $actividad->idresponsable->$request->responsable_actividad[$i];
+                    $actividad->idresponsable = $request->responsable_actividad[$i];
                     $actividad->correlativo = "1"; //ARREGLAR
                     $actividad->save();
                 }

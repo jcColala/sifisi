@@ -49,22 +49,10 @@ class SGCDocumento extends Model
         return $this->belongsTo(SGCTipo_accion::class, 'idtipo_accion');
     }
 
-    public function tipo_documento(){
-        return $this->belongsTo(SGCTipo_accion::class, 'idtipo_documento');
-    }
-
-    public function tipo_archivo(){
-        return $this->belongsTo(SGCTipo_accion::class, 'idtipo_archivo');
-    }
 
     public function resolucion(){
         return $this->belongsTo(SGCTipo_accion::class, 'idresolucion');
     }
-
-    public function entidad(){
-        return $this->belongsTo(SGCTipo_accion::class, 'identidad');
-    }
-
     public function getTableName(){
         return (explode(".", $this->table))[1];
     }

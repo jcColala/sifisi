@@ -16,6 +16,7 @@ use App\Models\SGCProcedimiento;
 
 use App\Models\Funcion;
 use App\Models\MOVSGCMov_procedimiento;
+use App\Models\SGCDocumento;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +55,6 @@ class Proceso_unoController extends Controller
         $datos["data"]              = [];
         $datos["indicadores"]       = [];
         $datos["procedimientos"]    = [];
-
         if ($id != null)
             $datos["data"]          = SGCProceso_uno::withTrashed()->find($id);
         if ($id != null)
